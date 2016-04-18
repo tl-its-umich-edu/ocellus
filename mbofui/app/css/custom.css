@@ -1,0 +1,15 @@
+body,
+html {
+    height: 100%;
+    width: 100%;
+    padding-top: 25px;
+}
+
+.status {
+    display: none;
+    position: absolute;
+    top: 60px;
+    z-index: 1;
+    left: 20%;
+    right: 20%;
+}
