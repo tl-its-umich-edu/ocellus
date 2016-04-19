@@ -1,0 +1,9 @@
+{% if latestMessageList %}
+<ul>
+    {% for message in latestMessageList %}
+    <li><a href="{% url 'mbof:detail' message.id %}">{{ message.messageText }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No messages are available.</p>
+{% endif %}
