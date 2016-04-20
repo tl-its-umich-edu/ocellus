@@ -200,3 +200,36 @@ app.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 'lea
     } );
   } );
 } ] );
+
+
+var resolveCategory = function ( category ) {
+  if ( category ) {
+    return '<strong>' + category + '</strong>';
+  } else {
+    return '';
+  }
+};
+
+var resolveIcon = function ( category ) {
+  return ( {
+    'cat1': {
+      type: 'awesomeMarker',
+      icon: 'cutlery',
+      markerColor: 'green'
+    },
+    'cat2': {
+      type: 'awesomeMarker',
+      icon: 'heart',
+      markerColor: 'red'
+    },
+    'cat3': {
+      type: 'awesomeMarker',
+      icon: 'music',
+      markerColor: 'orange'
+    }
+  }[ String( category ).toLowerCase() ] || {
+    type: 'awesomeMarker',
+    icon: 'record',
+    markerColor: 'blue'
+  } );
+};

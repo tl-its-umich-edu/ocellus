@@ -1,6 +1,6 @@
 'use strict';
 /* global mbofuiApp */
-mbofuiApp.factory('Bof', function($http, $log) {
+app.factory('Bof', function($http, $log) {
   return {
     PostBof : function(url, data) {
       return $http.post(url, data).then(
@@ -26,7 +26,5 @@ mbofuiApp.factory('Bof', function($http, $log) {
             // do some error things
           });
     }
-
-
   };
 });
