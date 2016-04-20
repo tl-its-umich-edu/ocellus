@@ -2,7 +2,7 @@ import logging
 
 from rest_framework import serializers
 
-from .models import Message, User, Vote
+from .models import Event, User, Vote
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 class MessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Message
+        model = Event
         fields = ('url', 'messageText', 'latitude', 'longitude', 'altitudeMeters', 'owner', 'postingTime', 'startTime',
                   'endTime', 'hashtag', 'votes',)
 

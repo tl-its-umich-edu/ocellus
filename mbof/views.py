@@ -4,18 +4,18 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets
 
-from .models import Message, User, Vote
+from .models import Event, User, Vote
 from .serializers import MessageSerializer, UserSerializer, VoteSerializer
 
 
 def index(request):
     return render(request, 'messages/index.html', {
-        'latestMessageList': Message.objects.order_by('-postingTime'),
+        'latestMessageList': Event.objects.order_by('-postingTime'),
     })
 
 
 def detail(request, messageId):
-    message = get_object_or_404(Message, pk=messageId)
+    message = get_object_or_404(Event, pk=messageId)
     return render(request, 'messages/detail.html', {
         'message': message,
     })
@@ -46,7 +46,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Message.objects.all().order_by('postingTime')
+    queryset = Event.objects.all().order_by('postingTime')
     serializer_class = MessageSerializer
 
 class VoteViewSet(viewsets.ModelViewSet):

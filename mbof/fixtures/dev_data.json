@@ -65,7 +65,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 1,
     "fields": {
         "latitude": 42.2819709777832,
@@ -81,7 +81,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 2,
     "fields": {
         "latitude": 42.275267,
@@ -97,7 +97,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 3,
     "fields": {
         "latitude": 42.2755696,
@@ -113,7 +113,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 4,
     "fields": {
         "latitude": 42.2994081,
@@ -129,7 +129,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 5,
     "fields": {
         "latitude": 42.300933837890625,
@@ -145,7 +145,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 6,
     "fields": {
         "latitude": 42.300659200000005,
@@ -161,7 +161,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 7,
     "fields": {
         "latitude": 42.300659200000005,
@@ -177,7 +177,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 8,
     "fields": {
         "latitude": 41.8006591796875,
@@ -193,7 +193,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 9,
     "fields": {
         "latitude": 42.27804183959961,
@@ -209,7 +209,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 10,
     "fields": {
         "latitude": 42.279876708984375,
@@ -225,7 +225,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 11,
     "fields": {
         "latitude": 42.28074645996094,
@@ -241,7 +241,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 12,
     "fields": {
         "latitude": 42.27775573730469,
@@ -257,7 +257,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 13,
     "fields": {
         "latitude": 42.277099609375,
@@ -273,7 +273,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 14,
     "fields": {
         "latitude": 42.279541015625,
@@ -289,7 +289,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 15,
     "fields": {
         "latitude": 42.279808044433594,
@@ -305,7 +305,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 16,
     "fields": {
         "latitude": 42.27598190307617,
@@ -321,7 +321,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 17,
     "fields": {
         "latitude": 42.27983856201172,
@@ -337,7 +337,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 18,
     "fields": {
         "latitude": 42.275733947753906,
@@ -353,7 +353,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 19,
     "fields": {
         "latitude": 42.275718688964844,
@@ -369,7 +369,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 20,
     "fields": {
         "latitude": 42.2757453918457,
@@ -385,7 +385,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 21,
     "fields": {
         "latitude": 42.280052185058594,
@@ -401,7 +401,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 22,
     "fields": {
         "latitude": 42.27702331542969,
@@ -417,7 +417,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 23,
     "fields": {
         "latitude": 42.27747344970703,
@@ -433,7 +433,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 24,
     "fields": {
         "latitude": 42.27822494506836,
@@ -449,7 +449,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 25,
     "fields": {
         "latitude": 42.280860900878906,
@@ -465,7 +465,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 26,
     "fields": {
         "latitude": 42.277809143066406,
@@ -481,7 +481,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 27,
     "fields": {
         "latitude": 42.27994918823242,
@@ -497,7 +497,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 28,
     "fields": {
         "latitude": 42.27943801879883,
@@ -513,7 +513,7 @@
     }
 },
 {
-    "model": "mbof.message",
+    "model": "mbof.event",
     "pk": 31,
     "fields": {
         "latitude": 42.269781099999996,
