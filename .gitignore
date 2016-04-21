@@ -65,3 +65,6 @@ target/
 /hacks_mbof/extras/
 /.vagrant
 *.sqlite3
+
+
+.DS_Store
