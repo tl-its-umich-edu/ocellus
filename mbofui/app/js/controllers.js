@@ -74,6 +74,9 @@ ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 
   } );
 
   $scope.categories = null;
+  $scope.markers = [];
+  $scope.markersAll = [];
+
 
   $scope.createEventCurrentlocation = function () {
     leafletData.getMap().then( function ( map ) {
@@ -93,9 +96,6 @@ ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 
       map.on( 'locationfound', onLocationFound );
     } );
   };
-
-  $scope.markers = [];
-  $scope.markersAll = [];
 
   $scope.$on( "leafletDirectiveMap.contextmenu", function ( event, args ) {
     leafletData.getMap().then( function ( map ) {
@@ -120,7 +120,7 @@ ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 
         "endTime" : endTime,
         "latitude" : coords[0],
         "longitude" : coords[1],
-        "altitudeMeters" : 266.75274658203125,
+        "altitudeMeters" : 266.75274658203125,//this is being removed but the database still expects it
         "postingTime"  : postingTime
     };
     Bof.PostBof(url,data).then(function(result) {
@@ -189,5 +189,7 @@ var getEvents = function(){
   $scope.$on( "leafletDirectiveMarker.dragend", function ( event, args ) {
     //removed Firebase save - leave this as placeholder
   } );
+
   getEvents();
+
 } ] );
