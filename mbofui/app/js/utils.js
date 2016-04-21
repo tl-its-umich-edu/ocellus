@@ -1,5 +1,5 @@
 'use strict';
-/* global $ */
+/* global $, _ */
 
 var vote = function(e) {
     var $thisTarget = $(e.target);
@@ -23,7 +23,25 @@ var vote = function(e) {
     });
 };
 
-
+var leafletize = function(data){
+  var leafletList = [];
+  _.each(data.data, function(event){
+    leafletList.push({
+      lat: event.latitude,
+      lng: event.longitude,
+      category: event.category || 'cat1',
+      message:event.messageText,
+      layer: 'bofs',
+      icon: resolveIcon( 'cat1' ),
+      endTime: event.endTime,
+      startTime: event.startTime,
+      hashTag: event.hashtag,
+      votes: event.votes,
+      owner: event.owner
+    });
+});
+    return leafletList;
+};
 
 
 var resolveCategory = function ( category ) {

@@ -1,8 +1,7 @@
 'use strict';
-/* global angular, ocellus, Firebase, $, L, resolveCategory, resolveIcon */
+/* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment */
 
-var bofDataRef = new Firebase( 'https://flickering-fire-3313.firebaseio.com/bofs' );
-ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 'leafletData', function ( $scope, $filter, $timeout, $log, leafletData ) {
+ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 'leafletData', 'Bof', function ( $scope, $filter, $timeout, $log, leafletData, Bof ) {
   angular.extend( $scope, {
     center: {
       zoom: 16,
@@ -76,7 +75,7 @@ ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 
 
   $scope.categories = null;
 
-  $scope.bofIt = function () {
+  $scope.createEventCurrentlocation = function () {
     leafletData.getMap().then( function ( map ) {
       map.locate( {
         setView: true,
@@ -92,39 +91,11 @@ ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 
           .openOn( map );
       }
       map.on( 'locationfound', onLocationFound );
-
-      /*
-      leafletData.getLayers().then( function ( baselayers ) {
-        var drawnItems = baselayers.overlays.draw;
-        map.on( 'draw:created', function ( e ) {
-          var layer = e.layer;
-          drawnItems.addLayer( layer );
-          console.log( JSON.stringify( layer.toGeoJSON() ) );
-        } );
-      } );
-      */
     } );
   };
 
   $scope.markers = [];
   $scope.markersAll = [];
-
-  bofDataRef.on( 'child_added', function ( snapshot ) {
-    var marker = snapshot.val();
-    var key = snapshot.key();
-    var newMarker = {
-      fbid: key,
-      lat: parseFloat( marker.lat ),
-      lng: parseFloat( marker.long ),
-      category: marker.category,
-      message: resolveCategory( marker.category ) + '<div>' + marker.what + '</div>',
-      layer: 'bofs',
-      icon: resolveIcon( marker.category ),
-      draggable: marker.draggable
-    };
-    $scope.markersAll.push( newMarker );
-    $scope.markers.push( newMarker );
-  } );
 
   $scope.$on( "leafletDirectiveMap.contextmenu", function ( event, args ) {
     leafletData.getMap().then( function ( map ) {
@@ -138,36 +109,42 @@ ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 
   } );
 
   $( '#postBof' ).on( 'click', function () {
-    if ( $( '#messageText' ).val() === '' ) {
-      $( '#messageText' ).attr( 'aria-invalid', true );
-      $( '#messageText' ).closest( 'div' ).addClass( 'has-error' );
-      $( '#messageText' ).prev( '.req-text' ).fadeIn( 'fast' );
-      return null;
-    }
-
-    var what = $( '#messageText' ).val();
-    var start = $( '#newStartTime' ).val();
-    var end = $( '#newEndTime' ).val();
     var coords = $( '#bofModal' ).attr( 'data-coords' ).split( ',' );
-
-    var marker = {
-      user: 'user',
-      what: what,
-      start: start,
-      end: end,
-      lat: coords[ 0 ],
-      long: coords[ 1 ],
-      maybe: 0,
-      sure: 0,
-      category: $scope.categories,
-      draggable: true
+    var url = '/api/messages/';
+    var startTime = moment($scope.newStartTime).format('YYYY-MM-DDTHH:mm:ssZ');
+    var endTime = moment($scope.newEndTime).format('YYYY-MM-DDTHH:mm:ssZ');
+    var postingTime = moment().format('YYYY-MM-DDTHH:mm:ssZ');
+    var data = {
+        "messageText" : $scope.newMessageText,
+        "startTime" : startTime,
+        "endTime" : endTime,
+        "latitude" : coords[0],
+        "longitude" : coords[1],
+        "altitudeMeters" : 266.75274658203125,
+        "postingTime"  : postingTime
     };
-    bofDataRef.push( marker );
-    leafletData.getMap().then( function ( map ) {
-      map.closePopup();
-    } );
-    $( '#messageText, #newStartTime, #newEndTime' ).val( '' );
-    $( '#bofModal' ).modal( 'hide' );
+    Bof.PostBof(url,data).then(function(result) {
+      var newMarker = {
+        lat: result.data.latitude,
+        lng: result.data.longitude,
+        category: 'cat1',
+        message: result.data.messageText,
+        layer: 'bofs',
+        icon: {
+          type: 'awesomeMarker',
+          icon: 'record',
+          markerColor: 'blue'
+        }
+      };
+      $scope.markersAll.push( newMarker );
+      $scope.markers.push( newMarker );
+      $scope.totalBofs = $scope.totalBofs + 1;
+      leafletData.getMap().then( function ( map ) {
+        map.closePopup();
+      } );
+      $( '#messageText, #newStartTime, #newEndTime' ).val( '' );
+      $( '#bofModal' ).modal( 'hide' );
+    });
   } );
 
 
@@ -183,7 +160,24 @@ ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 
     }
   } );
 
-
+var getEvents = function(){
+  var bofsUrl = '/api/messages/';
+  Bof.GetBofs(bofsUrl).then(function(events) {
+    //$log.info(result)
+    for (var i = 0; i < events.length; i++) {
+      var newMarker = {
+        lat: parseFloat( events[i].lat ),
+        lng: parseFloat( events[i].lng ),
+        category: events[i].category,
+        message: events[i].category + '<br> ' + events[i].message,
+        layer: 'bofs',
+        icon: events[i].icon
+      };
+      $scope.markersAll.push( newMarker );
+      $scope.markers.push( newMarker );
+		}
+  });
+};
   $scope.$watch( "markers", function () {
     $scope.$watch( 'markerFilter', function ( text ) {
       $scope.markersFiltered = $filter( 'filter' )( $scope.markers, {
@@ -193,12 +187,7 @@ ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 
   }, true );
 
   $scope.$on( "leafletDirectiveMarker.dragend", function ( event, args ) {
-    var newlatlng = [ args.model.lat, args.model.lng ];
-    // procede to update marker on firebase;
-    var bofDataRefItem = new Firebase( 'https://flickering-fire-3313.firebaseio.com/bofs/' + args.model.fbid );
-    bofDataRefItem.update( {
-      lat: args.model.lat,
-      long: args.model.lng
-    } );
+    //removed Firebase save - leave this as placeholder
   } );
+  getEvents();
 } ] );

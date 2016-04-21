@@ -89,17 +89,6 @@ app.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 'lea
           .openOn( map );
       }
       map.on( 'locationfound', onLocationFound );
-
-      /*
-      leafletData.getLayers().then( function ( baselayers ) {
-        var drawnItems = baselayers.overlays.draw;
-        map.on( 'draw:created', function ( e ) {
-          var layer = e.layer;
-          drawnItems.addLayer( layer );
-          console.log( JSON.stringify( layer.toGeoJSON() ) );
-        } );
-      } );
-      */
     } );
   };
 

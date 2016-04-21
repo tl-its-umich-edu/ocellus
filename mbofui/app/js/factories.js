@@ -1,12 +1,10 @@
 'use strict';
-/* global ocellus */
+/* global ocellus, leafletize */
 ocellus.factory('Bof', function($http, $log) {
   return {
     PostBof : function(url, data) {
       return $http.post(url, data).then(
           function success(result) {
-            // we will get a response;
-            // what to do with it
             return result;
           },
           function error(result) {
@@ -18,9 +16,7 @@ ocellus.factory('Bof', function($http, $log) {
         cache : false
       }).then(
           function success(result) {
-            // we will get a response;
-            // what to do with it
-            return result;
+            return leafletize(result);
           },
           function error(result) {
             // do some error things

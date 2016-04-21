@@ -25,6 +25,8 @@
 
   <link rel="stylesheet" href="bower_components/leaflet-draw/dist/leaflet.draw.css">
   <script src="bower_components/leaflet-draw/dist/leaflet.draw.js"></script>
+  <script src="bower_components/underscore/underscore-min.js"></script>
+  <script src="bower_components/moment/min/moment.min.js"></script>
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/factories.js"></script>
@@ -61,7 +63,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="" ng-click="bofIt()">{{strings.app_action}}</a></li>
+          <li><a href="" ng-click="createEventCurrentlocation()">{{strings.app_action}}</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{strings.app_categories}} <span class="caret"></span></a>
             <ul class="dropdown-menu" id="categories">
