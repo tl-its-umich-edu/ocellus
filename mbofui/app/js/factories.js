@@ -1,6 +1,6 @@
 'use strict';
-/* global mbofuiApp */
-app.factory('Bof', function($http, $log) {
+/* global ocellus */
+ocellus.factory('Bof', function($http, $log) {
   return {
     PostBof : function(url, data) {
       return $http.post(url, data).then(

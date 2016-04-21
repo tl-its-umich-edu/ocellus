@@ -1,5 +1,8 @@
+'use strict';
+/* global angular, ocellus, Firebase, $, L, resolveCategory, resolveIcon */
+
 var bofDataRef = new Firebase( 'https://flickering-fire-3313.firebaseio.com/bofs' );
-app.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 'leafletData', function ( $scope, $filter, $timeout, $log, leafletData ) {
+ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 'leafletData', function ( $scope, $filter, $timeout, $log, leafletData ) {
   angular.extend( $scope, {
     center: {
       zoom: 16,
@@ -109,7 +112,7 @@ app.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 'lea
   bofDataRef.on( 'child_added', function ( snapshot ) {
     var marker = snapshot.val();
     var key = snapshot.key();
-    newMarker = {
+    var newMarker = {
       fbid: key,
       lat: parseFloat( marker.lat ),
       lng: parseFloat( marker.long ),
@@ -122,7 +125,6 @@ app.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 'lea
     $scope.markersAll.push( newMarker );
     $scope.markers.push( newMarker );
   } );
-
 
   $scope.$on( "leafletDirectiveMap.contextmenu", function ( event, args ) {
     leafletData.getMap().then( function ( map ) {
@@ -193,7 +195,7 @@ app.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 'lea
   $scope.$on( "leafletDirectiveMarker.dragend", function ( event, args ) {
     var newlatlng = [ args.model.lat, args.model.lng ];
     // procede to update marker on firebase;
-    bofDataRefItem = new Firebase( 'https://flickering-fire-3313.firebaseio.com/bofs/' + args.model.fbid );
+    var bofDataRefItem = new Firebase( 'https://flickering-fire-3313.firebaseio.com/bofs/' + args.model.fbid );
     bofDataRefItem.update( {
       lat: args.model.lat,
       long: args.model.lng
