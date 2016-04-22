@@ -2,7 +2,9 @@ body,
 html {
     height: 100%;
     width: 100%;
-    padding-top: 25px;
+}
+body {
+  margin-top:50px
 }
 
 .status {
@@ -12,4 +14,7 @@ html {
     z-index: 1;
     left: 20%;
     right: 20%;
+}
+.has-error span.req-text, .has-error label {
+  color:#c00;
 }

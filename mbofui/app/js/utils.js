@@ -1,5 +1,5 @@
 'use strict';
-/* global $, _ , */
+/* global $, _ */
 
 var vote = function(e) {
     var $thisTarget = $(e.target);
@@ -75,6 +75,22 @@ var resolveIcon = function ( category ) {
     markerColor: 'blue'
   } );
 };
+
+var validate = function(data) {
+  var validationFailures = [];
+  _.each(data, function(value, key, list){
+    if(value ===undefined || value==='Invalid date') {
+      validationFailures.push(key);
+    }
+  });
+  if (validationFailures.length){
+    return validationFailures;
+  } else {
+    return false;
+  }
+};
+
+
 
 var popupLink = document.createElement('a');
 popupLink.setAttribute('data-toggle','modal');

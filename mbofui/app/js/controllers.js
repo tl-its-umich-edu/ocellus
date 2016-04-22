@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment */
+/* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment, validate, _ */
 
 ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   angular.extend($scope, {
@@ -73,8 +73,8 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
   $('#postBof').on('click', function() {
     var coords = $('#bofModal').attr('data-coords').split(',');
     var url = '/api/messages/';
-    var startTime = moment($scope.newStartTime).format($rootScope.time_format);
-    var endTime = moment($scope.newEndTime).format($rootScope.time_format);
+    var startTime = moment($('#startTime').val()).format($rootScope.time_format);
+    var endTime = moment($('#endTime').val()).format($rootScope.time_format);
     var postingTime = moment().format($rootScope.time_format);
     var data = {
       "messageText": $scope.newMessageText,
@@ -85,28 +85,35 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       "altitudeMeters": 266.75274658203125, //this is being removed but the database still expects it
       "postingTime": postingTime
     };
-    Bof.PostBof(url, data).then(function(result) {
-      var newMarker = {
-        lat: result.data.latitude,
-        lng: result.data.longitude,
-        category: 'cat1',
-        message: result.data.messageText,
-        layer: 'bofs',
-        icon: {
-          type: 'awesomeMarker',
-          icon: 'record',
-          markerColor: 'blue'
-        }
-      };
-      $scope.markersAll.push(newMarker);
-      $scope.markers.push(newMarker);
-      $scope.totalBofs = $scope.totalBofs + 1;
-      leafletData.getMap().then(function(map) {
-        map.closePopup();
+    var validationFailures = validate(data);
+    if(!validationFailures.length) {
+      Bof.PostBof(url, data).then(function(result) {
+        var newMarker = {
+          lat: result.data.latitude,
+          lng: result.data.longitude,
+          category: 'cat1',
+          message: result.data.messageText,
+          layer: 'bofs',
+          icon: {
+            type: 'awesomeMarker',
+            icon: 'record',
+            markerColor: 'blue'
+          }
+        };
+        $scope.markersAll.push(newMarker);
+        $scope.markers.push(newMarker);
+        $scope.totalBofs = $scope.totalBofs + 1;
+        leafletData.getMap().then(function(map) {
+          map.closePopup();
+        });
+        $('#messageText, #newStartTime, #newEndTime').val('');
+        $('#bofModal').modal('hide');
       });
-      $('#messageText, #newStartTime, #newEndTime').val('');
-      $('#bofModal').modal('hide');
-    });
+    } else {
+      _.each(validationFailures, function(failure){
+        $('.' + failure).addClass('has-error');
+      });
+    }
   });
 
 
@@ -151,6 +158,13 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
   $scope.$on("leafletDirectiveMarker.dragend", function(event, args) {
     //removed Firebase save - leave this as placeholder
   });
+
+  $('#bofModal').on('hide.bs.modal', function () {
+    $('.form-group').removeClass('has-error');
+    $('#messageText, #startTime, #endTime').val('');
+  });
+
+
 
   getEvents();
 
