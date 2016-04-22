@@ -93,7 +93,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
           lng: result.data.longitude,
           category: 'cat1',
           message: result.data.messageText,
-          layer: 'bofs',
+          layer: 'events',
           icon: {
             type: 'awesomeMarker',
             icon: 'record',
