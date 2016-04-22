@@ -1,5 +1,5 @@
 'use strict';
-/* global $, _ */
+/* global $, _ , */
 
 var vote = function(e) {
     var $thisTarget = $(e.target);
@@ -75,3 +75,11 @@ var resolveIcon = function ( category ) {
     markerColor: 'blue'
   } );
 };
+
+var popupLink = document.createElement('a');
+popupLink.setAttribute('data-toggle','modal');
+popupLink.setAttribute('data-target','#bofModal');
+popupLink.setAttribute('href','');
+popupLink.setAttribute('data-target', '#bofModal');
+var linktext = document.createTextNode('Add an event here?');
+popupLink.appendChild(linktext);
