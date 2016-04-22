@@ -3,8 +3,18 @@ html {
     height: 100%;
     width: 100%;
 }
+
 body {
-  margin-top:50px
+}
+html,
+body,
+.angular-leaflet-map {
+  height: 100%;
+}
+body {
+  padding: 0;
+  margin: 0;
+  padding-top:50px
 }
 
 .status {
