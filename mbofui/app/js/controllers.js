@@ -13,6 +13,24 @@ ocellus.controller( 'mapController', [ '$scope', '$filter', '$timeout', '$log', 
     },
     layers: {
       baselayers: {
+        googleTerrain: {
+            name: 'Google Terrain',
+            layerType: 'TERRAIN',
+            type: 'google'
+        },
+        googleHybrid: {
+          name: 'Google Hybrid',
+          layerType: 'HYBRID',
+          type: 'google'
+      },
+        googleRoadmap: {
+            name: 'Google Streets',
+            layerType: 'ROADMAP',
+            type: 'google',
+            layerParams: {
+              showOnSelector: true
+            }
+        },
         mapbox_light: {
           name: 'Mapbox Light',
           url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
