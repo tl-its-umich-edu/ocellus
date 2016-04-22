@@ -1,7 +1,7 @@
 'use strict';
 /* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment */
 
-ocellus.controller('mapController', ['$scope', '$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $filter, $timeout, $log, leafletData, Bof) {
+ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   angular.extend($scope, {
     center: {
       zoom: 16,
@@ -12,64 +12,7 @@ ocellus.controller('mapController', ['$scope', '$filter', '$timeout', '$log', 'l
       draw: {}
     },
     layers: {
-      baselayers: {
-        googleRoadmap: {
-          name: 'Google Streets',
-          layerType: 'ROADMAP',
-          type: 'google',
-          layerParams: {
-            showOnSelector: true
-          }
-        },
-        googleHybrid: {
-          name: 'Google Hybrid',
-          layerType: 'HYBRID',
-          type: 'google'
-        },
-        googleTerrain: {
-          name: 'Google Terrain',
-          layerType: 'TERRAIN',
-          type: 'google'
-        },
-
-        mapbox_light: {
-          name: 'Mapbox Light',
-          url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-          type: 'xyz',
-          layerOptions: {
-            id: 'gsilver.pk8alhme',
-            accessToken: 'pk.eyJ1IjoiZ3NpbHZlciIsImEiOiJjaW1xYmxianowMGZsdXJra2FjbXhpYjE4In0.LL9yfFdOwvatCyCbxBDW_A',
-          },
-          layerParams: {
-            showOnSelector: true
-          }
-        },
-        osm: {
-          name: 'OpenStreetMap',
-          url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          type: 'xyz'
-        },
-        terrain: {
-          name: 'Terrain',
-          url: 'http://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}.png',
-          type: 'xyz',
-        },
-        osmh: {
-          name: 'OpenStreetMap Hot',
-          type: 'xyz',
-          url: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-        },
-        esriwsm: {
-          name: 'Esri World StreetMap',
-          type: 'xyz',
-          url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'
-        },
-        esrisatellite: {
-          name: 'Esri Satellite',
-          type: 'xyz',
-          url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-        }
-      },
+      baselayers: $rootScope.baselayers,
       overlays: {
         events: {
           name: "Events",
@@ -109,7 +52,7 @@ ocellus.controller('mapController', ['$scope', '$filter', '$timeout', '$log', 'l
         $('#bofModal').attr('data-coords', [e.latlng.lat, e.latlng.lng]);
         L.popup()
           .setLatLng(e.latlng)
-          .setContent('<a href="" data-toggle="modal" data-target="#bofModal">Add an event here?</a>')
+          .setContent(popupLink)
           .openOn(map);
       }
       map.on('locationfound', onLocationFound);
@@ -122,7 +65,7 @@ ocellus.controller('mapController', ['$scope', '$filter', '$timeout', '$log', 'l
       $('#bofModal').attr('data-coords', [leafEvent.latlng.lat, leafEvent.latlng.lng]);
       L.popup()
         .setLatLng(leafEvent.latlng)
-        .setContent('<a href="" data-toggle="modal" data-target="#bofModal">Add an event here?</a>')
+        .setContent(popupLink)
         .openOn(map);
     });
   });
@@ -130,9 +73,9 @@ ocellus.controller('mapController', ['$scope', '$filter', '$timeout', '$log', 'l
   $('#postBof').on('click', function() {
     var coords = $('#bofModal').attr('data-coords').split(',');
     var url = '/api/messages/';
-    var startTime = moment($scope.newStartTime).format('YYYY-MM-DDTHH:mm:ssZ');
-    var endTime = moment($scope.newEndTime).format('YYYY-MM-DDTHH:mm:ssZ');
-    var postingTime = moment().format('YYYY-MM-DDTHH:mm:ssZ');
+    var startTime = moment($scope.newStartTime).format($rootScope.time_format);
+    var endTime = moment($scope.newEndTime).format($rootScope.time_format);
+    var postingTime = moment().format($rootScope.time_format);
     var data = {
       "messageText": $scope.newMessageText,
       "startTime": startTime,
