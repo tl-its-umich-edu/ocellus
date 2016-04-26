@@ -1,21 +1,23 @@
 import os
+import datetime
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
 from rest_framework import viewsets
 
-from .models import Message, User, Vote
-from .serializers import MessageSerializer, UserSerializer, VoteSerializer
+from .models import Event, User, Vote
+from .serializers import EventSerializer, UserSerializer, VoteSerializer
 
 
 def index(request):
     return render(request, 'messages/index.html', {
-        'latestMessageList': Message.objects.order_by('-postingTime'),
+        'latestMessageList': Event.objects.order_by('-postingTime'),
     })
 
 
 def detail(request, messageId):
-    message = get_object_or_404(Message, pk=messageId)
+    message = get_object_or_404(Event, pk=messageId)
     return render(request, 'messages/detail.html', {
         'message': message,
     })
@@ -42,12 +44,24 @@ class CurrentUserViewSet(UserViewSet):
     queryset = User.objects.filter(loginName=os.getenv('REMOTE_USER')).order_by('surname')
 
 
-class MessageViewSet(viewsets.ModelViewSet):
+class EventViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Message.objects.all().order_by('postingTime')
-    serializer_class = MessageSerializer
+    queryset = Event.objects.all().order_by('postingTime')
+    serializer_class = EventSerializer
+
+
+class CurrentEventViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    serializer_class = EventSerializer
+
+    def get_queryset(self):
+        current_time = timezone.now()
+        return Event.objects.filter(startTime__lte=current_time).filter(endTime__gte=current_time)
+
 
 class VoteViewSet(viewsets.ModelViewSet):
     """

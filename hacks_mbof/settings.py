@@ -164,7 +164,7 @@ LOGGING = {
             'level': 'DEBUG',
         },
         'django.db.backends': {
-            # 'level': 'DEBUG', # Uncomment to log all SQL statements
+            'level': 'DEBUG', # Uncomment to log all SQL statements
             'handlers': ['console'],
         },
     },
