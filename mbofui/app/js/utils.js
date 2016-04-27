@@ -1,5 +1,5 @@
 'use strict';
-/* global $, _ , */
+/* global $, _ */
 
 var vote = function(e) {
     var $thisTarget = $(e.target);
@@ -75,6 +75,25 @@ var resolveIcon = function ( category ) {
     markerColor: 'blue'
   } );
 };
+
+// new event validation - either the dates are blank or wrong or the description is blank
+var validate = function(data) {
+  //init array
+  var validationFailures = [];
+  _.each(data, function(value, key, list){
+    if(value ===undefined || value==='Invalid date') {
+      // add to array with key (that corresponds to the id of the offending element)
+      validationFailures.push(key);
+    }
+  });
+  if (validationFailures.length){
+    return validationFailures;
+  } else {
+    return false;
+  }
+};
+
+
 
 var popupLink = document.createElement('a');
 popupLink.setAttribute('data-toggle','modal');
