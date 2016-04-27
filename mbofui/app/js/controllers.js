@@ -73,6 +73,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
   $('#postBof').on('click', function() {
     var coords = $('#bofModal').attr('data-coords').split(',');
     var url = '/api/messages/';
+    //set starttime/endtime to the value of the field in the format specified in the settings in app.js
     var startTime = moment($('#startTime').val()).format($rootScope.time_format);
     var endTime = moment($('#endTime').val()).format($rootScope.time_format);
     var postingTime = moment().format($rootScope.time_format);
@@ -85,7 +86,10 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       "altitudeMeters": 266.75274658203125, //this is being removed but the database still expects it
       "postingTime": postingTime
     };
+    // use function in utils.js to see if the data validates
     var validationFailures = validate(data);
+    //if there were no validation failures, post it 
+    // and construct a new marker to add to map
     if(!validationFailures.length) {
       Bof.PostBof(url, data).then(function(result) {
         var newMarker = {
@@ -100,9 +104,11 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
             markerColor: 'blue'
           }
         };
+        //add the message marker to both filtered and unfiltered collections
         $scope.markersAll.push(newMarker);
         $scope.markers.push(newMarker);
         $scope.totalBofs = $scope.totalBofs + 1;
+        // close the popup
         leafletData.getMap().then(function(map) {
           map.closePopup();
         });
@@ -110,6 +116,8 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
         $('#bofModal').modal('hide');
       });
     } else {
+      // there were validation failures, add an 'has-error' class to 
+      // the offending element's parent
       _.each(validationFailures, function(failure){
         $('.' + failure).addClass('has-error');
       });
@@ -159,6 +167,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     //removed Firebase save - leave this as placeholder
   });
 
+  // clean up modal's form elems when modal closes
   $('#bofModal').on('hide.bs.modal', function () {
     $('.form-group').removeClass('has-error');
     $('#messageText, #startTime, #endTime').val('');
