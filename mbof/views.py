@@ -8,28 +8,6 @@ from .models import Event, User, Vote
 from .serializers import EventSerializer, UserSerializer, VoteSerializer
 
 
-def index(request):
-    return render(request, 'events/index.html', {
-        'latestEventList': Event.objects.order_by('-postingTime'),
-    })
-
-
-def detail(request, eventId):
-    event = get_object_or_404(Event, pk=eventId)
-    return render(request, 'events/detail.html', {
-        'event': event,
-    })
-
-
-def results(request, eventId):
-    response = "You're looking at the results of event %s."
-    return HttpResponse(response % eventId)
-
-
-def vote(request, eventId):
-    return HttpResponse("You're voting on event %s." % eventId)
-
-
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.

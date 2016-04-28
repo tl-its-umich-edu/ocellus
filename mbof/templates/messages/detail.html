@@ -1,9 +1,0 @@
-<h1>{{ message.messageText }}</h1>
-<p>Location: {{ message.latitude }}, {{ message.longitude }}</p>
-<p>Organizer: {{ message.owner.displayName }}</p>
-<p>Other messages from {{ message.owner.givenName }}:</p>
-<ul>
-    {% for otherMessage in message.owner.message_set.all %}
-    <li>{{ otherMessage.messageText }}</li>
-    {% endfor %}
-</ul>
