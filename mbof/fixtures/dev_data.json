@@ -71,7 +71,7 @@
         "latitude": 42.2819709777832,
         "longitude": -83.731689453125,
         "altitudeMeters": 254.0,
-        "messageText": "Watching for Vogons",
+        "eventText": "Watching for Vogons",
         "postingTime": "2016-02-22T20:50:58Z",
         "startTime": "2016-02-22T21:30:00Z",
         "endTime": "2016-02-23T20:51:44Z",
@@ -87,7 +87,7 @@
         "latitude": 42.275267,
         "longitude": -83.741606,
         "altitudeMeters": 267.27,
-        "messageText": "Fun at the Union",
+        "eventText": "Fun at the Union",
         "postingTime": "2016-02-22T21:00:33Z",
         "startTime": "2016-02-22T21:00:35Z",
         "endTime": "2016-02-22T21:00:36Z",
@@ -103,7 +103,7 @@
         "latitude": 42.2755696,
         "longitude": -83.7398206,
         "altitudeMeters": 257.0,
-        "messageText": "Study the art",
+        "eventText": "Study the art",
         "postingTime": "2016-02-22T23:39:29Z",
         "startTime": "2016-02-22T23:39:31Z",
         "endTime": "2016-02-22T23:39:33Z",
@@ -119,7 +119,7 @@
         "latitude": 42.2994081,
         "longitude": -83.6621599,
         "altitudeMeters": 245.0,
-        "messageText": "Flower arrangement demonstration.  More cry-manthesums needed.",
+        "eventText": "Flower arrangement demonstration.  More cry-manthesums needed.",
         "postingTime": "2016-02-29T15:19:03Z",
         "startTime": "2016-02-29T17:00:00Z",
         "endTime": "2016-03-11T15:20:23Z",
@@ -135,7 +135,7 @@
         "latitude": 42.300933837890625,
         "longitude": -83.7049789428711,
         "altitudeMeters": 52.0,
-        "messageText": "Hacks With Friends ",
+        "eventText": "Hacks With Friends ",
         "postingTime": "2016-03-04T14:35:05.718Z",
         "startTime": "2017-01-01T04:59:00Z",
         "endTime": "2017-01-01T04:59:00Z",
@@ -151,7 +151,7 @@
         "latitude": 42.300659200000005,
         "longitude": -83.705218,
         "altitudeMeters": 34.0,
-        "messageText": "asdf",
+        "eventText": "asdf",
         "postingTime": "2016-03-04T15:24:58Z",
         "startTime": "2016-03-04T15:24:58Z",
         "endTime": "2016-03-09T15:24:58Z",
@@ -167,7 +167,7 @@
         "latitude": 42.300659200000005,
         "longitude": -83.705218,
         "altitudeMeters": 34.0,
-        "messageText": "asdf",
+        "eventText": "asdf",
         "postingTime": "2016-03-04T15:40:34.501Z",
         "startTime": "2016-03-04T15:40:34.501Z",
         "endTime": "2016-03-09T15:40:34.501Z",
@@ -183,7 +183,7 @@
         "latitude": 41.8006591796875,
         "longitude": -82.10521697998047,
         "altitudeMeters": 34.0,
-        "messageText": "asdf",
+        "eventText": "asdf",
         "postingTime": "2016-03-04T15:24:58Z",
         "startTime": "2016-03-04T15:24:58Z",
         "endTime": "2016-03-09T15:24:58Z",
@@ -199,7 +199,7 @@
         "latitude": 42.27804183959961,
         "longitude": -83.73822784423828,
         "altitudeMeters": 264.9533386230469,
-        "messageText": "Campus Center",
+        "eventText": "Campus Center",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -215,7 +215,7 @@
         "latitude": 42.279876708984375,
         "longitude": -83.73289489746094,
         "altitudeMeters": 264.9691467285156,
-        "messageText": "Lorem",
+        "eventText": "Lorem",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -231,7 +231,7 @@
         "latitude": 42.28074645996094,
         "longitude": -83.73709869384766,
         "altitudeMeters": 264.4632873535156,
-        "messageText": "ipsum",
+        "eventText": "ipsum",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -247,7 +247,7 @@
         "latitude": 42.27775573730469,
         "longitude": -83.7369384765625,
         "altitudeMeters": 266.6853332519531,
-        "messageText": "dolor",
+        "eventText": "dolor",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -263,7 +263,7 @@
         "latitude": 42.277099609375,
         "longitude": -83.73506927490234,
         "altitudeMeters": 264.4520263671875,
-        "messageText": "sit",
+        "eventText": "sit",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -279,7 +279,7 @@
         "latitude": 42.279541015625,
         "longitude": -83.736083984375,
         "altitudeMeters": 265.6742248535156,
-        "messageText": "amet",
+        "eventText": "amet",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -295,7 +295,7 @@
         "latitude": 42.279808044433594,
         "longitude": -83.73837280273438,
         "altitudeMeters": 267.9234924316406,
-        "messageText": "consectetur",
+        "eventText": "consectetur",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -311,7 +311,7 @@
         "latitude": 42.27598190307617,
         "longitude": -83.73609924316406,
         "altitudeMeters": 263.543212890625,
-        "messageText": "adipiscing",
+        "eventText": "adipiscing",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -327,7 +327,7 @@
         "latitude": 42.27983856201172,
         "longitude": -83.73870849609375,
         "altitudeMeters": 264.9010314941406,
-        "messageText": "elit",
+        "eventText": "elit",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -343,7 +343,7 @@
         "latitude": 42.275733947753906,
         "longitude": -83.74217987060547,
         "altitudeMeters": 263.6704406738281,
-        "messageText": "Suspendisse",
+        "eventText": "Suspendisse",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -359,7 +359,7 @@
         "latitude": 42.275718688964844,
         "longitude": -83.73487091064453,
         "altitudeMeters": 264.81451416015625,
-        "messageText": "consequat",
+        "eventText": "consequat",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -375,7 +375,7 @@
         "latitude": 42.2757453918457,
         "longitude": -83.73799896240234,
         "altitudeMeters": 268.45916748046875,
-        "messageText": "fermentum",
+        "eventText": "fermentum",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -391,7 +391,7 @@
         "latitude": 42.280052185058594,
         "longitude": -83.74127960205078,
         "altitudeMeters": 264.4952087402344,
-        "messageText": "mauris",
+        "eventText": "mauris",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -407,7 +407,7 @@
         "latitude": 42.27702331542969,
         "longitude": -83.73934936523438,
         "altitudeMeters": 266.1491394042969,
-        "messageText": "sit",
+        "eventText": "sit",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -423,7 +423,7 @@
         "latitude": 42.27747344970703,
         "longitude": -83.74046325683594,
         "altitudeMeters": 266.3511047363281,
-        "messageText": "amet",
+        "eventText": "amet",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -439,7 +439,7 @@
         "latitude": 42.27822494506836,
         "longitude": -83.73497009277344,
         "altitudeMeters": 265.78485107421875,
-        "messageText": "tincidunt",
+        "eventText": "tincidunt",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -455,7 +455,7 @@
         "latitude": 42.280860900878906,
         "longitude": -83.74221801757812,
         "altitudeMeters": 266.75274658203125,
-        "messageText": "risus",
+        "eventText": "risus",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -471,7 +471,7 @@
         "latitude": 42.277809143066406,
         "longitude": -83.73786163330078,
         "altitudeMeters": 263.94195556640625,
-        "messageText": "auctor",
+        "eventText": "auctor",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -487,7 +487,7 @@
         "latitude": 42.27994918823242,
         "longitude": -83.74169921875,
         "altitudeMeters": 268.8115234375,
-        "messageText": "et",
+        "eventText": "et",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -503,7 +503,7 @@
         "latitude": 42.27943801879883,
         "longitude": -83.73346710205078,
         "altitudeMeters": 264.5925598144531,
-        "messageText": "Morbi",
+        "eventText": "Morbi",
         "postingTime": "2016-03-07T17:10:00Z",
         "startTime": null,
         "endTime": null,
@@ -519,7 +519,7 @@
         "latitude": 42.269781099999996,
         "longitude": -83.7470843,
         "altitudeMeters": 26.0,
-        "messageText": "<h1>I don't always organize informal meetings, but when I do, I use M-BoF.</h1><img height=\"200\" src=\"https://imgflip.com/s/meme/The-Most-Interesting-Man-In-The-World.jpg\">",
+        "eventText": "<h1>I don't always organize informal meetings, but when I do, I use M-BoF.</h1><img height=\"200\" src=\"https://imgflip.com/s/meme/The-Most-Interesting-Man-In-The-World.jpg\">",
         "postingTime": "2016-03-11T14:10:48.747Z",
         "startTime": "2016-03-11T14:10:48Z",
         "endTime": "2016-03-11T14:10:48Z",
@@ -532,7 +532,7 @@
     "model": "mbof.vote",
     "pk": 1,
     "fields": {
-        "message": 5,
+        "event": 5,
         "voter": "bjensen",
         "vote": "+1"
     }
@@ -541,7 +541,7 @@
     "model": "mbof.vote",
     "pk": 2,
     "fields": {
-        "message": 5,
+        "event": 5,
         "voter": "fordp",
         "vote": "+1"
     }
@@ -550,7 +550,7 @@
     "model": "mbof.vote",
     "pk": 3,
     "fields": {
-        "message": 5,
+        "event": 5,
         "voter": "dpgumby",
         "vote": "+1"
     }
@@ -559,7 +559,7 @@
     "model": "mbof.vote",
     "pk": 6,
     "fields": {
-        "message": 4,
+        "event": 4,
         "voter": "bjensen",
         "vote": "+1"
     }
@@ -568,7 +568,7 @@
     "model": "mbof.vote",
     "pk": 7,
     "fields": {
-        "message": 2,
+        "event": 2,
         "voter": "bjensen",
         "vote": "-1"
     }
@@ -577,7 +577,7 @@
     "model": "mbof.vote",
     "pk": 8,
     "fields": {
-        "message": 1,
+        "event": 1,
         "voter": "bjensen",
         "vote": "+1"
     }
@@ -586,7 +586,7 @@
     "model": "mbof.vote",
     "pk": 9,
     "fields": {
-        "message": 3,
+        "event": 3,
         "voter": "bjensen",
         "vote": "+1"
     }
@@ -595,7 +595,7 @@
     "model": "mbof.vote",
     "pk": 10,
     "fields": {
-        "message": 21,
+        "event": 21,
         "voter": "bjensen",
         "vote": "+1"
     }
@@ -604,7 +604,7 @@
     "model": "mbof.vote",
     "pk": 11,
     "fields": {
-        "message": 22,
+        "event": 22,
         "voter": "bjensen",
         "vote": "-1"
     }
@@ -613,7 +613,7 @@
     "model": "mbof.vote",
     "pk": 15,
     "fields": {
-        "message": 31,
+        "event": 31,
         "voter": "fordp",
         "vote": "+1"
     }
@@ -622,7 +622,7 @@
     "model": "mbof.vote",
     "pk": 16,
     "fields": {
-        "message": 31,
+        "event": 31,
         "voter": "bjensen",
         "vote": "+1"
     }
@@ -631,7 +631,7 @@
     "model": "mbof.vote",
     "pk": 17,
     "fields": {
-        "message": 31,
+        "event": 31,
         "voter": "dpgumby",
         "vote": "+1"
     }
@@ -640,7 +640,7 @@
     "model": "mbof.vote",
     "pk": 18,
     "fields": {
-        "message": 24,
+        "event": 24,
         "voter": "dpgumby",
         "vote": "+1"
     }
@@ -649,7 +649,7 @@
     "model": "mbof.vote",
     "pk": 19,
     "fields": {
-        "message": 14,
+        "event": 14,
         "voter": "dpgumby",
         "vote": "+1"
     }
@@ -658,7 +658,7 @@
     "model": "mbof.vote",
     "pk": 20,
     "fields": {
-        "message": 11,
+        "event": 11,
         "voter": "dpgumby",
         "vote": "-1"
     }

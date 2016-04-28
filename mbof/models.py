@@ -61,7 +61,7 @@ class Event(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     altitudeMeters = models.FloatField()
-    messageText = models.CharField(max_length=400)
+    eventText = models.CharField(max_length=400)
     category = models.CharField(max_length=40, null=True)
     postingTime = models.DateTimeField(editable=False, blank=True)
     startTime = models.DateTimeField(blank=True, null=True)
@@ -76,13 +76,13 @@ class Event(models.Model):
                 lambda sum, vote: sum + (
                     1 if vote.vote == Vote.VOTE_PLUS else (
                         -1 if vote.vote == Vote.VOTE_MINUS else 0)),
-                Vote.objects.filter(message=self),
+                Vote.objects.filter(event=self),
                 0
         )
         return voteTotal
 
     def __str__(self):
-        return str(self.messageText) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+        return str(self.eventText) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -102,7 +102,7 @@ class Vote(models.Model):
     VOTE_PLUS = '+1'
     VOTE_MINUS = '-1'
     VOTE_NONE = '0'
-    message = models.ForeignKey(Event)
+    event = models.ForeignKey(Event)
     voter = models.ForeignKey(User, default=currentUserObject, editable=False)
     vote = models.CharField(max_length=2, choices=(
         (VOTE_PLUS, VOTE_PLUS),
@@ -111,8 +111,8 @@ class Vote(models.Model):
     ))
 
     class Meta:
-        unique_together = ('message', 'voter',)
+        unique_together = ('event', 'voter',)
 
     def __str__(self):
         return str(self.voter) + ' voted ' + str(self.vote) + ' on ' + str(
-                self.message) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+                self.event) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'

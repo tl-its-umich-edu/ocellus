@@ -30,7 +30,7 @@ mbofuiApp.controller('mbofuiAppController', ['$scope', 'Bof', '$log', '$window',
     }
 
     function getBofs(map) {
-        var bofsUrl = '/api/messages/'
+        var bofsUrl = '/api/events/'
         Bof.GetBofs(bofsUrl).then(function(result) {
             // FIXME: Add support for Django REST pagination, if it's enabled.
             var bofResults = result.data.results || result.data; // with or without REST pagination
@@ -45,7 +45,7 @@ mbofuiApp.controller('mbofuiAppController', ['$scope', 'Bof', '$log', '$window',
                 var $markerContent = ('<div class="voteControls"><br><div class="pull-left">Votes: <span class="voteNum">' + bof.votes + '</span></div><div class="pull-right btn-group"><button class="btn btn-primary btn-xs up" data_vote="-1" data_id="' + bof.url + '" onclick="vote(event)"><span class="glyphicon glyphicon-thumbs-down"></span></button>&nbsp;<button class="btn btn-primary btn-xs" data_vote="+1" data_id="' + bof.url + '"onclick="vote(event)"><span class="glyphicon glyphicon-thumbs-up"></span></button></div></div>');
                 google.maps.event.addListener(marker, 'click', function() {
                     var infowindow = new google.maps.InfoWindow({
-                        content: bof.messageText + $markerContent
+                        content: bof.eventText + $markerContent
                     });
                     
                     infowindow.open(map, marker);
@@ -71,13 +71,13 @@ mbofuiApp.controller('mbofuiAppController', ['$scope', 'Bof', '$log', '$window',
         function posSuccess(pos, map) {
             $scope.coords = pos.coords;
             // serialize the inputs to create a URL
-            var url = '/api/messages/';
+            var url = '/api/events/';
             //2016-02-22T23:39:29Z
             var startTime = moment($scope.newStartTime).format('YYYY-MM-DDTHH:mm:ssZ');
             var endTime = moment($scope.newEndTime).format('YYYY-MM-DDTHH:mm:ssZ');
             var postingTime = moment().format('YYYY-MM-DDTHH:mm:ssZ')
             var data = {
-                "messageText" : $scope.newMessageText,
+                "eventText" : $scope.newEventText,
                 "startTime" : startTime,
                 "endTime" : endTime,
                 "latitude" : $scope.coords.latitude,
@@ -94,7 +94,7 @@ mbofuiApp.controller('mbofuiAppController', ['$scope', 'Bof', '$log', '$window',
 
                 google.maps.event.addListener(marker, 'click', function() {
                     var infowindow = new google.maps.InfoWindow({
-                        content: result.data.messageText
+                        content: result.data.eventText
                     });
                     infowindow.open(window.map, marker);
                 });

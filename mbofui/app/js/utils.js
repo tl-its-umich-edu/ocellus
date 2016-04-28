@@ -12,7 +12,7 @@ var vote = function(e) {
     var voteValInt = parseInt(voteVal);
     
     var id = $thisTarget.attr('data_id');
-    var data = { 'message': id, 'vote': voteVal };
+    var data = { 'event': id, 'vote': voteVal };
     $.post("/api/votes/", data, function(result) {
         var currVoteNum = parseInt($thisTargetContainer.find('.voteNum').text());
         $thisTargetContainer.find('.voteNum').text(currVoteNum + voteValInt);
