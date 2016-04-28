@@ -1,95 +1,143 @@
 <!DOCTYPE html>
-<html ng-app="mbofuiApp">
+<html ng-app="ocellus">
 
 <head>
-    <title>M-BoF</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/custom.css">
+  <meta charset="utf-8">
+  <title>{{strings.app_name}}
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/custom.css" media="screen" title="no title" charset="utf-8">
+  <script src="bower_components/leaflet/dist/leaflet.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js">
+  </script>
+  <script src="bower_components/jquery/jquery.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
+  <script src="bower_components/ui-leaflet/dist/ui-leaflet.min.js"></script>
+  <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css">
+
+  <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css">
+  <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.min.js"></script>
+
+  <link rel="stylesheet" href="bower_components/leaflet-draw/dist/leaflet.draw.css">
+  <script src="bower_components/leaflet-draw/dist/leaflet.draw.js"></script>
+  <script src="bower_components/underscore/underscore-min.js"></script>
+  <script src="bower_components/moment/min/moment.min.js"></script>
+
+  <script src="http://maps.google.com/maps/api/js?v=3.22"></script>
+  <script src="../bower_components/leaflet-plugins/layer/tile/Google.js"></script>
+
+
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/factories.js"></script>
+  <script src="js/utils.js"></script>
+
+
+  <style media="screen">
+  </style>
 </head>
 
-<body ng-controller="mbofuiAppController">
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">M-BoF</a>
-    </div>
+<body ng-controller="mapController">
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" data-toggle="modal" data-target="#bofModal">Bof it!</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-          Menu<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">See trending</a></li>
-            <li><a href="#">Filter</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Profile</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-<div style="width:100%;height:100%" id="map">
-</div>
-<div ngCloak class="alert alert-info alert-dismissible" role="alert" ng-show="totalBofs" style="position:absolute;top:100px;left:25%;right:25%;z-index: 1000">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-{{totalBofs}} found </div>
-
-<!-- Modal -->
-<div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="bofModalLabel">Bof it!</h4>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">{{strings.app_name}}</a>
       </div>
-      <div class="modal-body">      
-         <div class="form-group">
-          <label for="eventText">What is this about</label>
-          <textarea ng-model="newEventText" class="form-control" id="eventText" rows="3"></textarea>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="" ng-click="createEventCurrentlocation()">{{strings.app_action}}</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{strings.app_categories}} <span class="caret"></span></a>
+            <ul class="dropdown-menu" id="categories">
+              <li><a href="#" id="cat1">Cat 1</a></li>
+              <li><a href="#" id="cat2">Cat 2</a></li>
+              <li><a href="#" id="cat3">Cat 3</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#" id="all">All {{strings.app_categories}}</a></li>
+
+            </ul>
+          </li>
+
+        </ul>
+        <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" value="" ng-model="markerFilter">
+          </div>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Debug<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a>Current center: <strong>{{center.lat}} {{center.lng}}</strong> </a></li>
+              <li><a>Markers: <strong>{{markersAll.length}}</strong></a></li>
+              <li><a>Cat Filtered Markers: <strong>{{markers.length}}</strong></a></li>
+              <li><a>Search Filtered Markers: <strong>{{markersFiltered.length}}</strong></a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <leaflet lf-center="center" controls="controls" layers="layers" markers="markersFiltered" width="100%"></leaflet>
+
+  <!-- Modal -->
+  <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="bofModalLabel">{{strings.modal_title}}</h4>
         </div>
-         <div class="form-group">
-          <label for="startTime">Start time</label>
-          <input ng-model="newStartTime" name="startTime" class="form-control" type="datetime-local">
+        <div class="modal-body">
+          <div class="form-group eventText">
+            <label for="eventText">{{strings.modal_description}}</label>
+            <span class="req-text">(required)</span>
+            <textarea ng-model="newEventText" class="form-control" id="eventText" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="category">{{strings.app_categories}}</label>
+            <select class="form-control" id="category" ng-model="categories">
+              <option value="cat1">Cat 1</option>
+              <option value="cat2">Cat 2</option>
+              <option value="cat3">Cat 3</option>
+            </select>
+          </div>
+
+          <div class="form-group startTime">
+            <label for="startTime">{{strings.modal_starttime}}</label>
+            <span class="req-text">(required)</span>
+            <input id="startTime" name="startTime" class="form-control" type="datetime-local">
+          </div>
+          <div class="form-group endTime">
+            <label for="endTime">{{strings.modal_endtime}}</label>
+            <span class="req-text">(required)</span>
+            <input id="endTime" name="endTime" class="form-control" type="datetime-local">
+          </div>
         </div>
-         <div class="form-group">
-          <label for="startTime">End time</label>
-          <input  ng-model="newEndTime" name="endTime" class="form-control" type="datetime-local">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="postBof">{{strings.modal_post}}</button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="postBof()" data-dismiss="modal">Post BOF</button>
       </div>
     </div>
   </div>
-</div>
 
-
-    <script src="../bower_components/moment/min/moment.min.js"></script>
-    <script src="../bower_components/angular/angular.min.js"></script>
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="http://maps.google.com/maps/api/js?key=AIzaSyCP2sqQoyB3jkVxRHUjU8SaFSK59yoIVGo"></script>
-    <!--
-    <script src="js/location.js"></script>
-    -->
-    <script src="js/controllers.js"></script>
-    <script src="js/factories.js"></script>
-    <script src="js/utils.js"></script>
 </body>
 
 </html>

@@ -65,3 +65,4 @@ target/
 /hacks_mbof/extras/
 /.vagrant
 *.sqlite3
+bower_components

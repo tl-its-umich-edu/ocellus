@@ -1,112 +1,180 @@
 'use strict';
-/* global mbofuiApp, moment */
+/* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment, validate, _ */
 
-mbofuiApp.controller('mbofuiAppController', ['$scope', 'Bof', '$log', '$window', '$compile', function($scope, Bof, $log, $window, $compile) {
-
-
-    var pos = $window.navigator.geolocation.getCurrentPosition(posSuccess, posError);
-    
-
-    function posSuccess(pos) {
-        var latlng = new google.maps.LatLng(pos.coords.latitude,
-            pos.coords.longitude);
-        var options = {
-            zoom: 18,
-            center: latlng,
-            mapTypeControl: true,
-            mapTypeId: google.maps.MapTypeId.HYBRID
-        };
-        window.map = new google.maps.Map(document.getElementById('map'), options);
-
-        var marker = new google.maps.Marker({
-            position: latlng,
-            map: window.map
-        });
-        getBofs(map);
-    }
-
-    function posError(map) {
-        getBofs(map);
-    }
-
-    function getBofs(map) {
-        var bofsUrl = '/api/events/'
-        Bof.GetBofs(bofsUrl).then(function(result) {
-            // FIXME: Add support for Django REST pagination, if it's enabled.
-            var bofResults = result.data.results || result.data; // with or without REST pagination
-            $scope.totalBofs = bofResults.length;
-            angular.forEach(bofResults, function(bof) {
-                var marker = new google.maps.Marker({
-                    position: { lat: bof.latitude, lng: bof.longitude },
-                    map: window.map
-                });
-                var iconFile = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'; 
-                marker.setIcon(iconFile);
-                var $markerContent = ('<div class="voteControls"><br><div class="pull-left">Votes: <span class="voteNum">' + bof.votes + '</span></div><div class="pull-right btn-group"><button class="btn btn-primary btn-xs up" data_vote="-1" data_id="' + bof.url + '" onclick="vote(event)"><span class="glyphicon glyphicon-thumbs-down"></span></button>&nbsp;<button class="btn btn-primary btn-xs" data_vote="+1" data_id="' + bof.url + '"onclick="vote(event)"><span class="glyphicon glyphicon-thumbs-up"></span></button></div></div>');
-                google.maps.event.addListener(marker, 'click', function() {
-                    var infowindow = new google.maps.InfoWindow({
-                        content: bof.eventText + $markerContent
-                    });
-                    
-                    infowindow.open(map, marker);
-                });
-
-
-
-            });
-
-        });
-     }
-
-// placeholder for angular impl
-
-/*     $scope.vote = function(which){
-        alert(which)
-        $log.info(which)
-     }
-*/    
-    $scope.postBof = function(map) {
-        var pos = $window.navigator.geolocation.getCurrentPosition(posSuccess, posError);
-
-        function posSuccess(pos, map) {
-            $scope.coords = pos.coords;
-            // serialize the inputs to create a URL
-            var url = '/api/events/';
-            //2016-02-22T23:39:29Z
-            var startTime = moment($scope.newStartTime).format('YYYY-MM-DDTHH:mm:ssZ');
-            var endTime = moment($scope.newEndTime).format('YYYY-MM-DDTHH:mm:ssZ');
-            var postingTime = moment().format('YYYY-MM-DDTHH:mm:ssZ')
-            var data = {
-                "eventText" : $scope.newEventText,
-                "startTime" : startTime,
-                "endTime" : endTime,
-                "latitude" : $scope.coords.latitude,
-                "longitude" : $scope.coords.longitude,
-                "altitudeMeters" : $scope.coords.accuracy,
-                "postingTime"  : postingTime
-            }
-            Bof.PostBof(url,data).then(function(result) {
-                var marker = new google.maps.Marker({
-                    position: { lat: result.data.latitude, lng: result.data.longitude },
-                    map: window.map,
-                    zIndex: 10000
-                });
-
-                google.maps.event.addListener(marker, 'click', function() {
-                    var infowindow = new google.maps.InfoWindow({
-                        content: result.data.eventText
-                    });
-                    infowindow.open(window.map, marker);
-                });
-                $scope.totalBofs = $scope.totalBofs + 1;
-
-                var iconFile = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'; 
-                marker.setIcon(iconFile); 
-            });
+ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
+  angular.extend($scope, {
+    center: {
+      zoom: 16,
+      autoDiscover: true
+    },
+    events: {},
+    controls: {
+      draw: {}
+    },
+    layers: {
+      baselayers: $rootScope.baselayers,
+      overlays: {
+        events: {
+          name: "Events",
+          type: "markercluster",
+          visible: true
+        },
+        draw: {
+          name: 'draw',
+          type: 'group',
+          visible: true,
+          layerParams: {
+            showOnSelector: false
+          }
         }
+      },
+      awesomeMarkerIcon: {
+        type: 'awesomeMarker',
+        markerColor: 'blue'
+      },
+    }
+  });
 
-        function posError(err) {
-            $log.info('ERROR(' + err.code + '): ' + err.message);
-        }
+  $scope.categories = null;
+  $scope.markers = [];
+  $scope.markersAll = [];
+
+
+  $scope.createEventCurrentlocation = function() {
+    leafletData.getMap().then(function(map) {
+      map.locate({
+        setView: true,
+        maxZoom: 16
+      });
+
+      function onLocationFound(e) {
+        var radius = e.accuracy / 2;
+        $('#bofModal').attr('data-coords', [e.latlng.lat, e.latlng.lng]);
+        L.popup()
+          .setLatLng(e.latlng)
+          .setContent(popupLink)
+          .openOn(map);
+      }
+      map.on('locationfound', onLocationFound);
+    });
+  };
+
+  $scope.$on("leafletDirectiveMap.contextmenu", function(event, args) {
+    leafletData.getMap().then(function(map) {
+      var leafEvent = args.leafletEvent;
+      $('#bofModal').attr('data-coords', [leafEvent.latlng.lat, leafEvent.latlng.lng]);
+      L.popup()
+        .setLatLng(leafEvent.latlng)
+        .setContent(popupLink)
+        .openOn(map);
+    });
+  });
+
+  $('#postBof').on('click', function() {
+    var coords = $('#bofModal').attr('data-coords').split(',');
+    var url = '/api/events/';
+    //set starttime/endtime to the value of the field in the format specified in the settings in app.js
+    var startTime = moment($('#startTime').val()).format($rootScope.time_format);
+    var endTime = moment($('#endTime').val()).format($rootScope.time_format);
+    var postingTime = moment().format($rootScope.time_format);
+    var data = {
+      "eventText": $scope.newEventText,
+      "startTime": startTime,
+      "endTime": endTime,
+      "latitude": coords[0],
+      "longitude": coords[1],
+      "altitudeMeters": 266.75274658203125, //this is being removed but the database still expects it
+      "postingTime": postingTime
     };
+    // use function in utils.js to see if the data validates
+    var validationFailures = validate(data);
+    //if there were no validation failures, post it 
+    // and construct a new marker to add to map
+    if(!validationFailures.length) {
+      Bof.PostBof(url, data).then(function(result) {
+        var newMarker = {
+          lat: result.data.latitude,
+          lng: result.data.longitude,
+          category: 'cat1',
+          event: result.data.eventText,
+          layer: 'events',
+          icon: {
+            type: 'awesomeMarker',
+            icon: 'record',
+            markerColor: 'blue'
+          }
+        };
+        //add the event marker to both filtered and unfiltered collections
+        $scope.markersAll.push(newMarker);
+        $scope.markers.push(newMarker);
+        $scope.totalBofs = $scope.totalBofs + 1;
+        // close the popup
+        leafletData.getMap().then(function(map) {
+          map.closePopup();
+        });
+        $('#eventText, #newStartTime, #newEndTime').val('');
+        $('#bofModal').modal('hide');
+      });
+    } else {
+      // there were validation failures, add an 'has-error' class to 
+      // the offending element's parent
+      _.each(validationFailures, function(failure){
+        $('.' + failure).addClass('has-error');
+      });
+    }
+  });
+
+
+  $('#categories a').on('click', function(e) {
+    var category = $(this).attr('id');
+    if (category === 'all') {
+      $scope.markers = $scope.markersAll;
+    } else {
+      $scope.markers = $scope.markersAll;
+      $scope.markers = $filter('filter')($scope.markers, {
+        category: category
+      });
+    }
+  });
+
+  var getEvents = function() {
+    var bofsUrl = '/api/events/';
+    Bof.GetBofs(bofsUrl).then(function(events) {
+      //$log.info(result)
+      for (var i = 0; i < events.length; i++) {
+        var newMarker = {
+          lat: parseFloat(events[i].lat),
+          lng: parseFloat(events[i].lng),
+          category: events[i].category,
+          event: events[i].category + '<br> ' + events[i].event,
+          layer: 'events',
+          icon: events[i].icon
+        };
+        $scope.markersAll.push(newMarker);
+        $scope.markers.push(newMarker);
+      }
+    });
+  };
+  $scope.$watch("markers", function() {
+    $scope.$watch('markerFilter', function(text) {
+      $scope.markersFiltered = $filter('filter')($scope.markers, {
+        event: text
+      });
+    });
+  }, true);
+
+  $scope.$on("leafletDirectiveMarker.dragend", function(event, args) {
+    //removed Firebase save - leave this as placeholder
+  });
+
+  // clean up modal's form elems when modal closes
+  $('#bofModal').on('hide.bs.modal', function () {
+    $('.form-group').removeClass('has-error');
+    $('#eventText, #startTime, #endTime').val('');
+  });
+
+
+
+  getEvents();
+
 }]);
