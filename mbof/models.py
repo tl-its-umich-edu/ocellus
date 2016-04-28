@@ -42,9 +42,9 @@ class User(models.Model):
     @property
     def reputation(self):
         rep = 0
-        messages = Message.objects.filter(owner=self)
-        for m in messages:
-            votes = Vote.objects.filter(message=m)
+        events = Event.objects.filter(owner=self)
+        for e in events:
+            votes = Vote.objects.filter(event=e)
             for vote in votes:
                 if vote.vote == '+1':
                     rep = rep + 1
@@ -57,11 +57,12 @@ class User(models.Model):
 
 
 @python_2_unicode_compatible
-class Message(models.Model):
+class Event(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     altitudeMeters = models.FloatField()
-    messageText = models.CharField(max_length=400)
+    eventText = models.CharField(max_length=400)
+    category = models.CharField(max_length=40, null=True)
     postingTime = models.DateTimeField(editable=False, blank=True)
     startTime = models.DateTimeField(blank=True, null=True)
     endTime = models.DateTimeField(blank=True, null=True)
@@ -75,13 +76,13 @@ class Message(models.Model):
                 lambda sum, vote: sum + (
                     1 if vote.vote == Vote.VOTE_PLUS else (
                         -1 if vote.vote == Vote.VOTE_MINUS else 0)),
-                Vote.objects.filter(message=self),
+                Vote.objects.filter(event=self),
                 0
         )
         return voteTotal
 
     def __str__(self):
-        return str(self.messageText) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+        return str(self.eventText) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -93,7 +94,7 @@ class Message(models.Model):
         if (self.endTime is None):
             self.endTime = self.startTime + datetime.timedelta(days=5)
 
-        return super(Message, self).save(force_insert, force_update, using, update_fields)
+        return super(Event, self).save(force_insert, force_update, using, update_fields)
 
 
 @python_2_unicode_compatible
@@ -101,7 +102,7 @@ class Vote(models.Model):
     VOTE_PLUS = '+1'
     VOTE_MINUS = '-1'
     VOTE_NONE = '0'
-    message = models.ForeignKey(Message)
+    event = models.ForeignKey(Event)
     voter = models.ForeignKey(User, default=currentUserObject, editable=False)
     vote = models.CharField(max_length=2, choices=(
         (VOTE_PLUS, VOTE_PLUS),
@@ -110,8 +111,8 @@ class Vote(models.Model):
     ))
 
     class Meta:
-        unique_together = ('message', 'voter',)
+        unique_together = ('event', 'voter',)
 
     def __str__(self):
         return str(self.voter) + ' voted ' + str(self.vote) + ' on ' + str(
-                self.message) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+                self.event) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'

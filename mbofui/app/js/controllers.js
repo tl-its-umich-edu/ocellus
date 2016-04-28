@@ -72,13 +72,13 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
 
   $('#postBof').on('click', function() {
     var coords = $('#bofModal').attr('data-coords').split(',');
-    var url = '/api/messages/';
+    var url = '/api/events/';
     //set starttime/endtime to the value of the field in the format specified in the settings in app.js
     var startTime = moment($('#startTime').val()).format($rootScope.time_format);
     var endTime = moment($('#endTime').val()).format($rootScope.time_format);
     var postingTime = moment().format($rootScope.time_format);
     var data = {
-      "messageText": $scope.newMessageText,
+      "eventText": $scope.newEventText,
       "startTime": startTime,
       "endTime": endTime,
       "latitude": coords[0],
@@ -96,7 +96,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
           lat: result.data.latitude,
           lng: result.data.longitude,
           category: 'cat1',
-          message: result.data.messageText,
+          event: result.data.eventText,
           layer: 'events',
           icon: {
             type: 'awesomeMarker',
@@ -104,7 +104,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
             markerColor: 'blue'
           }
         };
-        //add the message marker to both filtered and unfiltered collections
+        //add the event marker to both filtered and unfiltered collections
         $scope.markersAll.push(newMarker);
         $scope.markers.push(newMarker);
         $scope.totalBofs = $scope.totalBofs + 1;
@@ -112,7 +112,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
         leafletData.getMap().then(function(map) {
           map.closePopup();
         });
-        $('#messageText, #newStartTime, #newEndTime').val('');
+        $('#eventText, #newStartTime, #newEndTime').val('');
         $('#bofModal').modal('hide');
       });
     } else {
@@ -138,7 +138,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
   });
 
   var getEvents = function() {
-    var bofsUrl = '/api/messages/';
+    var bofsUrl = '/api/events/';
     Bof.GetBofs(bofsUrl).then(function(events) {
       //$log.info(result)
       for (var i = 0; i < events.length; i++) {
@@ -146,7 +146,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
           lat: parseFloat(events[i].lat),
           lng: parseFloat(events[i].lng),
           category: events[i].category,
-          message: events[i].category + '<br> ' + events[i].message,
+          event: events[i].category + '<br> ' + events[i].event,
           layer: 'events',
           icon: events[i].icon
         };
@@ -158,7 +158,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
   $scope.$watch("markers", function() {
     $scope.$watch('markerFilter', function(text) {
       $scope.markersFiltered = $filter('filter')($scope.markers, {
-        message: text
+        event: text
       });
     });
   }, true);
@@ -170,7 +170,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
   // clean up modal's form elems when modal closes
   $('#bofModal').on('hide.bs.modal', function () {
     $('.form-group').removeClass('has-error');
-    $('#messageText, #startTime, #endTime').val('');
+    $('#eventText, #startTime, #endTime').val('');
   });
 
 
