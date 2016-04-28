@@ -77,7 +77,8 @@
         "endTime": "2016-02-23T20:51:44Z",
         "owner": "fordp",
         "participantCount": 0,
-        "hashtag": null
+        "hashtag": null,
+        "category": null
     }
 },
 {
@@ -93,7 +94,8 @@
         "endTime": "2016-02-22T21:00:36Z",
         "owner": "bjensen",
         "participantCount": 0,
-        "hashtag": null
+        "hashtag": null,
+        "category": null
     }
 },
 {
@@ -109,7 +111,8 @@
         "endTime": "2016-02-22T23:39:33Z",
         "owner": "bjensen",
         "participantCount": 0,
-        "hashtag": null
+        "hashtag": null,
+        "category": null
     }
 },
 {
@@ -125,7 +128,8 @@
         "endTime": "2016-03-11T15:20:23Z",
         "owner": "dpgumby",
         "participantCount": 0,
-        "hashtag": "#botany"
+        "hashtag": "#botany",
+        "category": null
     }
 },
 {
@@ -141,7 +145,8 @@
         "endTime": "2017-01-01T04:59:00Z",
         "owner": "bjensen",
         "participantCount": 0,
-        "hashtag": null
+        "hashtag": null,
+        "category": null
     }
 },
 {
@@ -157,7 +162,8 @@
         "endTime": "2016-03-09T15:24:58Z",
         "owner": "bjensen",
         "participantCount": 0,
-        "hashtag": null
+        "hashtag": null,
+        "category": null
     }
 },
 {
@@ -173,7 +179,8 @@
         "endTime": "2016-03-09T15:40:34.501Z",
         "owner": "bjensen",
         "participantCount": 0,
-        "hashtag": null
+        "hashtag": null,
+        "category": null
     }
 },
 {
@@ -189,7 +196,8 @@
         "endTime": "2016-03-09T15:24:58Z",
         "owner": "bjensen",
         "participantCount": 0,
-        "hashtag": null
+        "hashtag": null,
+        "category": null
     }
 },
 {
@@ -205,7 +213,8 @@
         "endTime": null,
         "owner": "fordp",
         "participantCount": 1,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -221,7 +230,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 2,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -237,7 +247,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 3,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -253,7 +264,8 @@
         "endTime": null,
         "owner": "dpgumby",
         "participantCount": 4,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -269,7 +281,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 5,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -285,7 +298,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 6,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -301,7 +315,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 7,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -317,7 +332,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 8,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -333,7 +349,8 @@
         "endTime": null,
         "owner": "fordp",
         "participantCount": 9,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -349,7 +366,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 10,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -365,7 +383,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 11,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -381,7 +400,8 @@
         "endTime": null,
         "owner": "dpgumby",
         "participantCount": 12,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -397,7 +417,8 @@
         "endTime": null,
         "owner": "fordp",
         "participantCount": 13,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -413,7 +434,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 14,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -429,7 +451,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 15,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -445,7 +468,8 @@
         "endTime": null,
         "owner": "dpgumby",
         "participantCount": 16,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -461,7 +485,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 17,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -477,7 +502,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 18,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -493,7 +519,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 19,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -509,7 +536,8 @@
         "endTime": null,
         "owner": "bjensen",
         "participantCount": 20,
-        "hashtag": "#sampleData"
+        "hashtag": "#sampleData",
+        "category": null
     }
 },
 {
@@ -525,7 +553,8 @@
         "endTime": "2016-03-11T14:10:48Z",
         "owner": "fordp",
         "participantCount": 0,
-        "hashtag": null
+        "hashtag": null,
+        "category": null
     }
 },
 {
