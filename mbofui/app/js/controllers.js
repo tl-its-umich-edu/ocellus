@@ -88,7 +88,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     };
     // use function in utils.js to see if the data validates
     var validationFailures = validate(data);
-    //if there were no validation failures, post it 
+    //if there were no validation failures, post it
     // and construct a new marker to add to map
     if(!validationFailures.length) {
       Bof.PostBof(url, data).then(function(result) {
@@ -116,7 +116,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
         $('#bofModal').modal('hide');
       });
     } else {
-      // there were validation failures, add an 'has-error' class to 
+      // there were validation failures, add an 'has-error' class to
       // the offending element's parent
       _.each(validationFailures, function(failure){
         $('.' + failure).addClass('has-error');
@@ -140,13 +140,12 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
   var getEvents = function() {
     var bofsUrl = '/api/events/';
     Bof.GetBofs(bofsUrl).then(function(events) {
-      //$log.info(result)
       for (var i = 0; i < events.length; i++) {
         var newMarker = {
           lat: parseFloat(events[i].lat),
           lng: parseFloat(events[i].lng),
           category: events[i].category,
-          event: events[i].category + '<br> ' + events[i].event,
+          message: events[i].category + '<br> ' + events[i].message,
           layer: 'events',
           icon: events[i].icon
         };
