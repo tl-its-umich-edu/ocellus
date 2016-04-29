@@ -32,7 +32,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
 class CurrentEventViewSet(EventViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint that allows users to view current events in db.
     """
     def get_queryset(self):
         current_time = timezone.now()
@@ -41,7 +41,7 @@ class CurrentEventViewSet(EventViewSet):
 
 class UpcomingEventViewSet(EventViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint that allows users to view upcoming events in db.
     """
     def get_queryset(self):
         current_time = timezone.now()
