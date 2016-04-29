@@ -40,14 +40,13 @@ class CurrentEventViewSet(EventViewSet):
         return Event.objects.filter(startTime__lte=current_time, endTime__gte=current_time).order_by('postingTime')
 
 
-class UpcomingEventViewSet(EventViewSet):
+class CurrentEventViewSet(EventViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
     def get_queryset(self):
         current_time = timezone.now()
-        one_week_out = timezone.now() + datetime.timedelta(days=7)
-        return Event.objects.filter(startTime__range=[current_time, one_week_out]).order_by('postingTime')
+        return Event.objects.filter(startTime__lte=current_time, endTime__gte=current_time).order_by('postingTime')
 
 
 class UpcomingEventViewSet(EventViewSet):
