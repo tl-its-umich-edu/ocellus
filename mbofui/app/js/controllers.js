@@ -138,7 +138,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
   });
 
   var getEvents = function() {
-    var bofsUrl = '/api/events/';
+    var bofsUrl = '/api/current_events/';
     Bof.GetBofs(bofsUrl).then(function(events) {
       //$log.info(result)
       for (var i = 0; i < events.length; i++) {
