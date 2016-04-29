@@ -25,6 +25,7 @@ from mbof import views
 router = routers.DefaultRouter()
 router.register(r'me', views.CurrentUserViewSet, base_name='me')
 router.register(r'events', views.EventViewSet)
+router.register(r'upcoming_events', views.UpcomingEventViewSet, base_name="upcoming_events")
 router.register(r'users', views.UserViewSet)
 router.register(r'votes', views.VoteViewSet)
 
