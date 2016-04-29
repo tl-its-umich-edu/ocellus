@@ -1,7 +1,23 @@
 'use strict';
-/* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment, validate, _ */
+/* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment, validate, _, popupLink */
 
 ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
+  // setting up init values
+  // setting the category filter to none
+  $scope.categories = null;
+  // setting the markers to an empty array
+  // markers array represents the filtered events
+  // markersAll represents the prefiltered events
+  $scope.markers = [];
+  $scope.markersAll = [];
+
+  // map configuration object by object:
+  // center: zoom level and autoDiscover(set to user location)
+  // TODO: need to deal with users/devices that refuse to share location
+  // events: initial event object
+  // controls: added (but not enabled: draw)
+  // layers: get baselayers (tiling options) from app.js, set overlays and draw options
+  // awesomeMarkerIcon: set a default. We will be setting different color/icons based on type of event later on
   angular.extend($scope, {
     center: {
       zoom: 16,
@@ -35,11 +51,8 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     }
   });
 
-  $scope.categories = null;
-  $scope.markers = [];
-  $scope.markersAll = [];
-
-
+  // displays a popup invitation on current location regardless of where the map viewport is at
+  // viewport will shift to center on user current location and open a popup invitation
   $scope.createEventCurrentlocation = function() {
     leafletData.getMap().then(function(map) {
       map.locate({
@@ -59,6 +72,8 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     });
   };
 
+  // handles tap and hold on mobile and control-click on other devices
+  // opens a popup invitation and passess the modal the lat and long
   $scope.$on("leafletDirectiveMap.contextmenu", function(event, args) {
     leafletData.getMap().then(function(map) {
       var leafEvent = args.leafletEvent;
@@ -70,7 +85,9 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     });
   });
 
+  // handles click on "Add Event" button on modal
   $('#postBof').on('click', function() {
+    // handles click on "Add Event" button on modal
     var coords = $('#bofModal').attr('data-coords').split(',');
     var url = '/api/events/';
     //set starttime/endtime to the value of the field in the format specified in the settings in app.js
@@ -105,6 +122,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
           }
         };
         //add the event marker to both filtered and unfiltered collections
+        // TODO: puzzle this out - maybe just add to unfiltered
         $scope.markersAll.push(newMarker);
         $scope.markers.push(newMarker);
         $scope.totalBofs = $scope.totalBofs + 1;
@@ -112,6 +130,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
         leafletData.getMap().then(function(map) {
           map.closePopup();
         });
+        // clear the form controls in the modal
         $('#eventText, #newStartTime, #newEndTime').val('');
         $('#bofModal').modal('hide');
       });
@@ -124,22 +143,32 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     }
   });
 
-
+  // handles category filtering
   $('#categories a').on('click', function(e) {
+    // use the id of the link
+    // TODO: this needs to change - will need to have categories that will not validate as ids (spaces, etc.)
     var category = $(this).attr('id');
     if (category === 'all') {
+      // set marker to unfiltered list
       $scope.markers = $scope.markersAll;
     } else {
+      // reset to unfiltered list (voids previous filters)
       $scope.markers = $scope.markersAll;
+      // use a filter to only show the selected category
       $scope.markers = $filter('filter')($scope.markers, {
         category: category
       });
     }
   });
 
+  // get events
+  // TODO: needs to change to get only current
   var getEvents = function() {
     var bofsUrl = '/api/current_events/';
+    // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(events) {
+      // whish there was a better way to display a collection
+      // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < events.length; i++) {
         var newMarker = {
           lat: parseFloat(events[i].lat),
@@ -154,16 +183,23 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       }
     });
   };
+
+  // watch on changes to marker (event) collection and text input so that only events with
+  // the searched for text appear
   $scope.$watch("markers", function() {
     $scope.$watch('markerFilter', function(text) {
       $scope.markersFiltered = $filter('filter')($scope.markers, {
-        event: text
+        message: text
       });
     });
   }, true);
 
+  // placeholder for now - one of the requirements
+  // involves changing the location of the marker
+  // this listens for the end of a marker drag and we can use it to set
+  // the events new location
   $scope.$on("leafletDirectiveMarker.dragend", function(event, args) {
-    //removed Firebase save - leave this as placeholder
+    // update event with new coords
   });
 
   // clean up modal's form elems when modal closes
