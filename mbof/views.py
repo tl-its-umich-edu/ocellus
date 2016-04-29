@@ -1,5 +1,6 @@
 import os
 
+import datetime
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
@@ -33,9 +34,9 @@ class CurrentEventViewSet(EventViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    current_time = timezone.now()
-    queryset = Event.objects.filter(startTime__lte=current_time).filter(endTime__gte=current_time)\
-        .order_by('postingTime')
+    def get_queryset(self):
+        current_time = timezone.now()
+        return Event.objects.filter(startTime__lte=current_time, endTime__gte=current_time).order_by('postingTime')
 
 
 class VoteViewSet(viewsets.ModelViewSet):
