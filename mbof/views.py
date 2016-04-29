@@ -27,18 +27,7 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     queryset = Event.objects.all().order_by('postingTime')
     serializer_class = EventSerializer
-
-
-# class CurrentEventViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows users to be viewed or edited.
-#     """
-#     serializer_class = EventSerializer
-#
-#     def get_queryset(self):
-#         current_time = timezone.now()
-#         return Event.objects.filter(startTime__lte=current_time).filter(endTime__gte=current_time)\
-#             .order_by('postingTime')
+    
 
 class CurrentEventViewSet(EventViewSet):
     """
