@@ -30,7 +30,7 @@ var leafletize = function(data){
       lat: event.latitude,
       lng: event.longitude,
       category: event.category || 'cat1',
-      message:event.messageText,
+      message:event.eventText,
       layer: 'bofs',
       icon: resolveIcon( 'cat1' ),
       endTime: event.endTime,
