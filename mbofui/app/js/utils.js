@@ -45,22 +45,6 @@ var leafletize = function(data){
 });
     return leafletList;
 };
-//
-// // placeholder
-// var resolveCategory = function ( category ) {
-//   if ( category ) {
-//     return '<strong>' + category + '</strong>';
-//   } else {
-//     return '';
-//   }
-// };
-
-// given an event category, style the marker
-// TODO: what to do in the case of multiple categories
-// if this happens
-// var resolveIcon = function ( category ) {
-//
-// };
 
 // new event validation - either the dates are blank or wrong or the description is blank
 var validate = function(data) {
