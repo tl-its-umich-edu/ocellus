@@ -141,12 +141,8 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     }
   });
 
-  // handles category filtering
-  $('#categories a').on('click', function(e) {
-    // use the id of the link
-    // TODO: this needs to change - will need to have categories that will not validate as ids (spaces, etc.)
-    var category = $(this).attr('id');
-    if (category === 'all') {
+  $scope.filter_category = function(key){
+    if (key === 'all') {
       // set marker to unfiltered list
       $scope.markers = $scope.markersAll;
     } else {
@@ -154,10 +150,12 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       $scope.markers = $scope.markersAll;
       // use a filter to only show the selected category
       $scope.markers = $filter('filter')($scope.markers, {
-        category: category
+        category: key
       });
     }
-  });
+
+
+  };
 
   // get events
   // TODO: needs to change to get only current
