@@ -26,6 +26,7 @@ router = routers.DefaultRouter()
 router.register(r'me', views.CurrentUserViewSet, base_name='me')
 router.register(r'events', views.EventViewSet)
 router.register(r'current_events', views.CurrentEventViewSet, base_name="current_events")
+router.register(r'upcoming_events', views.UpcomingEventViewSet, base_name="upcoming_events")
 router.register(r'users', views.UserViewSet)
 router.register(r'votes', views.VoteViewSet)
 
