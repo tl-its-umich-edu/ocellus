@@ -164,7 +164,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
   // get events
   // TODO: needs to change to get only current
   var getEvents = function() {
-    var bofsUrl = '/api/events/';
+    var bofsUrl = '/api/current_events/';
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(events) {
       // whish there was a better way to display a collection
