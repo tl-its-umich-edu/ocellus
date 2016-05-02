@@ -163,8 +163,10 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
 
   // get events
   // TODO: needs to change to get only current
-  var getEvents = function() {
-    var bofsUrl = '/api/current_events/';
+  var getEvents = function(url) {
+    $scope.markersAll = [];
+    $scope.markers = [];
+    var bofsUrl = url;
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(events) {
       // whish there was a better way to display a collection
@@ -174,7 +176,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
           lat: parseFloat(events[i].lat),
           lng: parseFloat(events[i].lng),
           category: events[i].category,
-          message: events[i].category + '<br> ' + events[i].message,
+          message:events[i].category + '<br> ' + events[i].message,
           layer: 'events',
           icon: events[i].icon
         };
@@ -210,6 +212,17 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
 
 
 
-  getEvents();
+  getEvents('/api/current_events/');
+
+  $(function() {
+    $('#eventSwitch').change(function() {
+      if ($(this).prop('checked')) {
+        getEvents('/api/current_events/');
+      } else {
+        getEvents('/api/upcoming_events/');
+      }
+    });
+  });
+
 
 }]);
