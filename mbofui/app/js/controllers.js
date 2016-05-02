@@ -1,7 +1,7 @@
 'use strict';
 /* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment, validate, _, popupLink */
 
-ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', 'resolveCategory', 'resolveIcon', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof, resolveCategory, resolveIcon) {
+ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   // setting up init values
   // setting the category filter to none
   $scope.categories = null;
@@ -110,14 +110,14 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     // and construct a new marker to add to map
     if(!validationFailures.length) {
       Bof.PostBof(url, data).then(function(result) {
-        var category = resolveCategory(result.data.category);
+        var category = Bof.resolveCategory(result.data.category);
         var newMarker = {
           lat: result.data.latitude,
           lng: result.data.longitude,
           category: category.key,
           message: '<strong>' + category.label + '</strong><br>' + result.data.eventText,
           layer: 'events',
-          icon: resolveIcon(result.data.category)
+          icon: Bof.resolveIcon(result.data.category)
         };
         //add the event marker to both filtered and unfiltered collections
         // TODO: puzzle this out - maybe just add to unfiltered
@@ -166,14 +166,14 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       // whish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < events.length; i++) {
-        var category = resolveCategory(events[i].category);
+        var category = Bof.resolveCategory(events[i].category);
         var newMarker = {
           lat: parseFloat(events[i].lat),
           lng: parseFloat(events[i].lng),
           category: category.key,
           message:'<strong>' + category.label + '</strong>' + '<br> ' + events[i].message,
           layer: 'events',
-          icon: resolveIcon(events[i].category)
+          icon: Bof.resolveIcon(events[i].category)
         };
         $scope.markersAll.push(newMarker);
         $scope.markers.push(newMarker);

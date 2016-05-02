@@ -1,6 +1,6 @@
 'use strict';
-/* global ocellus, leafletize */
-ocellus.factory('Bof', function($http, $log, $q) {
+/* global ocellus, leafletize, _ */
+ocellus.factory('Bof', function($http, $log, $q,  $rootScope) {
   return {
     // post an event
     PostBof: function(url, data) {
@@ -42,21 +42,12 @@ ocellus.factory('Bof', function($http, $log, $q) {
       };
       getNext(url);
       return deferred.promise;
-    }
-  };
-});
-
-ocellus.factory('resolveCategory', ['$rootScope', function($rootScope) {
-   var category = {};
-   return function(key) {
-     var category = _.findWhere($rootScope.event_categories, {'key':key});
-     return category;
-   };
- }]);
-
- ocellus.factory('resolveIcon', ['$rootScope', function($rootScope) {
-    var icon = {};
-    return function(key) {
+    },
+    resolveCategory: function(key){
+      var category = _.findWhere($rootScope.event_categories, {'key':key});
+      return category;
+    },
+    resolveIcon: function(key){
       return ( {
         'study_discussion': {
           type: 'awesomeMarker',
@@ -108,5 +99,6 @@ ocellus.factory('resolveCategory', ['$rootScope', function($rootScope) {
         icon: 'record',
         markerColor: 'blue'
       } );
-    };
-  }]);
+    }
+  };
+});
