@@ -1,6 +1,6 @@
 'use strict';
 /* global ocellus, leafletize, _*/
-ocellus.factory('Bof', function($http, $log) {
+ocellus.factory('Bof', function($http, $log, $rootScope) {
   return {
     // post an event
     PostBof : function(url, data) {
@@ -26,21 +26,12 @@ ocellus.factory('Bof', function($http, $log) {
           function error(result) {
             // do some error things
           });
-    }
-  };
-});
-
-ocellus.factory('resolveCategory', ['$rootScope', function($rootScope) {
-   var category = {};
-   return function(key) {
-     var category = _.findWhere($rootScope.event_categories, {'key':key});
-     return category;
-   };
- }]);
-
- ocellus.factory('resolveIcon', ['$rootScope', function($rootScope) {
-    var icon = {};
-    return function(key) {
+    },
+    resolveCategory: function(key){
+      var category = _.findWhere($rootScope.event_categories, {'key':key});
+      return category;
+    },
+    resolveIcon: function(key){
       return ( {
         'study_discussion': {
           type: 'awesomeMarker',
@@ -92,5 +83,6 @@ ocellus.factory('resolveCategory', ['$rootScope', function($rootScope) {
         icon: 'record',
         markerColor: 'blue'
       } );
-    };
-  }]);
+    }
+  };
+});
