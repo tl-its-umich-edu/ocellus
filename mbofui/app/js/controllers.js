@@ -1,7 +1,7 @@
 'use strict';
 /* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment, validate, _, popupLink */
 
-ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
+ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', 'resolveCategory', 'resolveIcon', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof, resolveCategory, resolveIcon) {
   // setting up init values
   // setting the category filter to none
   $scope.categories = null;
@@ -95,13 +95,14 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     var endTime = moment($('#endTime').val()).format($rootScope.time_format);
     var postingTime = moment().format($rootScope.time_format);
     var data = {
-      "eventText": $scope.newEventText,
-      "startTime": startTime,
-      "endTime": endTime,
-      "latitude": coords[0],
-      "longitude": coords[1],
-      "altitudeMeters": 266.75274658203125, //this is being removed but the database still expects it
-      "postingTime": postingTime
+      'eventText': $scope.newEventText,
+      'startTime': startTime,
+      'endTime': endTime,
+      'latitude': coords[0],
+      'category':$scope.selected_category.key,
+      'longitude': coords[1],
+      'altitudeMeters': 266.75274658203125, //this is being removed but the database still expects it
+      'postingTime': postingTime
     };
     // use function in utils.js to see if the data validates
     var validationFailures = validate(data);
@@ -109,17 +110,14 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     // and construct a new marker to add to map
     if(!validationFailures.length) {
       Bof.PostBof(url, data).then(function(result) {
+        var category = resolveCategory(result.data.category);
         var newMarker = {
           lat: result.data.latitude,
           lng: result.data.longitude,
-          category: 'cat1',
-          event: result.data.eventText,
+          category: category.key,
+          message: '<strong>' + category.label + '</strong><br>' + result.data.eventText,
           layer: 'events',
-          icon: {
-            type: 'awesomeMarker',
-            icon: 'record',
-            markerColor: 'blue'
-          }
+          icon: resolveIcon(result.data.category)
         };
         //add the event marker to both filtered and unfiltered collections
         // TODO: puzzle this out - maybe just add to unfiltered
@@ -170,13 +168,14 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       // whish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < events.length; i++) {
+        var category = resolveCategory(events[i].category);
         var newMarker = {
           lat: parseFloat(events[i].lat),
           lng: parseFloat(events[i].lng),
-          category: events[i].category,
-          message: events[i].category + '<br> ' + events[i].message,
+          category: category.key,
+          message:'<strong>' + category.label + '</strong>' + '<br> ' + events[i].message,
           layer: 'events',
-          icon: events[i].icon
+          icon: resolveIcon(events[i].category)
         };
         $scope.markersAll.push(newMarker);
         $scope.markers.push(newMarker);
@@ -204,11 +203,10 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
 
   // clean up modal's form elems when modal closes
   $('#bofModal').on('hide.bs.modal', function () {
+    $scope.selected_category ='';
     $('.form-group').removeClass('has-error');
     $('#eventText, #startTime, #endTime').val('');
   });
-
-
 
   getEvents();
 

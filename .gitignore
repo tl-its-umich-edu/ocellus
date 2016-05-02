@@ -66,3 +66,4 @@ target/
 /.vagrant
 *.sqlite3
 bower_components
+.DS_Store
