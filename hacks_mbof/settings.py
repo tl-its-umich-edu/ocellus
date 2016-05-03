@@ -47,6 +47,8 @@ REST_FRAMEWORK = {
     # FIXME: This is OK for dev., but make it safe for prod.
     # Uncomment DEFAULT_PERMISSION_CLASSES to require username/password set by "manage.py createsuperuser"
     # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 MIDDLEWARE_CLASSES = [
