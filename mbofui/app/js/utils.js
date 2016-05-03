@@ -28,7 +28,7 @@ var vote = function(e) {
 // util to turn result of requesting event collection into leaflet attr naming scheme
 var leafletize = function(data){
   var leafletList = [];
-  _.each(data.data, function(event){
+  _.each(data, function(event){
     leafletList.push({
       lat: event.latitude,
       lng: event.longitude,
