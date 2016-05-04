@@ -1,7 +1,6 @@
 'use strict';
 /* global ocellus, leafletize, _*/
 ocellus.factory('Bof', function($http, $log, $q, $rootScope) {
->>>>>>> bfe4fb94e05ed06c523af76e4685aec0e72bf9fa
   return {
     // post an event
     PostBof: function(url, data) {
