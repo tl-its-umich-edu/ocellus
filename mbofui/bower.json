@@ -19,7 +19,8 @@
     "bower-package": "*",
     "underscore": "^1.8.3",
     "leaflet-plugins": "^1.6.0",
-    "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git"
+    "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git",
+    "bootstrap-toggle": "^2.2.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.7"

@@ -32,6 +32,9 @@
   <script src="../bower_components/leaflet-plugins/layer/tile/Google.js"></script>
 
 
+  <link href="bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/factories.js"></script>
@@ -75,6 +78,7 @@
         <form class="navbar-form navbar-left" role="search">
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Search" value="" ng-model="markerFilter">
+            <input id="eventSwitch" type="checkbox" checked data-toggle="toggle" data-on="Current" data-off="Upcoming" data-onstyle="primary" data-offstyle="primary">
           </div>
         </form>
         <ul class="nav navbar-nav navbar-right">
