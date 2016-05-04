@@ -3,8 +3,6 @@
 
 ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   // setting up init values
-  // setting the category filter to none
-  $scope.categories = null;
   // setting the markers to an empty array
   // markers array represents the filtered events
   // markersAll represents the prefiltered events
@@ -101,7 +99,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       'latitude': coords[0],
       'category':$scope.selected_category.key,
       'longitude': coords[1],
-      'altitudeMeters': 266.75274658203125, //this is being removed but the database still expects it
+      'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
       'postingTime': postingTime
     };
     // use function in utils.js to see if the data validates
@@ -146,10 +144,8 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       // set marker to unfiltered list
       $scope.markers = $scope.markersAll;
     } else {
-      // reset to unfiltered list (voids previous filters)
-      $scope.markers = $scope.markersAll;
       // use a filter to only show the selected category
-      $scope.markers = $filter('filter')($scope.markers, {
+      $scope.markers = $filter('filter')($scope.markersAll, {
         category: key
       });
     }
