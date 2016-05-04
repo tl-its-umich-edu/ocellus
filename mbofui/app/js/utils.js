@@ -32,10 +32,10 @@ var leafletize = function(data){
     leafletList.push({
       lat: event.latitude,
       lng: event.longitude,
-      category: event.category || 'cat1',
+      category: event.category,
       message:event.eventText,
       layer: 'bofs',
-      icon: resolveIcon( 'cat1' ),
+      icon: {},
       endTime: event.endTime,
       startTime: event.startTime,
       hashTag: event.hashtag,
@@ -44,42 +44,6 @@ var leafletize = function(data){
     });
 });
     return leafletList;
-};
-
-// placeholder
-var resolveCategory = function ( category ) {
-  if ( category ) {
-    return '<strong>' + category + '</strong>';
-  } else {
-    return '';
-  }
-};
-
-// given an event category, style the marker
-// TODO: what to do in the case of multiple categories
-// if this happens
-var resolveIcon = function ( category ) {
-  return ( {
-    'cat1': {
-      type: 'awesomeMarker',
-      icon: 'cutlery',
-      markerColor: 'green'
-    },
-    'cat2': {
-      type: 'awesomeMarker',
-      icon: 'heart',
-      markerColor: 'red'
-    },
-    'cat3': {
-      type: 'awesomeMarker',
-      icon: 'music',
-      markerColor: 'orange'
-    }
-  }[ String( category ).toLowerCase() ] || {
-    type: 'awesomeMarker',
-    icon: 'record',
-    markerColor: 'blue'
-  } );
 };
 
 // new event validation - either the dates are blank or wrong or the description is blank

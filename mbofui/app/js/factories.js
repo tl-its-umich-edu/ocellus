@@ -1,6 +1,6 @@
 'use strict';
-/* global ocellus, leafletize */
-ocellus.factory('Bof', function($http, $log, $q) {
+/* global ocellus, leafletize, _*/
+ocellus.factory('Bof', function($http, $log, $q, $rootScope) {
   return {
     // post an event
     PostBof: function(url, data) {
@@ -42,6 +42,63 @@ ocellus.factory('Bof', function($http, $log, $q) {
       };
       getNext(url);
       return deferred.promise;
+    },
+    resolveCategory: function(key){
+      var category = _.findWhere($rootScope.event_categories, {'key':key});
+      return category;
+    },
+    resolveIcon: function(key){
+      return ( {
+        'study_discussion': {
+          type: 'awesomeMarker',
+          icon: 'pencil',
+          markerColor: 'green'
+        },
+        'course_class': {
+          type: 'awesomeMarker',
+          icon: 'heart',
+          markerColor: 'red'
+        },
+        'practice_rehearsal': {
+          type: 'awesomeMarker',
+          icon: 'music',
+          markerColor: 'orange'
+        },
+        'social_gathering': {
+          type: 'awesomeMarker',
+          icon: 'ice-lolly-tasted',
+          markerColor: 'yellow'
+        },
+        'business_networking': {
+          type: 'awesomeMarker',
+          icon: 'euro',
+          markerColor: 'darkred'
+        },
+        'public_ceremony': {
+          type: 'awesomeMarker',
+          icon: 'king',
+          markerColor: 'darkgreen'
+        },
+        'family': {
+          type: 'awesomeMarker',
+          icon: 'gift',
+          markerColor: 'purple'
+        },
+        'sports': {
+          type: 'awesomeMarker',
+          icon: 'flash',
+          markerColor: 'darkpurple'
+        },
+        'political_rally': {
+          type: 'awesomeMarker',
+          icon: 'bullhorn',
+          markerColor: 'cadetblue'
+        }
+      }[ String( key ).toLowerCase() ] || {
+        type: 'awesomeMarker',
+        icon: 'record',
+        markerColor: 'blue'
+      } );
     }
   };
 });

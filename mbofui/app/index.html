@@ -64,11 +64,9 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{strings.app_categories}} <span class="caret"></span></a>
             <ul class="dropdown-menu" id="categories">
-              <li><a href="#" id="cat1">Cat 1</a></li>
-              <li><a href="#" id="cat2">Cat 2</a></li>
-              <li><a href="#" id="cat3">Cat 3</a></li>
+              <li ng-repeat="category in event_categories"><a href="#" ng-click="filter_category(category.key)">{{category.label}}</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#" id="all">All {{strings.app_categories}}</a></li>
+              <li><a href="#" ng-click="filter_category('all')">All {{strings.app_categories}}</a></li>
 
             </ul>
           </li>
@@ -112,11 +110,10 @@
           </div>
           <div class="form-group">
             <label for="category">{{strings.app_categories}}</label>
-            <select class="form-control" id="category" ng-model="categories">
-              <option value="cat1">Cat 1</option>
-              <option value="cat2">Cat 2</option>
-              <option value="cat3">Cat 3</option>
+            <select ng-model="selected_category" ng-options="item as item.label for item in event_categories" class="form-control">
+                <option value="">---Please select---</option>
             </select>
+
           </div>
 
           <div class="form-group startTime">

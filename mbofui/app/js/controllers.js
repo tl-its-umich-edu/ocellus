@@ -3,8 +3,6 @@
 
 ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   // setting up init values
-  // setting the category filter to none
-  $scope.categories = null;
   // setting the markers to an empty array
   // markers array represents the filtered events
   // markersAll represents the prefiltered events
@@ -95,13 +93,14 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     var endTime = moment($('#endTime').val()).format($rootScope.time_format);
     var postingTime = moment().format($rootScope.time_format);
     var data = {
-      "eventText": $scope.newEventText,
-      "startTime": startTime,
-      "endTime": endTime,
-      "latitude": coords[0],
-      "longitude": coords[1],
-      "altitudeMeters": 266.75274658203125, //this is being removed but the database still expects it
-      "postingTime": postingTime
+      'eventText': $scope.newEventText,
+      'startTime': startTime,
+      'endTime': endTime,
+      'latitude': coords[0],
+      'category':$scope.selected_category.key,
+      'longitude': coords[1],
+      'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
+      'postingTime': postingTime
     };
     // use function in utils.js to see if the data validates
     var validationFailures = validate(data);
@@ -109,17 +108,14 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     // and construct a new marker to add to map
     if(!validationFailures.length) {
       Bof.PostBof(url, data).then(function(result) {
+        var category = Bof.resolveCategory(result.data.category);
         var newMarker = {
           lat: result.data.latitude,
           lng: result.data.longitude,
-          category: 'cat1',
-          event: result.data.eventText,
+          category: category.key,
+          message: '<strong>' + category.label + '</strong><br>' + result.data.eventText,
           layer: 'events',
-          icon: {
-            type: 'awesomeMarker',
-            icon: 'record',
-            markerColor: 'blue'
-          }
+          icon: Bof.resolveIcon(result.data.category)
         };
         //add the event marker to both filtered and unfiltered collections
         // TODO: puzzle this out - maybe just add to unfiltered
@@ -143,23 +139,19 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     }
   });
 
-  // handles category filtering
-  $('#categories a').on('click', function(e) {
-    // use the id of the link
-    // TODO: this needs to change - will need to have categories that will not validate as ids (spaces, etc.)
-    var category = $(this).attr('id');
-    if (category === 'all') {
+  $scope.filter_category = function(key){
+    if (key === 'all') {
       // set marker to unfiltered list
       $scope.markers = $scope.markersAll;
     } else {
-      // reset to unfiltered list (voids previous filters)
-      $scope.markers = $scope.markersAll;
       // use a filter to only show the selected category
-      $scope.markers = $filter('filter')($scope.markers, {
-        category: category
+      $scope.markers = $filter('filter')($scope.markersAll, {
+        category: key
       });
     }
-  });
+
+
+  };
 
   // get events
   // TODO: needs to change to get only current
@@ -170,13 +162,14 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       // whish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < events.length; i++) {
+        var category = Bof.resolveCategory(events[i].category);
         var newMarker = {
           lat: parseFloat(events[i].lat),
           lng: parseFloat(events[i].lng),
-          category: events[i].category,
-          message: events[i].category + '<br> ' + events[i].message,
+          category: category.key,
+          message:'<strong>' + category.label + '</strong>' + '<br> ' + events[i].message,
           layer: 'events',
-          icon: events[i].icon
+          icon: Bof.resolveIcon(events[i].category)
         };
         $scope.markersAll.push(newMarker);
         $scope.markers.push(newMarker);
@@ -204,11 +197,10 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
 
   // clean up modal's form elems when modal closes
   $('#bofModal').on('hide.bs.modal', function () {
+    $scope.selected_category ='';
     $('.form-group').removeClass('has-error');
     $('#eventText, #startTime, #endTime').val('');
   });
-
-
 
   getEvents();
 
