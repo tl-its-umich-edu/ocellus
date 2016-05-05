@@ -1,7 +1,7 @@
 'use strict';
 /* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment, validate, _, popupLink */
 
-ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
+ocellus.controller('mapController', ['$compile','$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($compile, $scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   // setting up init values
   // setting the markers to an empty array
   // markers array represents the filtered events
@@ -159,8 +159,10 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     $scope.markersAll = [];
     $scope.markers = [];
     var bofsUrl = url;
+
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(events) {
+      $rootScope.events= events;
       // wish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < events.length; i++) {
@@ -169,9 +171,9 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
           lat: parseFloat(events[i].lat),
           lng: parseFloat(events[i].lng),
           category: category.key,
-          message:'<strong>' + category.label + '</strong>' + '<br> ' + events[i].message,
+          message: "<popup event='events[" + i + "]'></popup>",
           layer: 'events',
-          icon: Bof.resolveIcon(events[i].category)
+          icon: Bof.resolveIcon(events[i].category),
         };
         $scope.markersAll.push(newMarker);
         $scope.markers.push(newMarker);
@@ -197,6 +199,8 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     // update event with new coords
   });
 
+  $scope.$on('leafletDirectiveMarker.click', function(e, args) {
+  });
   // clean up modal's form elems when modal closes
   $('#bofModal').on('hide.bs.modal', function () {
     $scope.selected_category ='';
