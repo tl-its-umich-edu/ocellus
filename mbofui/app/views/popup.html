@@ -1,0 +1,22 @@
+<div>
+  <div>
+    <strong>
+      {{event.category | categorize: event_categories}}
+    </strong>
+  </div>
+  <div>
+    <!-- need smarter display of datetime.
+    - if all one day - omit second date
+    - if today - say so (Today - hh:mm)
+    -->
+    <small>{{event.startTime  | date:'medium'}} - {{event.endTime  | date:'medium'}}</small>
+  </div>
+  <hr style="margin:5px 0">
+  <p>
+    {{event.message}}
+  </p>
+  <p class="btn-group btn-group-sm btn-group-justified">
+    <a href="#" class="btn btn-default">Going</a>
+    <a href="#" class="btn btn-default">Maybe</a>
+  </p>
+</div>

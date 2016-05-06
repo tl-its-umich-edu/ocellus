@@ -31,7 +31,7 @@ ocellus.factory('Bof', function($http, $log, $q, $rootScope) {
             } else {
               // either last page or single one
               // turn list into an array suitable for leaflet consumption
-              bofs = leafletize(bofs);
+              bofs = leafletize(bofs, $rootScope.event_categories);
               // resolve promise now that it is complete
               deferred.resolve(bofs);
             }

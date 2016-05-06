@@ -1,7 +1,7 @@
 'use strict';
 /* global angular */
 
-var ocellus = angular.module( 'ocellus', [ 'ui-leaflet' ] );
+var ocellus = angular.module( 'ocellus', [ 'ui-leaflet', 'ocellusFilters' ] );
 
 ocellus.run(function($rootScope) {
   $rootScope.server = '';
