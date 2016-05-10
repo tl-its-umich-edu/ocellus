@@ -18,9 +18,14 @@ Vagrant.configure(2) do |config|
         echo "America/Detroit" > /etc/timezone
         dpkg-reconfigure -f noninteractive tzdata
 
+        debconf-set-selections <<< 'mysql-server mysql-server/root_password password MySuperPassword'
+        debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password MySuperPassword'
+
         apt-get update
         apt-get dist-upgrade -y
 
+        apt-get install -y libmysqlclient-dev
+        apt-get install -y mysql-server
         apt-get --no-install-recommends install --yes python-pip python-dev
         apt-get --no-install-recommends install --yes apache2 apache2-utils
         apt-get --no-install-recommends install --yes libldap2-dev libsasl2-dev
@@ -55,18 +60,5 @@ EOM
         npm install --global npm@latest
         npm install --global bower
 
-        if [ -d /vagrant/hacks_mbof/extras ]; then
-            cd /vagrant/hacks_mbof/extras
-            ls *.deb; if [ $? -eq 0 ]; then
-                apt-get --no-install-recommends install --yes libaio1 libaio-dev
-                dpkg -i *.deb
-                export ORACLE_HOME=/usr/lib/oracle/12.1/client64
-                export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
-                export PATH=$PATH:$ORACLE_HOME/bin
-                echo "$ORACLE_HOME/lib" > /etc/ld.so.conf.d/oracle.conf;
-                ldconfig
-                pip install cx_Oracle
-            fi
-        fi
     SHELL
 end

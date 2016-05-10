@@ -15,6 +15,10 @@ If you know M-BoF, you don't need to know anything else.
 # Development
 0. Initialize and start app server
     - `cd /vagrant`
+    - `mysql -u root -p`
+    - Enter the password found in the Vagrantfile
+    - `mysql> CREATE DATABASE OCELLUS;`
+    - `mysql> exit`
     - `python manage.py migrate`
     - `python manage.py loaddata mbof/fixtures/dev_data.json`
     - Run the development app server
