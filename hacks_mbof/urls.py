@@ -25,12 +25,11 @@ from mbof import views
 router = routers.DefaultRouter()
 router.register(r'me', views.CurrentUserViewSet, base_name='me')
 router.register(r'events', views.EventViewSet)
-router.register(r'current_events', views.CurrentEventViewSet, base_name="current_events")
-router.register(r'upcoming_events', views.UpcomingEventViewSet, base_name="upcoming_events")
 router.register(r'users', views.UserViewSet)
 router.register(r'votes', views.VoteViewSet)
 
 urlpatterns = [
+    url(r'^api/events/(?P<type>[a-zA-Z ]*/$)', views.EventListViewSet.as_view()),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 

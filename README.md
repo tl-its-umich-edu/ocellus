@@ -27,12 +27,14 @@ If you know M-BoF, you don't need to know anything else.
     - M-BoF homepage: [http://localhost:18000/](http://localhost:18000/)
     - REST API
         - Root: [http://localhost:18000/api/](http://localhost:18000/api/) (Note trailing slash.)
-        - Messages: [http://localhost:18000/api/messages/](http://localhost:18000/api/messages/)
+        - Events: [http://localhost:18000/api/events/](http://localhost:18000/api/events/)
+        - Current Events: [http://localhost:18000/api/events/current/](http://localhost:18000/api/events/current/)
+        - Upcoming Events: [http://localhost:18000/api/events/upcoming/](http://localhost:18000/api/events/upcoming/)
         - Users: [http://localhost:18000/api/users/](http://localhost:18000/api/users/)
         - Current authen. user: [http://localhost:18000/api/me/](http://localhost:18000/api/me/)
     - Testing UI:
-        - BoF list: [http://localhost:18000/mbof/](http://localhost:18000/mbof/) (Note trailing slash.)
-        - BoF detail: [http://localhost:18000/mbof/1/](http://localhost:18000/mbof/1/)
+        - Events list: [http://localhost:18000/api/events/](http://localhost:18000/api/events/) (Note trailing slash.)
+        - Events detail: [http://localhost:18000/api/events/1/](http://localhost:18000/api/events/1/)
     - DB admin: [http://localhost:18000/admin/](http://localhost:18000/admin/) (Note trailing slash.)
 
 ## Update Data Fixtures ##

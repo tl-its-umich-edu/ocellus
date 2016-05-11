@@ -1,13 +1,16 @@
 import os
+import logging
 import datetime
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from rest_framework import viewsets
+from rest_framework import generics, viewsets
 
 from .models import Event, User, Vote
 from .serializers import EventSerializer, UserSerializer, VoteSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -28,25 +31,27 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     queryset = Event.objects.all().order_by('postingTime')
     serializer_class = EventSerializer
-    
 
-class CurrentEventViewSet(EventViewSet):
+
+class EventListViewSet(generics.ListAPIView):
     """
-    API endpoint that allows users to view current events in db.
+    API endpoint that allows users to be viewed or edited.
     """
+    serializer_class = EventSerializer
+
     def get_queryset(self):
-        current_time = timezone.now()
-        return Event.objects.filter(startTime__lte=current_time, endTime__gte=current_time).order_by('postingTime')
-
-
-class UpcomingEventViewSet(EventViewSet):
-    """
-    API endpoint that allows users to view upcoming events in db.
-    """
-    def get_queryset(self):
-        current_time = timezone.now()
-        one_week_out = current_time + datetime.timedelta(days=7)
-        return Event.objects.filter(startTime__range=[current_time, one_week_out]).order_by('postingTime')
+        logger.debug('Type=' + self.kwargs['type'])
+        query_type = self.kwargs['type']
+        query_type = query_type.replace('/', '')
+        if query_type == 'current':
+            current_time = timezone.now()
+            return Event.objects.filter(startTime__lte=current_time, endTime__gte=current_time).order_by('postingTime')
+        if query_type == 'upcoming':
+            current_time = timezone.now()
+            one_week_out = current_time + datetime.timedelta(days=7)
+            return Event.objects.filter(startTime__range=[current_time, one_week_out]).order_by('postingTime')
+        else:
+            return Event.objects.all().order_by('postingTime')
 
 
 class VoteViewSet(viewsets.ModelViewSet):
