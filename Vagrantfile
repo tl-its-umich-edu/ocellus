@@ -26,6 +26,7 @@ Vagrant.configure(2) do |config|
 
         apt-get install -y libmysqlclient-dev
         apt-get install -y mysql-server
+        mysql -u root -pMySuperPassword -e "create database OCELLUS"
         apt-get --no-install-recommends install --yes python-pip python-dev
         apt-get --no-install-recommends install --yes apache2 apache2-utils
         apt-get --no-install-recommends install --yes libldap2-dev libsasl2-dev
