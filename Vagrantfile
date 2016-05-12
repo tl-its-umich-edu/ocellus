@@ -18,13 +18,12 @@ Vagrant.configure(2) do |config|
         echo "America/Detroit" > /etc/timezone
         dpkg-reconfigure -f noninteractive tzdata
 
-        debconf-set-selections <<< 'mysql-server mysql-server/root_password password MySuperPassword'
-        debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password MySuperPassword'
-
         apt-get update
         apt-get dist-upgrade -y
 
         apt-get install -y libmysqlclient-dev
+        debconf-set-selections <<< 'mysql-server mysql-server/root_password password MySuperPassword'
+        debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password MySuperPassword'
         apt-get install -y mysql-server
         mysql -u root -pMySuperPassword -e "create database OCELLUS"
         apt-get --no-install-recommends install --yes python-pip python-dev
