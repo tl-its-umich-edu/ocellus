@@ -1,5 +1,5 @@
 Django==1.9
-#mysql-python
+mysql-python
 djangorestframework
 django-filter
 django-crispy-forms
