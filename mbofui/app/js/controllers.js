@@ -92,12 +92,19 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     var startTime = moment($('#startTime').val()).format($rootScope.time_format);
     var endTime = moment($('#endTime').val()).format($rootScope.time_format);
     var postingTime = moment().format($rootScope.time_format);
+    var category;
+    if ($scope.selected_category) {
+      category = $scope.selected_category.label;
+    }
+    else {
+      category='No Category';
+    }
     var data = {
       'eventText': $scope.newEventText,
       'startTime': startTime,
       'endTime': endTime,
       'latitude': coords[0],
-      'category':$scope.selected_category.label,
+      'category':category,
       'longitude': coords[1],
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
       'postingTime': postingTime
