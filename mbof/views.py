@@ -41,13 +41,14 @@ class EventListViewSet(generics.ListAPIView):
 
     def get_queryset(self):
         logger.debug('Type=' + self.kwargs['type'])
+        current_time = timezone.now()
+        if self.kwargs['type'] is None:
+            return Event.objects.all().order_by('postingTime')
         query_type = self.kwargs['type']
         query_type = query_type.replace('/', '')
         if query_type == 'current':
-            current_time = timezone.now()
             return Event.objects.filter(startTime__lte=current_time, endTime__gte=current_time).order_by('postingTime')
         if query_type == 'upcoming':
-            current_time = timezone.now()
             one_week_out = current_time + datetime.timedelta(days=7)
             return Event.objects.filter(startTime__range=[current_time, one_week_out]).order_by('postingTime')
         else:
