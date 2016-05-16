@@ -204,14 +204,14 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     $('#eventText, #startTime, #endTime').val('');
   });
 
-  getEvents('/api/current_events/');
+  getEvents('/api/events/current/');
 
   $(function() {
     $('#eventSwitch').change(function() {
       if ($(this).prop('checked')) {
-        getEvents('/api/current_events/');
+        getEvents('/api/events/current/');
       } else {
-        getEvents('/api/upcoming_events/');
+        getEvents('/api/events/upcoming/');
       }
     });
   });
