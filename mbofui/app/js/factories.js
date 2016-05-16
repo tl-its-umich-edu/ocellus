@@ -43,58 +43,54 @@ ocellus.factory('Bof', function($http, $log, $q, $rootScope) {
       getNext(url);
       return deferred.promise;
     },
-    resolveCategory: function(key){
-      var category = _.findWhere($rootScope.event_categories, {'key':key});
-      return category;
-    },
     resolveIcon: function(key){
       return ( {
-        'study_discussion': {
+        'Study/Discussion': {
           type: 'awesomeMarker',
           icon: 'pencil',
           markerColor: 'green'
         },
-        'course_class': {
+        'Course/Class': {
           type: 'awesomeMarker',
           icon: 'heart',
           markerColor: 'red'
         },
-        'practice_rehearsal': {
+        'Practice/Rehearsal': {
           type: 'awesomeMarker',
           icon: 'music',
           markerColor: 'orange'
         },
-        'social_gathering': {
+        'Social Gathering': {
           type: 'awesomeMarker',
           icon: 'ice-lolly-tasted',
           markerColor: 'yellow'
         },
-        'business_networking': {
+        'Business/Networking': {
           type: 'awesomeMarker',
           icon: 'euro',
           markerColor: 'darkred'
         },
-        'public_ceremony': {
+        'Public Ceremony': {
           type: 'awesomeMarker',
           icon: 'king',
           markerColor: 'darkgreen'
         },
-        'family': {
+        'Family': {
           type: 'awesomeMarker',
           icon: 'gift',
           markerColor: 'purple'
         },
-        'sports': {
+        'Sports': {
           type: 'awesomeMarker',
           icon: 'flash',
           markerColor: 'darkpurple'
         },
-        'political_rally': {
+        'Political/Rally': {
           type: 'awesomeMarker',
           icon: 'bullhorn',
           markerColor: 'cadetblue'
         }
-      }[ String( key ).toLowerCase() ] || {
+      }[ String( key ) ] || {
         type: 'awesomeMarker',
         icon: 'record',
         markerColor: 'blue'
