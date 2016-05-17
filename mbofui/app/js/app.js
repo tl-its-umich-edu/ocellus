@@ -18,15 +18,15 @@ ocellus.run(function($rootScope) {
       'modal_post':'Add Event'
     };
     $rootScope.event_categories = [
-      {'key':'study_discussion','label':'Study/Discussion'},
-      {'key':'course_class','label':'Course/Class'},
-      {'key':'practice_rehearsal','label':'Practice/Rehearsal'},
-      {'key':'social_gathering','label':'Social Gathering'},
-      {'key':'business_networking','label':'Business/Networking'},
-      {'key':'public_ceremony','label':'Public Ceremony'},
-      {'key':'family','label':'Family'},
-      {'key':'sports','label':'Sports'},
-      {'key':'political_rally','label':'Political/Rally'}
+      {'label':'Study/Discussion'},
+      {'label':'Course/Class'},
+      {'label':'Practice/Rehearsal'},
+      {'label':'Social Gathering'},
+      {'label':'Business/Networking'},
+      {'label':'Public Ceremony'},
+      {'label':'Family'},
+      {'label':'Sports'},
+      {'label':'Political/Rally'}
     ];
     $rootScope.time_format = 'YYYY-MM-DDTHH:mm:ssZ';
     $rootScope.baselayers = {

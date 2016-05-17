@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, ocellus, $, L, resolveCategory, resolveIcon, moment, validate, _, popupLink */
+/* global angular, ocellus, $, L,  resolveIcon, moment, validate, _, popupLink */
 
 ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   // setting up init values
@@ -92,12 +92,19 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     var startTime = moment($('#startTime').val()).format($rootScope.time_format);
     var endTime = moment($('#endTime').val()).format($rootScope.time_format);
     var postingTime = moment().format($rootScope.time_format);
+    var category;
+    if ($scope.selected_category) {
+      category = $scope.selected_category.label;
+    }
+    else {
+      category='No Category';
+    }
     var data = {
       'eventText': $scope.newEventText,
       'startTime': startTime,
       'endTime': endTime,
       'latitude': coords[0],
-      'category':$scope.selected_category.key,
+      'category':category,
       'longitude': coords[1],
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
       'postingTime': postingTime
@@ -107,16 +114,17 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     //if there were no validation failures, post it
     // and construct a new marker to add to map
     if(!validationFailures.length) {
+
       Bof.PostBof(url, data).then(function(result) {
-        var category = Bof.resolveCategory(result.data.category);
         var newMarker = {
           lat: result.data.latitude,
           lng: result.data.longitude,
-          category: category.key,
-          message: '<strong>' + category.label + '</strong><br>' + result.data.eventText,
+          category: result.data.category,
+          message: '<strong>' + result.data.category + '</strong><br>' + result.data.eventText,
           layer: 'events',
           icon: Bof.resolveIcon(result.data.category)
         };
+
         //add the event marker to both filtered and unfiltered collections
         // TODO: puzzle this out - maybe just add to unfiltered
         $scope.markersAll.push(newMarker);
@@ -164,12 +172,11 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
       // wish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < events.length; i++) {
-        var category = Bof.resolveCategory(events[i].category);
         var newMarker = {
           lat: parseFloat(events[i].lat),
           lng: parseFloat(events[i].lng),
-          category: category.key,
-          message:'<strong>' + category.label + '</strong>' + '<br> ' + events[i].message,
+          category: events[i].category,
+          message:'<strong>' + events[i].category + '</strong>' + '<br> ' + events[i].message,
           layer: 'events',
           icon: Bof.resolveIcon(events[i].category)
         };
