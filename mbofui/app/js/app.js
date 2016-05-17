@@ -22,7 +22,7 @@ ocellus.run(function($rootScope) {
       {'label':'Course/Class'},
       {'label':'Practice/Rehearsal'},
       {'label':'Social Gathering'},
-      {'key':'business_networking','label':'Business/Networking'},
+      {'label':'Business/Networking'},
       {'label':'Public Ceremony'},
       {'label':'Family'},
       {'label':'Sports'},
