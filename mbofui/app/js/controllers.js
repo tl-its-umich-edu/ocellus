@@ -1,7 +1,7 @@
 'use strict';
 /* global angular, ocellus, $, L,  resolveIcon, moment, validate, _, popupLink */
 
-ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof', function($scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
+ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof' , function($compile, $scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   // setting up init values
   // setting the markers to an empty array
   // markers array represents the filtered events
@@ -169,6 +169,7 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
     var bofsUrl = url;
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(events) {
+      $rootScope.events= events;
       // wish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < events.length; i++) {
@@ -176,7 +177,9 @@ ocellus.controller('mapController', ['$scope', '$rootScope','$filter', '$timeout
           lat: parseFloat(events[i].lat),
           lng: parseFloat(events[i].lng),
           category: events[i].category,
-          message:'<strong>' + events[i].category + '</strong>' + '<br> ' + events[i].message,
+          message: "<popup event='events[" + i + "]'></popup>",
+          //message: '<popup event="events[' + i + '"]></popup>',
+          //message:'<strong>' + events[i].category + '</strong>' + '<br> ' + events[i].message,
           layer: 'events',
           icon: Bof.resolveIcon(events[i].category)
         };
