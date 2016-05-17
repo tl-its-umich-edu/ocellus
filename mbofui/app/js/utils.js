@@ -34,7 +34,7 @@ var leafletize = function(data){
       lng: event.longitude,
       category: event.category,
       message:event.eventText,
-      layer: 'bofs',
+      layer: 'events',
       icon: {},
       endTime: event.endTime,
       startTime: event.startTime,

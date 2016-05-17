@@ -116,13 +116,26 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     if(!validationFailures.length) {
 
       Bof.PostBof(url, data).then(function(result) {
-        var newMarker = {
+        var newObj = {
           lat: result.data.latitude,
           lng: result.data.longitude,
           category: result.data.category,
-          message: '<strong>' + result.data.category + '</strong><br>' + result.data.eventText,
           layer: 'events',
+          startTime:result.data.startTime,
+          endTime:result.data.endTime,
+          message:result.data.eventText,
           icon: Bof.resolveIcon(result.data.category)
+        }
+        var events = [];
+        events.push(newObj);
+        var newMarker = {
+          lat: newObj.lat,
+          lng: newObj.lng,
+          category: newObj.category,
+          message: "<popup event='events[0]'></popup>",
+          //message: '<strong>' + newObj.category + '</strong><br>' + newObj.message,
+          layer: newObj.layer,
+          icon: newObj.icon
         };
 
         //add the event marker to both filtered and unfiltered collections
