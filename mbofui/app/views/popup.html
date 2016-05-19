@@ -5,7 +5,7 @@
     </strong>
   </div>
   <div>
-    <small>{{event | displayDate}}</small>
+    <small>{{event.startTime | date:'MM/dd h:mma'}} - {{event.endTime | date:'MM/dd h:mma'}}</small>
   </div>
   <hr style="margin:5px 0">
   <p>

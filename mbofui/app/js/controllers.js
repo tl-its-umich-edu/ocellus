@@ -116,26 +116,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     if(!validationFailures.length) {
 
       Bof.PostBof(url, data).then(function(result) {
-        var newObj = {
+        $rootScope.newEvent = result.data;
+        $rootScope.newEvent.messageSearch = result.data.category + ' ' + result.data.eventText;
+        $rootScope.newEvent.message = result.data.eventText;
+        var newMarker = {
           lat: result.data.latitude,
           lng: result.data.longitude,
           category: result.data.category,
+          message:"<popup event=newEvent></popup>",
           layer: 'events',
-          startTime:result.data.startTime,
-          endTime:result.data.endTime,
-          message:result.data.eventText,
           icon: Bof.resolveIcon(result.data.category)
-        }
-        var events = [];
-        events.push(newObj);
-        var newMarker = {
-          lat: newObj.lat,
-          lng: newObj.lng,
-          category: newObj.category,
-          message: "<popup event='events[0]'></popup>",
-          //message: '<strong>' + newObj.category + '</strong><br>' + newObj.message,
-          layer: newObj.layer,
-          icon: newObj.icon
         };
 
         //add the event marker to both filtered and unfiltered collections
@@ -181,20 +171,20 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.markers = [];
     var bofsUrl = url;
     // use a promise factory to do request
-    Bof.GetBofs(bofsUrl).then(function(events) {
-      $rootScope.events= events;
+    Bof.GetBofs(bofsUrl).then(function(eventsList) {
+      $rootScope.events= eventsList;
       // wish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
-      for (var i = 0; i < events.length; i++) {
+      for (var i = 0; i < eventsList.length; i++) {
         var newMarker = {
-          lat: parseFloat(events[i].lat),
-          lng: parseFloat(events[i].lng),
-          category: events[i].category,
+          lat: parseFloat(eventsList[i].lat),
+          lng: parseFloat(eventsList[i].lng),
+          category: eventsList[i].category,
+          messageSearch: eventsList[i].category + ' ' + eventsList[i].message,
           message: "<popup event='events[" + i + "]'></popup>",
-          //message: '<popup event="events[' + i + '"]></popup>',
-          //message:'<strong>' + events[i].category + '</strong>' + '<br> ' + events[i].message,
+          //message:dateDisplayD,
           layer: 'events',
-          icon: Bof.resolveIcon(events[i].category)
+          icon: Bof.resolveIcon(eventsList[i].category)
         };
         $scope.markersAll.push(newMarker);
         $scope.markers.push(newMarker);
@@ -207,7 +197,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   $scope.$watch("markers", function() {
     $scope.$watch('markerFilter', function(text) {
       $scope.markersFiltered = $filter('filter')($scope.markers, {
-        message: text
+        messageSearch: text
       });
     });
   }, true);
