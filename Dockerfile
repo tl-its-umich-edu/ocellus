@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 MAINTAINER Kyle Dove <dovek@umich.edu>
 
-# Fix sh
+# Fix sh to allow running of bash instead of sh
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Install dependencies
