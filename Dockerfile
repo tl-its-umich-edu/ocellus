@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 MAINTAINER Kyle Dove <dovek@umich.edu>
 
-# Fix sh to allow running of bash instead of sh
+# Fix sh
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Install dependencies
@@ -11,11 +11,14 @@ apt-get dist-upgrade -y && \
 apt-get install -y libmysqlclient-dev git python-pip python-dev apache2 apache2-utils libldap2-dev libsasl2-dev nodejs curl
 
 # Install Ocellus
-WORKDIR /usr/local/
+WORKDIR /tmp/
 
-RUN git clone https://github.com/tl-its-umich-edu/ocellus.git
+COPY requirements.txt /tmp/
+COPY . /tmp/
 
-WORKDIR /usr/local/ocellus/
+#RUN git clone https://github.com/tl-its-umich-edu/ocellus.git
+
+#WORKDIR /usr/local/ocellus/
 
 # Install python components based on ocellus requirements file
 RUN pip install coverage
@@ -28,10 +31,10 @@ RUN npm install --global npm@latest
 RUN npm install --global bower
 
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
-RUN cd /usr/local/ocellus/mbofui/ && bower install
-RUN cd /usr/local/ocellus/mbofui/ && bower install ui-leaflet
+RUN cd mbofui && bower install
+#RUN cd /usr/local/ocellus/mbofui/ && bower install ui-leaflet
 
 EXPOSE 8000
 
 # copy settings file and launch django
-CMD cp /usr/share/ocellus/settings.py /usr/local/ocellus/hacks_mbof/; python manage.py migrate;/usr/local/ocellus/runAsUser.sh bjensen
+CMD cp /usr/share/ocellus/settings.py ./hacks_mbof/; python manage.py migrate;./runAsUser.sh bjensen
