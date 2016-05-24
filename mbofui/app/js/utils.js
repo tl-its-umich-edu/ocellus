@@ -1,5 +1,5 @@
 'use strict';
-/* global $, _, document */
+/* global $, _, document*/
 
 // register a vote (intent)
 // TODO: rewrite the angular way and hook it up to the UI
@@ -34,7 +34,7 @@ var leafletize = function(data){
       lng: event.longitude,
       category: event.category,
       message:event.eventText,
-      layer: 'bofs',
+      layer: 'events',
       icon: {},
       endTime: event.endTime,
       startTime: event.startTime,
@@ -45,6 +45,7 @@ var leafletize = function(data){
 });
     return leafletList;
 };
+
 
 // new event validation - either the dates are blank or wrong or the description is blank
 var validate = function(data) {

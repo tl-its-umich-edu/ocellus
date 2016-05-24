@@ -1,0 +1,18 @@
+<div>
+  <div>
+    <strong>
+      {{event.category}}
+    </strong>
+  </div>
+  <div>
+    <small>{{event.startTime | date:'MM/dd h:mma'}} - {{event.endTime | date:'MM/dd h:mma'}}</small>
+  </div>
+  <hr style="margin:5px 0">
+  <p>
+    {{event.message}}
+  </p>
+  <p class="btn-group btn-group-sm btn-group-justified">
+    <a href="#" class="btn btn-default">Going</a>
+    <a href="#" class="btn btn-default">Maybe</a>
+  </p>
+</div>
