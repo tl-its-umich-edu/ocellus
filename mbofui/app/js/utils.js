@@ -1,5 +1,5 @@
 'use strict';
-/* global $, _, document*/
+/* global $, _, document, moment*/
 
 // register a vote (intent)
 // TODO: rewrite the angular way and hook it up to the UI
@@ -60,7 +60,17 @@ var validate = function(data) {
   if (validationFailures.length){
     return validationFailures;
   } else {
-    return false;
+    //special validation
+    if(moment(data.startTime) < moment()){
+      validationFailures.push('startTime');
+      validationFailures.push('tooEarly');
+    }
+    if (moment(data.startTime) > moment(data.endTime)) {
+      validationFailures.push('backwardsTime');
+      validationFailures.push('endTime');
+      validationFailures.push('startTime');
+    }
+    return validationFailures;
   }
 };
 
