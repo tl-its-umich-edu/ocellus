@@ -1,5 +1,5 @@
 'use strict';
-/* global $, _, document*/
+/* global $, _, document, webshim, moment*/
 
 // register a vote (intent)
 // TODO: rewrite the angular way and hook it up to the UI
@@ -73,3 +73,17 @@ popupLink.setAttribute('href','');
 popupLink.setAttribute('data-target', '#bofModal');
 var linktext = document.createTextNode('Add an event here?');
 popupLink.appendChild(linktext);
+
+// set options for datetime polyfill
+webshim.setOptions("forms-ext", {
+  "datetime-local": {
+  		"openOnFocus": true
+  	}
+});
+
+$(function(){
+  // initialize polyfill for forms
+  var now = moment().format('YYYY-MM-DThh:mm');
+  $('#startTime').attr('min', now);
+  webshim.polyfill('forms forms-ext');
+});
