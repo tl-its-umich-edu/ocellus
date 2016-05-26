@@ -28,3 +28,8 @@ body {
 .has-error span.req-text, .has-error label {
   color:#c00;
 }
+
+.alert-inline {
+  color:#a94442;
+  display: inline-block;
+}
