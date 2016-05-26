@@ -109,6 +109,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
       'postingTime': postingTime
     };
+    // hide previous validation alerts
+    $('#bofModal .alert-inline').hide();
     // use function in utils.js to see if the data validates
     var validationFailures = validate(data);
     //if there were no validation failures, post it
@@ -145,7 +147,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       // there were validation failures, add an 'has-error' class to
       // the offending element's parent
       _.each(validationFailures, function(failure){
-        $('.' + failure).addClass('has-error');
+         $('.' + failure).addClass('has-error').show();
       });
     }
   });
@@ -213,6 +215,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   // clean up modal's form elems when modal closes
   $('#bofModal').on('hide.bs.modal', function () {
     $scope.selected_category ='';
+    $('#bofModal .alert-inline').hide();
     $('.form-group').removeClass('has-error');
     $('#eventText, #startTime, #endTime').val('');
   });
