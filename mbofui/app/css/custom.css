@@ -33,3 +33,8 @@ body {
   color:#a94442;
   display: inline-block;
 }
+
+ .ws-picker-header button[data-action="setMonthList"], .ws-picker-header button[data-action="setYearList"],.ws-picker-header button[data-action="setDayList"] {
+   color:#05c  !important;
+   text-decoration: underline !important
+ }
