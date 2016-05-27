@@ -59,6 +59,10 @@ EOM
         apt-get install --yes nodejs
         npm install --global npm@latest
         npm install --global bower
-
+        npm install -g grunt-cli
+        npm install --global grunt
+        cd mbofui
+        npm install
+        grunt
     SHELL
 end

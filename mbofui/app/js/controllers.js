@@ -1,4 +1,4 @@
-'use strict';
+/*jshint strict:false */
 /* global angular, ocellus, $, L,  resolveIcon, moment, validate, _, popupLink */
 
 ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof' , function($compile, $scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {

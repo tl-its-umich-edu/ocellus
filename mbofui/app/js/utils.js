@@ -1,4 +1,4 @@
-'use strict';
+/*jshint strict:false */
 /* global $, _, document, webshim, moment*/
 
 // register a vote (intent)

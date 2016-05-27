@@ -1,6 +1,6 @@
-'use strict';
+/*jshint strict:false */
 /* global ocellus, leafletize, _*/
-ocellus.factory('Bof', function($http, $log, $q, $rootScope) {
+ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $log, $q, $rootScope) {
   return {
     // post an event
     PostBof: function(url, data) {
@@ -97,4 +97,4 @@ ocellus.factory('Bof', function($http, $log, $q, $rootScope) {
       } );
     }
   };
-});
+}]);
