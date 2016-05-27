@@ -84,7 +84,6 @@ popupLink.setAttribute('data-target', '#bofModal');
 var linktext = document.createTextNode('Add an event here?');
 popupLink.appendChild(linktext);
 
-
 // set options for datetime polyfill
 webshim.setOptions("forms-ext", {
   replaceUI: true,
@@ -100,7 +99,7 @@ webshim.setOptions("forms-ext", {
 webshim.polyfill('forms forms-ext');
 
 $(function(){
-  // initialize polyfill for forms
+  // add current datetime to startTime input to be used by polyfill
   var now = moment().format('YYYY-MM-DThh:mm');
   $('#startTime').attr('min', now);
 
