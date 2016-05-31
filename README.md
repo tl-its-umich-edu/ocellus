@@ -19,6 +19,7 @@ If you know M-BoF, you don't need to know anything else.
     - Edit `settings.py` to set various values:
         - `SECRET_KEY` A secret key can be generated at http://www.miniwebtool.com/django-secret-key-generator/
 0. Initialize Database
+    - 'cd /vagrant'
     - `python manage.py migrate`
     - `python manage.py loaddata mbof/fixtures/dev_data.json`
 0. Start the application server

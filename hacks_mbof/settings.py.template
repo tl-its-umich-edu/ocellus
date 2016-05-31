@@ -91,16 +91,13 @@ WSGI_APPLICATION = 'hacks_mbof.wsgi.application'
 
 DATABASES = {
     'default': {
-        #connecting to sqlite
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         #connecting to mySql
-        #'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'someDatabase',
-        #'USER': 'someUser',
-        #'PASSWORD': 'somePassword',
-        #'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        #'PORT': 'somePort',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'OCELLUS',
+        'USER': 'root',
+        'PASSWORD': 'MySuperPassword',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
