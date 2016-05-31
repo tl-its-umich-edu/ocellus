@@ -14,10 +14,10 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         banner: '/*\n <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n',
-        sourceMap:true,
-        sourceMapName : 'all.min.js.map',
+        sourceMap: true,
+        sourceMapName: 'all.min.js.map',
         separator: ';',
-        stripBanners:true,
+        stripBanners: true,
         mangle: false
       },
       build: {
@@ -25,10 +25,16 @@ module.exports = function(grunt) {
           'app/js/dist/all.min.js': 'app/js/*js'
         }
       }
+    },
+    watch: {
+      javascript: {
+        files: 'app/js/*.js',
+        tasks: ['jshint', 'uglify']
+      }
     }
   });
 
-  grunt.registerTask('default', ['jshint','uglify']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
 
   // ===========================================================================
   // LOAD GRUNT PLUGINS ========================================================
@@ -37,4 +43,5 @@ module.exports = function(grunt) {
   // make sure you have run npm install so our app can find these
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 };
