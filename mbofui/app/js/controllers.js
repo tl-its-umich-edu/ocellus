@@ -111,6 +111,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     };
     // hide previous validation alerts
     $('#bofModal .alert-inline').hide();
+    $('.form-group').removeClass('has-error');
     // use function in utils.js to see if the data validates
     var validationFailures = validate(data);
     //if there were no validation failures, post it
