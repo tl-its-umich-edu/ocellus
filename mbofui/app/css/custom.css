@@ -38,7 +38,3 @@ body {
    color:#05c  !important;
    text-decoration: underline !important
  }
-
-.ws-po-box button[aria-label="Now"] {
-  display: none !important;
-}
