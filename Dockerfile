@@ -13,15 +13,10 @@ apt-get install -y libmysqlclient-dev git python-pip python-dev apache2 apache2-
 # Install Ocellus
 WORKDIR /tmp/
 
-COPY requirements.txt /tmp/
 COPY . /tmp/
 
-#RUN git clone https://github.com/tl-its-umich-edu/ocellus.git
-
-#WORKDIR /usr/local/ocellus/
-
 # Install python components based on ocellus requirements file
-RUN pip install coverage
+RUN pip install coverage gunicorn
 RUN pip install -r requirements.txt
 
 #Node.js stuff
@@ -36,9 +31,8 @@ RUN npm install --global grunt
 
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 RUN cd mbofui && bower install && npm install && grunt --gruntfile Gruntfile-docker.js
-#RUN cd /usr/local/ocellus/mbofui/ && bower install ui-leaflet
 
 EXPOSE 8000
 
 # copy settings file and launch django
-CMD cp /usr/share/ocellus/settings.py ./hacks_mbof/; python manage.py migrate;./runAsUser.sh bjensen
+CMD REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
