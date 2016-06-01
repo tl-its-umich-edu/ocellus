@@ -85,23 +85,23 @@ var linktext = document.createTextNode('Add an event here?');
 popupLink.appendChild(linktext);
 
 // set options for datetime polyfill
+// force all browsers to use widget
+// open widget on focus, start view on month/day view, add an up arrow to title
 webshim.setOptions("forms-ext", {
-  replaceUI: true,
-  types: "datetime-local",
-  widgets: {
-    openOnFocus: true,
-    startView:2,
-    classes: "show-uparrow"
-  },
+  'replaceUI': true,
+  'datetime-local': {
+    'openOnFocus': true,
+    'startView':2,
+    'classes': "show-uparrow"
+  }
 });
-
-
-webshim.polyfill('forms forms-ext');
 
 $(function(){
   // add current datetime to startTime and endTime inputs to be used by polyfill
-  var now = moment().format('YYYY-MM-DThh:mm');
-  var in_one_hour = moment().add(1, 'hours').format('YYYY-MM-DThh:mm');
+  // as well as default value for start time
+  var now = moment().format('YYYY-MM-DDTHH:mm');
   $('#startTime').attr('min', now);
-  $('#endTime').attr('min', in_one_hour);
+  $('#startTime').val(now);
+  $('#endTime').attr('min', now);
+  webshim.polyfill('forms forms-ext');
 });
