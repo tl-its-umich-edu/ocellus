@@ -100,8 +100,10 @@ $(function(){
   // add current datetime to startTime and endTime inputs to be used by polyfill
   // as well as default value for start time
   var now = moment().format('YYYY-MM-DDTHH:mm');
+  var later = moment().add(1,'hours').format('YYYY-MM-DDTHH:mm');
   $('#startTime').attr('min', now);
   $('#startTime').val(now);
-  $('#endTime').attr('min', now);
+  $('#endTime').attr('min', later);
+  $('#endTime').val(later);
   webshim.polyfill('forms forms-ext');
 });
