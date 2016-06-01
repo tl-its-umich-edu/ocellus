@@ -5,7 +5,7 @@ If you know M-BoF, you don't need to know anything else.
 
 0. Install Vagrant - https://www.vagrantup.com/
 0. Start Vagrant
-   - `cd hacks_mbof`
+   - `cd ocellus`
    - `vagrant up`
    - `vagrant ssh`
 0. Install Bower packages
@@ -13,10 +13,16 @@ If you know M-BoF, you don't need to know anything else.
    - `bower install`
 
 # Development
-0. Initialize and start app server
+0. Prepare the application configuration
+    - `cd /vagrant/hacks_mbof`
+    - `cp settings.py.template settings.py`
+    - Edit `settings.py` to set various values:
+        - `SECRET_KEY` A secret key can be generated at http://www.miniwebtool.com/django-secret-key-generator/
+0. Initialize Database
     - `cd /vagrant`
     - `python manage.py migrate`
     - `python manage.py loaddata mbof/fixtures/dev_data.json`
+0. Start the application server
     - Run the development app server
         - _**Without**_ remote user specified
             - `python manage.py runserver`

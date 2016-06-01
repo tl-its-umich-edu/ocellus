@@ -91,12 +91,13 @@ WSGI_APPLICATION = 'hacks_mbof.wsgi.application'
 
 DATABASES = {
     'default': {
+        #connecting to mySql
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'someDatabase',
-        'USER': 'someUser',
-        'PASSWORD': 'somePassword',
+        'NAME': 'OCELLUS',
+        'USER': 'root',
+        'PASSWORD': 'MySuperPassword',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': 'somePort',
+        'PORT': '3306',
     }
 }
 
