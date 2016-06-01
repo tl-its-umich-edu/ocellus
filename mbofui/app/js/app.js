@@ -1,4 +1,4 @@
-'use strict';
+/*jshint strict:false */
 /* global angular */
 
 var ocellus = angular.module( 'ocellus', [ 'ui-leaflet', 'ocellusFilters'] );

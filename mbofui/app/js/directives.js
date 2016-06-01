@@ -1,3 +1,4 @@
+/*jshint strict:false */
 ocellus.directive('popup', ['$http', '$compile', function($http, $compile) {
     return {
         restrict: 'E',
