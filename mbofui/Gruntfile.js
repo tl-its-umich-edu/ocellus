@@ -34,7 +34,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('prod', ['uglify']);
+  grunt.registerTask('docker', ['uglify']);
   grunt.registerTask('dev', ['uglify', 'jshint']);
   grunt.registerTask('js-dev', ['uglify', 'jshint','watch']);
 
