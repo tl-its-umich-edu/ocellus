@@ -11,6 +11,7 @@ If you know M-BoF, you don't need to know anything else.
 0. Install Bower packages
    - `cd /vagrant/mbofui`
    - `bower install`
+   - `npm cache clean`
    - `npm install`
    - `grunt dev` to lint and concatenate js or `grunt js-dev` to do the same plus watch (that concatenates and lints on changes to js)
 
