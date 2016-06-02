@@ -35,4 +35,4 @@ RUN cd mbofui && bower install && npm install && grunt --gruntfile Gruntfile-doc
 EXPOSE 8000
 
 # copy settings file and launch django
-CMD REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
+CMD cp /usr/share/ocellus/settings.py ./hacks_mbof/; REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
