@@ -51,7 +51,6 @@ EOM
         pip install coverage gunicorn
         pip install -r requirements.txt
 
-        echo "Installing Bower..."
         cd /vagrant
         apt-get update
         apt-get install --yes git
@@ -64,9 +63,4 @@ EOM
         npm install --global grunt
 
     SHELL
-        config.vm.provision "shell", run: 'always',inline: <<-SHELL2
-        cd /vagrant/mbofui
-        npm install
-        grunt --gruntfile Gruntfile-vagrant.js
-    SHELL2
 end
