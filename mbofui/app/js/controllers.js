@@ -221,6 +221,12 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $('#eventText, #startTime, #endTime').val('');
   });
 
+    // clean up modal's form elems when modal closes
+  $('#bofModal').on('show.bs.modal', function () {
+    reinitTimeFields();
+  });
+
+
   getEvents('/api/events/current/');
 
   $(function() {

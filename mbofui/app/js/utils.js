@@ -96,7 +96,7 @@ webshim.setOptions("forms-ext", {
   }
 });
 
-$(function(){
+var reinitTimeFields = function(){
   // add current datetime to startTime and endTime inputs to be used by polyfill
   // as well as default value for start time
   var now = moment().format('YYYY-MM-DDTHH:mm');
@@ -105,5 +105,7 @@ $(function(){
   $('#startTime').val(now);
   $('#endTime').attr('min', later);
   $('#endTime').val(later);
+};
+$(function(){
   webshim.polyfill('forms forms-ext');
 });
