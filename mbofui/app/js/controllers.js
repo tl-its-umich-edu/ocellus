@@ -216,6 +216,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   // clean up modal's form elems when modal closes
   $('#bofModal').on('hide.bs.modal', function () {
     $scope.selected_category ='';
+    $scope.newEventText =undefined;
     $('#bofModal .alert-inline').hide();
     $('.form-group').removeClass('has-error');
     $('#eventText, #startTime, #endTime').val('');
