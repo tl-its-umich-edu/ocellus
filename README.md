@@ -7,16 +7,16 @@ If you know M-BoF, you don't need to know anything else.
 0. Start Vagrant
    - `cd ocellus`
    - `vagrant up`
-   - `vagrant ssh`
-0. Install Bower packages
-   - `cd /vagrant/mbofui`
+0. Install Bower, Grunt, JsHint and Watch packages
+   - `cd mbofui`
    - `bower install`
    - `npm cache clean`
    - `npm install`
-   - `grunt dev` to lint and concatenate js or `grunt js-dev` to do the same plus watch (that concatenates and lints on changes to js)
-
+   - `grunt dev` to lint and concatenate js or `grunt js-dev` to do the same plus watch (which concatenates and lints on changes to js)
 # Development
 0. Prepare the application configuration
+    - `cd ..`
+    - `vagrant ssh`
     - `cd /vagrant/hacks_mbof`
     - `cp settings.py.template settings.py`
     - Edit `settings.py` to set various values:
