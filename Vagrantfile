@@ -62,11 +62,5 @@ EOM
 
         npm install -g grunt-cli
         npm install --global grunt
-
     SHELL
-        config.vm.provision "shell", run: 'always',inline: <<-SHELL2
-        cd /vagrant/mbofui
-        npm install
-        grunt --gruntfile Gruntfile-vagrant.js
-    SHELL2
 end

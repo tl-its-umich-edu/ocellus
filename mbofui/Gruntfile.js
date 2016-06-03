@@ -34,7 +34,10 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
+
+  grunt.registerTask('docker', ['uglify']);
+  grunt.registerTask('dev', ['uglify', 'jshint']);
+  grunt.registerTask('js-dev', ['uglify', 'jshint','watch']);
 
   // ===========================================================================
   // LOAD GRUNT PLUGINS ========================================================
