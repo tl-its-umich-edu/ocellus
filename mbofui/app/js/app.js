@@ -4,7 +4,8 @@
 var ocellus = angular.module( 'ocellus', [ 'ui-leaflet', 'ocellusFilters'] );
 
 ocellus.run(function($rootScope) {
-  $rootScope.server = '';
+    $rootScope.server = '';
+    $rootScope.currentView="Current";
     $rootScope.user = {};
     $rootScope.pollInterval = 15000;
     $rootScope.strings = {

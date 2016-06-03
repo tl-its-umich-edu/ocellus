@@ -49,6 +49,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
   });
 
+
   // displays a popup invitation on current location regardless of where the map viewport is at
   // viewport will shift to center on user current location and open a popup invitation
   $scope.createEventCurrentlocation = function() {
@@ -223,14 +224,14 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   getEvents('/api/events/current/');
 
-  $(function() {
-    $('#eventSwitch').change(function() {
-      if ($(this).prop('checked')) {
-        getEvents('/api/events/current/');
-      } else {
-        getEvents('/api/events/upcoming/');
-      }
-    });
-  });
+  $scope.showMyEvents = function () {
+    $rootScope.currentView= 'My Events';
+    $('#myEventsModal').modal({});
+  };
+
+  $scope.switchViews = function (url, title) {
+    $rootScope.currentView= title;
+    getEvents(url);
+  };
 
 }]);
