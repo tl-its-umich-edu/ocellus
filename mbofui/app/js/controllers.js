@@ -224,14 +224,14 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   getEvents('/api/events/current/');
 
-  $(function() {
-    $('#eventSwitch').change(function() {
-      if ($(this).prop('checked')) {
-        getEvents('/api/events/current/');
-      } else {
-        getEvents('/api/events/upcoming/');
-      }
-    });
-  });
+  $scope.showMyEvents = function () {
+    $rootScope.currentView= 'My Events';
+    $('#myEventsModal').modal({});
+  };
+
+  $scope.switchViews = function (url, title) {
+    $rootScope.currentView= title;
+    getEvents(url);
+  };
 
 }]);
