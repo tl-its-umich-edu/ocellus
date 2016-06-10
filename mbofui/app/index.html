@@ -87,7 +87,11 @@
             <ul class="dropdown-menu">
               <li><a href="" ng-click="switchViews('/api/events/current/','Current')">Current</a></li>
               <li><a href="" ng-click="switchViews('/api/events/upcoming/','Upcoming')">Upcoming</a></li>
+              <!--// display a list of events organized by user or for which user has said she has an intention
+              commented out as it is in V2.
+               TBD: are there any time filters at play here
               <li><a href="" ng-click="showMyEvents()">My events</a></li>
+              -->
               <li role="separator" class="divider"></li>
               <li><a>Current center: <strong>{{center.lat}} {{center.lng}}</strong> </a></li>
               <li><a>Markers: <strong>{{markersAll.length}}</strong></a></li>
