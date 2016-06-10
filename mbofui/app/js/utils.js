@@ -108,4 +108,10 @@ var reinitTimeFields = function(){
 };
 $(function(){
   webshim.polyfill('forms forms-ext');
+  // close expanded nav if user clicks on category or time filter selection
+  $(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') ) {
+      $(this).collapse('hide');
+    }
+  });
 });
