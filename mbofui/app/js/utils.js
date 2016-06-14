@@ -49,7 +49,6 @@ var leafletize = function(data){
 
 // new event validation - either the dates are blank or wrong or the description is blank
 var validate = function(data) {
-  console.log('validating!');
   //init array
   var validationFailures = [];
   _.each(data, function(value, key, list){
