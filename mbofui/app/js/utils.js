@@ -62,11 +62,12 @@ var validate = function(data) {
     return validationFailures;
   } else {
     //special validation
-    // give the user 30 minutes grace to fill in the form
-    if(moment(data.startTime).add(30, 'minutes') < moment()){
-      validationFailures.push('startTime');
-      validationFailures.push('tooEarly');
+    // event needs to end after now
+    if(moment(data.endTime) < moment()){
+      validationFailures.push('endTime');
+      validationFailures.push('endToSoon');
     }
+    // event cannot end before it starts
     if (moment(data.startTime) > moment(data.endTime)) {
       validationFailures.push('backwardsTime');
       validationFailures.push('endTime');
