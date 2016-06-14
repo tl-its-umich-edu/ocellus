@@ -61,10 +61,12 @@ var validate = function(data) {
     return validationFailures;
   } else {
     //special validation
-    if(moment(data.startTime) < moment()){
-      validationFailures.push('startTime');
-      validationFailures.push('tooEarly');
+    // event needs to end after now
+    if(moment(data.endTime) < moment()){
+      validationFailures.push('endTime');
+      validationFailures.push('endToSoon');
     }
+    // event cannot end before it starts
     if (moment(data.startTime) > moment(data.endTime)) {
       validationFailures.push('backwardsTime');
       validationFailures.push('endTime');
