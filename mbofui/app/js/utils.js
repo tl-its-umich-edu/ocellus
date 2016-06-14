@@ -49,6 +49,7 @@ var leafletize = function(data){
 
 // new event validation - either the dates are blank or wrong or the description is blank
 var validate = function(data) {
+  console.log('validating!');
   //init array
   var validationFailures = [];
   _.each(data, function(value, key, list){
@@ -61,7 +62,8 @@ var validate = function(data) {
     return validationFailures;
   } else {
     //special validation
-    if(moment(data.startTime) < moment()){
+    // give the user 30 minutes grace to fill in the form
+    if(moment(data.startTime).add(30, 'minutes') < moment()){
       validationFailures.push('startTime');
       validationFailures.push('tooEarly');
     }
