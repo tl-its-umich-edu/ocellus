@@ -117,25 +117,9 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     //if there were no validation failures, post it
     // and construct a new marker to add to map
     if(!validationFailures.length) {
-
       Bof.PostBof(url, data).then(function(result) {
-        $rootScope.newEvent = result.data;
-        $rootScope.newEvent.messageSearch = result.data.category + ' ' + result.data.eventText;
-        $rootScope.newEvent.message = result.data.eventText;
-        var newMarker = {
-          lat: result.data.latitude,
-          lng: result.data.longitude,
-          category: result.data.category,
-          message:"<popup event=newEvent></popup>",
-          layer: 'events',
-          icon: Bof.resolveIcon(result.data.category)
-        };
-
-        //add the event marker to both filtered and unfiltered collections
-        // TODO: puzzle this out - maybe just add to unfiltered
-        $scope.markersAll.push(newMarker);
-        $scope.markers.push(newMarker);
-        $scope.totalBofs = $scope.totalBofs + 1;
+        // reload events
+        getEvents('/api/events/current/');
         // close the popup
         leafletData.getMap().then(function(map) {
           map.closePopup();
@@ -227,7 +211,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     reinitTimeFields();
   });
 
-
+  // only function inmediately invoked - get current events on page load
   getEvents('/api/events/current/');
 
   $scope.showMyEvents = function () {
