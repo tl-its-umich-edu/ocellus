@@ -22,9 +22,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       autoDiscover: true
     },
     events: {},
-    controls: {
-      draw: {}
-    },
     layers: {
       baselayers: $rootScope.baselayers,
       overlays: {
@@ -32,14 +29,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           name: "Events",
           type: "markercluster",
           visible: true
-        },
-        draw: {
-          name: 'draw',
-          type: 'group',
-          visible: true,
-          layerParams: {
-            showOnSelector: false
-          }
         }
       },
       awesomeMarkerIcon: {
