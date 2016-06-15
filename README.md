@@ -16,8 +16,7 @@ Use terminal, iTerm, etc. Not XTerm.
    - `bower install`
    - `npm cache clean`
    - `npm install`
-   - `grunt dev` to lint and concatenate js or `grunt js-dev` to do the same plus Watch (which concatenates and lints on changes to js) # Development
-
+   - `grunt dev` to lint and concatenate js or `grunt js-dev` to do the same plus Watch (which concatenates and lints on changes to js) 
 # Development
 
 0. Prepare the application configuration
