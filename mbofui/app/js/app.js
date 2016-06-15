@@ -30,38 +30,7 @@ ocellus.run(function($rootScope) {
       {'label':'Political/Rally'}
     ];
     $rootScope.time_format = 'YYYY-MM-DDTHH:mm:ssZ';
-    $rootScope.baselayers = {
-      googleRoadmap: {
-        name: 'Google Streets',
-        layerType: 'ROADMAP',
-        type: 'google',
-        layerParams: {
-          showOnSelector: true
-        }
-      },
-      googleHybrid: {
-        name: 'Google Hybrid',
-        layerType: 'HYBRID',
-        type: 'google'
-      },
-      googleTerrain: {
-        name: 'Google Terrain',
-        layerType: 'TERRAIN',
-        type: 'google'
-      },
-
-      mapbox_light: {
-        name: 'Mapbox Light',
-        url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-        type: 'xyz',
-        layerOptions: {
-          id: 'gsilver.pk8alhme',
-          accessToken: 'pk.eyJ1IjoiZ3NpbHZlciIsImEiOiJjaW1xYmxianowMGZsdXJra2FjbXhpYjE4In0.LL9yfFdOwvatCyCbxBDW_A',
-        },
-        layerParams: {
-          showOnSelector: true
-        }
-      },
+    $rootScope.baselayers = {      
       osm: {
         name: 'OpenStreetMap',
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
