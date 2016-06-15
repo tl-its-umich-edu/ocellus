@@ -3,10 +3,14 @@ If you know M-BoF, you don't need to know anything else.
 
 # Setup
 
+Use terminal, iTerm, etc. Not XTerm.
+
 0. Install Vagrant - https://www.vagrantup.com/
 0. Start Vagrant
    - `cd ocellus`
    - `vagrant up`
+   - `vagrant ssh`
+   - `cd /vagrant'
 0. Install Bower, Grunt, JsHint and Watch packages
    - `cd mbofui`
    - `bower install`
@@ -17,8 +21,6 @@ If you know M-BoF, you don't need to know anything else.
 # Development
 
 0. Prepare the application configuration
-    - `cd ..`
-    - `vagrant ssh`
     - `cd /vagrant/hacks_mbof`
     - `cp settings.py.template settings.py`
     - Edit `settings.py` to set various values:
