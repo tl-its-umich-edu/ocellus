@@ -10,7 +10,7 @@ Use terminal, iTerm, etc. Not XTerm.
    - `cd ocellus`
    - `vagrant up`
    - `vagrant ssh`
-   - `cd /vagrant'
+   - `cd /vagrant`
 0. Install Bower, Grunt, JsHint and Watch packages
    - `cd mbofui`
    - `bower install`
