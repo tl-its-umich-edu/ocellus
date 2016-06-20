@@ -148,7 +148,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var bofsUrl = url;
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(eventsList) {
-      $rootScope.events= eventsList;
+
+      $rootScope.events=eventsList;
       // wish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < eventsList.length; i++) {
