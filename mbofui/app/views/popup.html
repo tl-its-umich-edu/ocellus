@@ -1,18 +1,28 @@
 <div>
   <div>
     <strong>
-      {{event.category}}
+      Event title would go here
     </strong>
   </div>
-  <div>
-    <small>{{event.startTime | date:'MM/dd h:mma'}} - {{event.endTime | date:'MM/dd h:mma'}}</small>
+    {{event.category}}
+    <div class="">
+      <small>{{event.startTime | date:'MM/dd h:mma'}} - {{event.endTime | date:'MM/dd h:mma'}}</small>
+    </div>
+  <hr class="popupRule">
+  <div class="btn-group btn-group-sm btn-group-justified">
+    <a role="button" href="" class="btn btn-primary" style="color:#fff">
+      Going (2)
+    </a>
+    <a role="button" href="" class="btn btn-default">
+      Maybe (3)
+    </a>
   </div>
-  <hr style="margin:5px 0">
-  <p>
+  <div class="popupMessage" ng-show="revealInfo">
     {{event.message}}
-  </p>
-  <p class="btn-group btn-group-sm btn-group-justified">
-    <a href="#" class="btn btn-default">Going</a>
-    <a href="#" class="btn btn-default">Maybe</a>
-  </p>
+  </div>
+  <div class="popupMessageToggle">
+    <a href="#" ng-show="!revealInfo" ng-click="revealInfo=!revealInfo">More information?</a>
+    <a href="#" ng-show="revealInfo" ng-click="revealInfo=!revealInfo">Less information?</a>
+  </div>
+
 </div>
