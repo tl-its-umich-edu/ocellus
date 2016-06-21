@@ -36,6 +36,7 @@ var leafletize = function(data){
       message:event.eventText,
       layer: 'events',
       icon: {},
+      dateBlob: processDates(event.startTime, event.endTime),
       endTime: event.endTime,
       startTime: event.startTime,
       hashTag: event.hashtag,
@@ -45,6 +46,17 @@ var leafletize = function(data){
 });
     return leafletList;
 };
+
+var processDates = function(startTime, endTime) {
+  var m_startTime = moment(startTime);
+  var m_endTime = moment(endTime);
+  if (m_startTime.isSame(m_endTime, "day")) {
+    return m_startTime.format('M/D') + ' ' + m_startTime.format('h:mA') + ' - ' + m_endTime.format('h:mA');
+  } else {
+    return m_startTime.format('M/D h:mA') + ' - ' + m_endTime.format('M/D h:mA');
+  }
+};
+
 
 
 // new event validation - either the dates are blank or wrong or the description is blank

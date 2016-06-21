@@ -33,6 +33,15 @@ body {
   color:#a94442;
   display: inline-block;
 }
+.popupRule{
+  margin:8px 0
+}
+.popupMessage{
+   margin:10px 0
+}
+.popupMessageToggle{
+  margin-top:15px
+}
 
  .ws-picker-header button[data-action="setMonthList"], .ws-picker-header button[data-action="setYearList"],.ws-picker-header button[data-action="setDayList"] {
    color:#05c  !important;
@@ -41,4 +50,9 @@ body {
 
 .ws-po-box button[aria-label="Now"] {
   display: none !important;
+}
+.leaflet-popup-content {max-width:100%;width:400px}
+
+@media (max-width: 480px) {
+  .leaflet-popup-content {width:auto}
 }
