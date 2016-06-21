@@ -3,6 +3,16 @@
 
 ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof' , function($compile, $scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   // setting up init values
+  // get user
+  Bof.GetUser('/api/me/').then(function(userResult) {
+    $rootScope.user = userResult;
+    // only function inmediately invoked - get current events on page load,
+    // it fires after we have a user so that we can determine
+    // whoch belong to the current user
+    getEvents('/api/events/current/');
+  });
+
+
   // setting the markers to an empty array
   // markers array represents the filtered events
   // markersAll represents the prefiltered events
@@ -83,7 +93,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var postingTime = moment().format($rootScope.time_format);
     var category;
     if ($scope.selected_category) {
-      category = $scope.selected_category.label;
+      category = $scope.selected_category;
     }
     else {
       category='No Category';
@@ -201,9 +211,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     reinitTimeFields();
   });
 
-  // only function inmediately invoked - get current events on page load
-  getEvents('/api/events/current/');
-
   $scope.showMyEvents = function () {
     $rootScope.currentView= 'My Events';
     $('#myEventsModal').modal({});
@@ -213,5 +220,19 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $rootScope.currentView= title;
     getEvents(url);
   };
+
+  $(document).on('click','#editthing',function(e) {
+    var event = JSON.parse($('#editthing').attr('data-event'));
+    event.startTime = new Date(event.startTime);
+    event.endTime = new Date(event.endTime);
+    $('#bofModalEdit #startTimeEdit').val(moment(event.startTime).format('YYYY-M-DThh:mm'));
+    $('#bofModalEdit #endTimeEdit').val(moment(event.endTime).format('YYYY-M-DThh:mm'));
+    $scope.editEvent = event;
+    $('#bofModalEdit').modal('show');
+  });
+
+
+
+
 
 }]);

@@ -2,6 +2,16 @@
 /* global ocellus, leafletize, _*/
 ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $log, $q, $rootScope) {
   return {
+    //get user
+    GetUser: function(url) {
+      return $http.get(url).then(
+        function success(result) {
+          return result;
+        },
+        function error(result) {
+          // do some error things
+        });
+    },
     // post an event
     PostBof: function(url, data) {
       return $http.post(url, data).then(
@@ -31,7 +41,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
             } else {
               // either last page or single one
               // turn list into an array suitable for leaflet consumption
-              bofs = leafletize(bofs);
+              bofs = leafletize(bofs, $rootScope.user);
               // resolve promise now that it is complete
               deferred.resolve(bofs);
             }

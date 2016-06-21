@@ -9,12 +9,17 @@
     <small>{{event.dateBlob}}</small>
   </div>
   <hr class="popupRule">
-  <div class="btn-group btn-group-sm btn-group-justified">
+  <div class="btn-group btn-group-sm btn-group-justified" ng-show="!event.mine">
     <a role="button" href="" class="btn btn-primary" style="color:#fff">
       Going (2)
     </a>
     <a role="button" href="" class="btn btn-default">
       Maybe (3)
+    </a>
+  </div>
+  <div class="btn-group btn-group-sm btn-group-justified" ng-show="event.mine">
+    <a id="editthing" data-event="{{event}}" role="button" href="" class="btn btn-primary" style="color:#fff" >
+      Edit
     </a>
   </div>
   <div class="popupMessage" ng-show="revealInfo">

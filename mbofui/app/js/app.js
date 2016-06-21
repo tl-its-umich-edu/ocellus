@@ -18,19 +18,10 @@ ocellus.run(function($rootScope) {
       'modal_endtime':'End time',
       'modal_post':'Add Event'
     };
-    $rootScope.event_categories = [
-      {'label':'Study/Discussion'},
-      {'label':'Course/Class'},
-      {'label':'Practice/Rehearsal'},
-      {'label':'Social Gathering'},
-      {'label':'Business/Networking'},
-      {'label':'Public Ceremony'},
-      {'label':'Family'},
-      {'label':'Sports'},
-      {'label':'Political/Rally'}
-    ];
+    $rootScope.event_categories = ['Course/Class','Practice/Rehearsal','Social Gathering','Business/Networking','Public Ceremony','Family','Sports','Political/Rally'];
+
     $rootScope.time_format = 'YYYY-MM-DDTHH:mm:ssZ';
-    $rootScope.baselayers = {      
+    $rootScope.baselayers = {
       osm: {
         name: 'OpenStreetMap',
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',

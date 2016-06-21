@@ -26,9 +26,13 @@ var vote = function(e) {
 };
 
 // util to turn result of requesting event collection into leaflet attr naming scheme
-var leafletize = function(data){
+var leafletize = function(data, user){
+  var mine = false;
   var leafletList = [];
   _.each(data, function(event){
+    if(user.data.results[0].url ===event.owner) {
+      mine = true;
+    }
     leafletList.push({
       lat: event.latitude,
       lng: event.longitude,
@@ -41,7 +45,9 @@ var leafletize = function(data){
       startTime: event.startTime,
       hashTag: event.hashtag,
       votes: event.votes,
-      owner: event.owner
+      owner: event.owner,
+      url:event.url,
+      mine: mine,
     });
 });
     return leafletList;
@@ -128,4 +134,7 @@ $(function(){
       $(this).collapse('hide');
     }
   });
+  
+
+
 });
