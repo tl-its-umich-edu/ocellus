@@ -82,6 +82,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   });
 
+  $scope.eventEditPost = function (){
+
+  };
+
+
   // handles click on "Add Event" button on modal
   $('#postBof').on('click', function() {
     // handles click on "Add Event" button on modal
@@ -223,6 +228,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   $(document).on('click','#editthing',function(e) {
     var event = JSON.parse($('#editthing').attr('data-event'));
+    $('#bofModalEdit').attr('data-coords', [event.lat, event.lng]);
     event.startTime = new Date(event.startTime);
     event.endTime = new Date(event.endTime);
     $('#bofModalEdit #startTimeEdit').val(moment(event.startTime).format('YYYY-M-DThh:mm'));
@@ -231,6 +237,12 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $('#bofModalEdit').modal('show');
   });
 
+  $scope.eventEditPost = function (){
+    $log.info($('#bofModalEdit #startTimeEdit').val());
+    $log.info($('#bofModalEdit #endTimeEdit').val());
+    $log.info($('#bofModalEdit #eventTextEdit').val());
+    $log.info($scope.editEvent.category);
+  };
 
 
 

@@ -120,23 +120,23 @@
   </div>
 
   <!-- Edit Modal -->
-  <div class="modal fade" id="bofModalEdit" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
+  <div class="modal fade" id="bofModalEdit" tabindex="-1" role="dialog" aria-labelledby="bofModalEditLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="bofModalLabel">{{strings.modal_title}}</h4>
+          <h4 class="modal-title" id="bofModalEditLabel">Edit Event</h4>
         </div>
         <div class="modal-body">
           <div class="form-group eventText">
-            <label for="eventText">{{strings.modal_description}}</label>
+            <label for="eventTextEdit">{{strings.modal_description}}</label>
             <span class="req-text">(required)</span>
             <textarea ng-model="editEvent.message" class="form-control" id="eventTextEdit" rows="3" required></textarea>
           </div>
           <div class="form-group">
-            <label for="category">{{strings.app_categories}}</label>
+            <label for="categoryEdit">{{strings.app_categories}}</label>
             {{editEvent.category}}
-            <select ng-model="editEvent.category" class="form-control">
+            <select ng-model="editEvent.category" class="form-control" id="categoryEdit">
               <option> -- select a category -- </option>
               <option ng-repeat="category in event_categories" value="{{category}}">{{category}}</option>
             </select>
@@ -147,12 +147,12 @@
             Cannot have an event that starts after it ends.
           </div>
           <div class="form-group startTime">
-            <label for="startTime">{{strings.modal_starttime}}</label>
+            <label for="startTimeEdit">{{strings.modal_starttime}}</label>
             <span class="req-text">(required)</span>
             <input id="startTimeEdit" value="" ng-model="editEvent.startTime" name="startTime" min="" class="form-control" type="datetime-local">
           </div>
           <div class="form-group endTime">
-            <label for="endTime">{{strings.modal_endtime}}</label>
+            <label for="endTimeEdit">{{strings.modal_endtime}}</label>
             <span class="req-text">(required)</span><span class="endToSoon alert-inline" style="display:none">&nbsp;&nbsp;Cannot end events in the past.</span>
             {{editEvent.endTime | date:'yyyy-MM-dd HH:mm'}}
             <input id="endTimeEdit" value="" ng-model="editEvent.endTime" name="endTime" min="" class="form-control" type="datetime-local">
@@ -160,7 +160,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="postBof">{{strings.modal_post}}</button>
+          <button type="button" class="btn btn-primary" ng-click="eventEditPost()">{{strings.modal_post}}</button>
         </div>
       </div>
     </div>
