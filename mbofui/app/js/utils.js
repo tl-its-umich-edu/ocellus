@@ -28,10 +28,16 @@ var vote = function(e) {
 // util to turn result of requesting event collection into leaflet attr naming scheme
 var leafletize = function(data, user){
   var mine = false;
+  var inTime = false;
+  var now = moment();
   var leafletList = [];
+
   _.each(data, function(event){
     if(user.data.results[0].url ===event.owner) {
       mine = true;
+    }
+    if(moment(event.endTime).isAfter(now)){
+      inTime=true;
     }
     leafletList.push({
       lat: event.latitude,
@@ -48,6 +54,7 @@ var leafletize = function(data, user){
       owner: event.owner,
       url:event.url,
       mine: mine,
+      inTime:inTime
     });
 });
     return leafletList;
@@ -57,9 +64,9 @@ var processDates = function(startTime, endTime) {
   var m_startTime = moment(startTime);
   var m_endTime = moment(endTime);
   if (m_startTime.isSame(m_endTime, "day")) {
-    return m_startTime.format('M/D') + ' ' + m_startTime.format('h:mA') + ' - ' + m_endTime.format('h:mA');
+    return m_startTime.format('M/D') + ' ' + m_startTime.format('h:mm A') + ' - ' + m_endTime.format('h:mm A');
   } else {
-    return m_startTime.format('M/D h:mA') + ' - ' + m_endTime.format('M/D h:mA');
+    return m_startTime.format('M/D h:mA') + ' - ' + m_endTime.format('M/D h:mm A');
   }
 };
 
@@ -134,7 +141,7 @@ $(function(){
       $(this).collapse('hide');
     }
   });
-  
+
 
 
 });

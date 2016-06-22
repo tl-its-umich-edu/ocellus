@@ -73,6 +73,11 @@
     </div><!-- /.container-fluid -->
   </nav>
 
+  <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{alert.message}}
+  </div>
+
   <leaflet lf-center="center" controls="controls" layers="layers" markers="markersFiltered" width="100%"></leaflet>
 
   <!-- Create Modal -->
@@ -131,11 +136,10 @@
           <div class="form-group eventText">
             <label for="eventTextEdit">{{strings.modal_description}}</label>
             <span class="req-text">(required)</span>
-            <textarea ng-model="editEvent.message" class="form-control" id="eventTextEdit" rows="3" required></textarea>
+            <textarea class="form-control" id="eventTextEdit" rows="3" required></textarea>
           </div>
           <div class="form-group">
             <label for="categoryEdit">{{strings.app_categories}}</label>
-            {{editEvent.category}}
             <select ng-model="editEvent.category" class="form-control" id="categoryEdit">
               <option> -- select a category -- </option>
               <option ng-repeat="category in event_categories" value="{{category}}">{{category}}</option>
@@ -149,18 +153,17 @@
           <div class="form-group startTime">
             <label for="startTimeEdit">{{strings.modal_starttime}}</label>
             <span class="req-text">(required)</span>
-            <input id="startTimeEdit" value="" ng-model="editEvent.startTime" name="startTime" min="" class="form-control" type="datetime-local">
+            <input id="startTimeEdit" value="" name="startTime" min="" class="form-control" type="datetime-local">
           </div>
           <div class="form-group endTime">
             <label for="endTimeEdit">{{strings.modal_endtime}}</label>
             <span class="req-text">(required)</span><span class="endToSoon alert-inline" style="display:none">&nbsp;&nbsp;Cannot end events in the past.</span>
-            {{editEvent.endTime | date:'yyyy-MM-dd HH:mm'}}
-            <input id="endTimeEdit" value="" ng-model="editEvent.endTime" name="endTime" min="" class="form-control" type="datetime-local">
+            <input id="endTimeEdit" value="" name="endTime" min="" class="form-control" type="datetime-local">
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" ng-click="eventEditPost()">{{strings.modal_post}}</button>
+          <button type="button" class="btn btn-primary" ng-click="eventEditPost()">Save Event</button>
         </div>
       </div>
     </div>

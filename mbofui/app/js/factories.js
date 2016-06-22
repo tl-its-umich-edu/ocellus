@@ -22,6 +22,19 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           // do some error things
         });
     },
+
+    // post an event
+    PutBof: function(url, data) {
+      return $http.put(url, data).then(
+        function success(result) {
+          return result;
+        },
+        function error(result) {
+          // do some error things
+        });
+    },
+
+
     // get events (current, upcoming will depend on url)
     GetBofs: function(url) {
       var bofs = [];

@@ -52,6 +52,14 @@ body {
   display: none !important;
 }
 .leaflet-popup-content {max-width:100%;width:400px}
+.alertPanel {
+  position:absolute;
+  top:80px;
+  left:20%;
+  right:20%;
+  z-index: 1
+}
+
 
 @media (max-width: 480px) {
   .leaflet-popup-content {width:auto}
