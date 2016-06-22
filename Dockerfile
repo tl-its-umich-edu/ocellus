@@ -8,7 +8,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # Install dependencies
 RUN apt-get update && \
 apt-get dist-upgrade -y && \
-apt-get install -y libmysqlclient-dev git python-pip python-dev apache2 apache2-utils libldap2-dev libsasl2-dev nodejs curl
+apt-get install -y libmysqlclient-dev git python-pip python-dev apache2 apache2-utils libldap2-dev libssl-dev libffi-dev libsasl2-dev nodejs curl xmlsec1
 
 # Install Ocellus
 WORKDIR /tmp/
@@ -32,7 +32,10 @@ RUN npm install --global grunt
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 RUN cd mbofui && bower install && npm install && grunt docker
 
+# create saml directory for shib files unless running on local machine
+RUN if [ ! -d ./hacks_mbof/saml/ ]; then mkdir ./hacks_mbof/saml/; fi
+
 EXPOSE 8000
 
 # copy settings file and launch django
-CMD cp /usr/share/ocellus/settings.py ./hacks_mbof/; REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
+CMD cp /usr/share/ocellus/settings.py ./hacks_mbof/; cp -a /usr/share/ocellus/saml/. ./hacks_mbof/saml/;REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application

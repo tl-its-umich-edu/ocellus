@@ -34,6 +34,10 @@ Use terminal, iTerm, etc. Not XTerm.
         - _**With**_ remote user specified
             - `sh runAsUser.sh bjensen`
                 - `bjensen` is a user included in the test data.  Others are available.  For the purposes of the HWF event, use only known users.
+        - _**With gunicorn**_ and remote user specified
+            - `REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application`
+
+
 0. Browse to...
     - M-BoF homepage: [http://localhost:18000/](http://localhost:18000/)
     - REST API
