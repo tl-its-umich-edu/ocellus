@@ -229,31 +229,36 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     getEvents(url);
   };
 
-  $(document).on('click','#editthing',function(e) {
-    var event = JSON.parse($('#editthing').attr('data-event'));
+  $(document).on('click','#editEvent',function(e) {
+    var event = JSON.parse($('#editEvent').attr('data-event'));
     var thisEvent = _.findWhere($rootScope.events, {url: event.url});
+    // the event is stale (it has expired while user was looking at it)
     if(moment(event.endTime).isBefore()){
+      // get position of this event in the 3 collections
       var thisEventPos = $rootScope.events.indexOf(_.findWhere($rootScope.events, {url: event.url}));
       var thisEventPosMF = $scope.markersFiltered.indexOf(_.findWhere($rootScope.events, {url: event.url}));
       var thisEventPosM = $scope.markersAll.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+      // remove the event from the three collections
       $rootScope.events.splice(thisEventPos, 1);
       $scope.markersFiltered.splice(thisEventPosMF, 1);
       $scope.markersAll.splice(thisEventPosM, 1);
+      // alert the user that event expired
       $scope.alert={'type':'alert-danger','message':'Sorry - event has finished and you can no longer edit it.'};
+      // hide alert after 3 seconds
       $timeout(function () { $scope.alert = false; }, 3000);
+      //remove popup
       leafletData.getMap().then(function(map) {
         map.closePopup();
       });
     }
     else {
-      $('#bofModalEdit').attr('data-coords', [thisEvent.lat, thisEvent.lng]);
+      //populate the bofModalEdit modal and show it
       thisEvent.startTime = new Date(thisEvent.startTime);
       thisEvent.endTime = new Date(thisEvent.endTime);
       $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format('YYYY-M-DThh:mm'));
       $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format('YYYY-M-DThh:mm'));
       $('#bofModalEdit #eventTextEdit').val(thisEvent.message);
       $scope.editEvent = thisEvent;
-      //console.log(thisEvent);
       $('#bofModalEdit').modal('show');
       // close the popup
       leafletData.getMap().then(function(map) {
@@ -262,9 +267,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
   });
 
+  // handler for event edit PUT
   $scope.eventEditPost = function (){
-    var url = $scope.editEvent.url;
-    var coords = $('#bofModalEdit').attr('data-coords').split(',');
+    // use the editEvent model for the data for this PUT
+    // only wrinkle is the time
     var startTimeP = $('#bofModalEdit #startTimeEdit').val();
     if (startTimeP ==='') {
       startTimeP = $scope.editEvent.startTime;
@@ -274,16 +280,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       endTimeP = $scope.editEvent.endTime;
     }
     var data = {
-      'eventText': $('#bofModalEdit #eventTextEdit').val(),
+      'eventText': $scope.editEvent.message,
       'startTime': startTimeP,
       'endTime': endTimeP,
-      'latitude': coords[0],
-      'longitude': coords[1],
+      'latitude': $scope.editEvent.lat,
+      'longitude': $scope.editEvent.lng,
       'category':$scope.editEvent.category,
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
       'postingTime':  moment().format($rootScope.time_format)
     };
-    Bof.PutBof(url, data).then(function(result) {
+    Bof.PutBof($scope.editEvent.url, data).then(function(result) {
       getEvents($rootScope.currentViewUrl);
       // clear the form controls in the modal and then hide it
       $('#eventTextEdit, #newStartTimeEdit, #newEndTimeEdit').val('');

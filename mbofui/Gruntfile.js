@@ -15,7 +15,7 @@ module.exports = function(grunt) {
       options: {
         banner: '/*\n <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n',
         sourceMap: true,
-        sourceMapName: 'all.min.js.map',
+        sourceMapName: 'app/js/dist/all.min.js.map',
         separator: ';',
         stripBanners: true,
         mangle: false
