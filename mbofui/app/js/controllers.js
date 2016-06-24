@@ -297,17 +297,28 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
-  $scope.lookUpAddress = function(){
+  $scope.lookUpAddress = function(mode){
     var coords = $('#bofModal').attr('data-coords').split(',');
+    var addressUrl ='';
+    if (mode==="google") {
+      addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
+    }
+    else {
+      addressUrl ='http://nominatim.openstreetmap.org/reverse?format=xml&lat=' + coords[0] + '&lon=' + coords[1] + '&zoom=18&addressdetails=1';
+    }
     //openstreets
-    var addressUrl ='http://nominatim.openstreetmap.org/reverse?format=xml&lat=' + coords[0] + '&lon=' + coords[1] + '&zoom=18&addressdetails=1';
+
     //google url
     //var addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
     Bof.GetAddress(addressUrl).then(function(result) {
-      //openstreet parsing
-       $('#address').val($(result.data).find("result")[0].innerText);
-      //google parsing
-      //$('#address').val(result.data.results[0].formatted_address);
+      if (mode==="google") {
+        //google parsing
+        $('#address').val(result.data.results[0].formatted_address);
+      }
+      else {
+        //openstreet parsing
+        $('#address').val($(result.data).find("result")[0].innerText);
+      }
     });
   };
 

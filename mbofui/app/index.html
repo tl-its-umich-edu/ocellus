@@ -119,11 +119,14 @@
             <label for="hashtag" class="sr-only">Hashtags</label>
             <input id="hashtag" name="hashtag"  class="form-control" type="text" placeholder="Hashtags">
           </div>
+          <label for="address" class="sr-only">Address</label>
           <div class="input-group address">
-            <label for="address" class="sr-only">Address</label>
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" ng-click="lookUpAddress('google')">Look up (Goo)</button>
+            </span>
             <input id="address" name="address"  class="form-control" type="text" placeholder="Address">
             <span class="input-group-btn">
-              <button class="btn btn-secondary" type="button" ng-click="lookUpAddress()">Look up</button>
+              <button class="btn btn-primary" type="button" ng-click="lookUpAddress('openstreet')">Look up (OpSt)</button>
             </span>
           </div>
         </div>
