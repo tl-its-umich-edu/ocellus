@@ -1,5 +1,5 @@
 /*jshint strict:false */
-/* global angular, ocellus, $, L,  resolveIcon, moment, validate, _, popupLink */
+/* global angular, ocellus, $, L,  resolveIcon, moment, validate, _, popupLink, checkTimeSlice */
 
 ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof' , function($compile, $scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   // setting up init values
@@ -124,6 +124,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     // and construct a new marker to add to map
     if(!validationFailures.length) {
       Bof.PostBof(url, data).then(function(result) {
+        // examine event and return a message to the user if
+        // the event's timeframe is the NOT current view's timeframe
+        $scope.alert = checkTimeSlice(result.data.startTime, result.data.endTime, $rootScope.currentViewUrl);
+        $timeout(function () { $scope.alert = false; }, 3000);
         // reload events
         getEvents($rootScope.currentViewUrl);
         // close the popup
@@ -290,6 +294,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'postingTime':  moment().format($rootScope.time_format)
     };
     Bof.PutBof($scope.editEvent.url, data).then(function(result) {
+      // examine event and return a message to the user if
+      // the event's timeframe is NOT the current view's timeframe
+      $scope.alert = checkTimeSlice(result.data.startTime, result.data.endTime, $rootScope.currentViewUrl);
+      $timeout(function () { $scope.alert = false; }, 3000);
+      //reload events
       getEvents($rootScope.currentViewUrl);
       // clear the form controls in the modal and then hide it
       $('#eventTextEdit, #newStartTimeEdit, #newEndTimeEdit').val('');

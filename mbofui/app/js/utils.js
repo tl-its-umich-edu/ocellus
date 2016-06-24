@@ -123,6 +123,16 @@ webshim.setOptions("forms-ext", {
   }
 });
 
+var checkTimeSlice  = function(start,end,currentView) {
+  if(moment(start).isAfter(moment()) && currentView ==='/api/events/current/'){
+    return {'type':'alert-success','message':'Event created for the future - view in upcoming events.'};
+  } else if (moment(start).isSameOrBefore(moment(),'hour') && moment(end).isSameOrAfter(moment(), 'hour')  && currentView ==='/api/events/upcoming/'){
+    return {'type':'alert-success','message':'Event created for the current - view in current events.'};
+  } else {
+    return null;
+  }
+};
+
 var reinitTimeFields = function(){
   // add current datetime to startTime and endTime inputs to be used by polyfill
   // as well as default value for start time

@@ -52,6 +52,7 @@ body {
   display: none !important;
 }
 .leaflet-popup-content {max-width:100%;width:400px}
+
 .alertPanel {
   position:absolute;
   top:80px;
