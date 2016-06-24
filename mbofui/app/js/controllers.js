@@ -3,6 +3,17 @@
 
 ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof' , function($compile, $scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
   // setting up init values
+  // get user
+  Bof.GetUser('/api/me/').then(function(userResult) {
+    $rootScope.user = userResult;
+    // only function inmediately invoked - get current events on page load,
+    // it fires after we have a user so that we can determine
+    // which belong to the current user
+    getEvents('/api/events/current/');
+    $rootScope.currentViewUrl = '/api/events/current/';
+  });
+
+
   // setting the markers to an empty array
   // markers array represents the filtered events
   // markersAll represents the prefiltered events
@@ -72,6 +83,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   });
 
+  $scope.eventEditPost = function (){
+
+  };
+
+
   // handles click on "Add Event" button on modal
   $('#postBof').on('click', function() {
     // handles click on "Add Event" button on modal
@@ -83,7 +99,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var postingTime = moment().format($rootScope.time_format);
     var category;
     if ($scope.selected_category) {
-      category = $scope.selected_category.label;
+      category = $scope.selected_category;
     }
     else {
       category='No Category';
@@ -98,6 +114,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
       'postingTime': postingTime
     };
+
     // hide previous validation alerts
     $('#bofModal .alert-inline').hide();
     $('.form-group').removeClass('has-error');
@@ -108,7 +125,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     if(!validationFailures.length) {
       Bof.PostBof(url, data).then(function(result) {
         // reload events
-        getEvents('/api/events/current/');
+        getEvents($rootScope.currentViewUrl);
         // close the popup
         leafletData.getMap().then(function(map) {
           map.closePopup();
@@ -141,7 +158,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   };
 
   // get events
-  // TODO: needs to change to get only current
   var getEvents = function(url) {
     $scope.markersAll = [];
     $scope.markers = [];
@@ -156,6 +172,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         var newMarker = {
           lat: parseFloat(eventsList[i].lat),
           lng: parseFloat(eventsList[i].lng),
+          url: eventsList[i].url,
           category: eventsList[i].category,
           messageSearch: eventsList[i].category + ' ' + eventsList[i].message,
           message: "<popup event='events[" + i + "]'></popup>",
@@ -201,9 +218,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     reinitTimeFields();
   });
 
-  // only function inmediately invoked - get current events on page load
-  getEvents('/api/events/current/');
-
   $scope.showMyEvents = function () {
     $rootScope.currentView= 'My Events';
     $('#myEventsModal').modal({});
@@ -211,7 +225,75 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   $scope.switchViews = function (url, title) {
     $rootScope.currentView= title;
+    $rootScope.currentViewUrl = url;
     getEvents(url);
   };
 
+  $(document).on('click','#editEvent',function(e) {
+    var event = JSON.parse($('#editEvent').attr('data-event'));
+    var thisEvent = _.findWhere($rootScope.events, {url: event.url});
+    // the event is stale (it has expired while user was looking at it)
+    if(moment(event.endTime).isBefore()){
+      // get position of this event in the 3 collections
+      var thisEventPos = $rootScope.events.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+      var thisEventPosMF = $scope.markersFiltered.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+      var thisEventPosM = $scope.markersAll.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+      // remove the event from the three collections
+      $rootScope.events.splice(thisEventPos, 1);
+      $scope.markersFiltered.splice(thisEventPosMF, 1);
+      $scope.markersAll.splice(thisEventPosM, 1);
+      // alert the user that event expired
+      $scope.alert={'type':'alert-danger','message':'Sorry - event has finished and you can no longer edit it.'};
+      // hide alert after 3 seconds
+      $timeout(function () { $scope.alert = false; }, 3000);
+      //remove popup
+      leafletData.getMap().then(function(map) {
+        map.closePopup();
+      });
+    }
+    else {
+      //populate the bofModalEdit modal and show it
+      thisEvent.startTime = new Date(thisEvent.startTime);
+      thisEvent.endTime = new Date(thisEvent.endTime);
+      $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format('YYYY-M-DThh:mm'));
+      $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format('YYYY-M-DThh:mm'));
+      $('#bofModalEdit #eventTextEdit').val(thisEvent.message);
+      $scope.editEvent = thisEvent;
+      $('#bofModalEdit').modal('show');
+      // close the popup
+      leafletData.getMap().then(function(map) {
+        map.closePopup();
+      });
+    }
+  });
+
+  // handler for event edit PUT
+  $scope.eventEditPost = function (){
+    // use the editEvent model for the data for this PUT
+    // only wrinkle is the time
+    var startTimeP = $('#bofModalEdit #startTimeEdit').val();
+    if (startTimeP ==='') {
+      startTimeP = $scope.editEvent.startTime;
+    }
+    var endTimeP = $('#bofModalEdit #endTimeEdit').val();
+    if (endTimeP ==='') {
+      endTimeP = $scope.editEvent.endTime;
+    }
+    var data = {
+      'eventText': $scope.editEvent.message,
+      'startTime': startTimeP,
+      'endTime': endTimeP,
+      'latitude': $scope.editEvent.lat,
+      'longitude': $scope.editEvent.lng,
+      'category':$scope.editEvent.category,
+      'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
+      'postingTime':  moment().format($rootScope.time_format)
+    };
+    Bof.PutBof($scope.editEvent.url, data).then(function(result) {
+      getEvents($rootScope.currentViewUrl);
+      // clear the form controls in the modal and then hide it
+      $('#eventTextEdit, #newStartTimeEdit, #newEndTimeEdit').val('');
+      $('#bofModalEdit').modal('hide');
+    });
+  };
 }]);
