@@ -135,7 +135,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           map.closePopup();
         });
         // clear the form controls in the modal
-        $('#eventText, #newStartTime, #newEndTime').val('');
+        $('#eventText, #newStartTime, #newEndTime, #address').val('');
         $('#bofModal').modal('hide');
       });
     } else {
@@ -214,7 +214,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.newEventText =undefined;
     $('#bofModal .alert-inline').hide();
     $('.form-group').removeClass('has-error');
-    $('#eventText, #startTime, #endTime').val('');
+    $('#eventText, #startTime, #endTime, #address').val('');
   });
 
     // handler for modal opening
@@ -305,4 +305,31 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       $('#bofModalEdit').modal('hide');
     });
   };
+
+  $scope.lookUpAddress = function(mode){
+    var coords = $('#bofModal').attr('data-coords').split(',');
+    var addressUrl ='';
+    if (mode==="google") {
+      addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
+    }
+    else {
+      addressUrl ='http://nominatim.openstreetmap.org/reverse?format=xml&lat=' + coords[0] + '&lon=' + coords[1] + '&zoom=18&addressdetails=1';
+    }
+    //openstreets
+
+    //google url
+    //var addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
+    Bof.GetAddress(addressUrl).then(function(result) {
+      if (mode==="google") {
+        //google parsing
+        $('#address').val(result.data.results[0].formatted_address);
+      }
+      else {
+        //openstreet parsing
+        $('#address').val($(result.data).find("result")[0].innerText);
+      }
+    });
+  };
+
+
 }]);

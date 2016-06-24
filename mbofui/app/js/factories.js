@@ -34,6 +34,16 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         });
     },
 
+    // get an address
+    GetAddress: function(url) {
+      return $http.get(url).then(
+      function success(result) {
+        return result;
+      },
+      function error(result) {
+        // do some error things
+      });
+    },
 
     // get events (current, upcoming will depend on url)
     GetBofs: function(url) {
