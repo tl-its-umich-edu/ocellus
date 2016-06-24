@@ -131,7 +131,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           map.closePopup();
         });
         // clear the form controls in the modal
-        $('#eventText, #newStartTime, #newEndTime').val('');
+        $('#eventText, #newStartTime, #newEndTime, #address').val('');
         $('#bofModal').modal('hide');
       });
     } else {
@@ -210,7 +210,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.newEventText =undefined;
     $('#bofModal .alert-inline').hide();
     $('.form-group').removeClass('has-error');
-    $('#eventText, #startTime, #endTime').val('');
+    $('#eventText, #startTime, #endTime, #address').val('');
   });
 
     // handler for modal opening
