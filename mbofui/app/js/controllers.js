@@ -259,8 +259,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       //populate the bofModalEdit modal and show it
       thisEvent.startTime = new Date(thisEvent.startTime);
       thisEvent.endTime = new Date(thisEvent.endTime);
-      $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format('YYYY-M-DThh:mm'));
-      $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format('YYYY-M-DThh:mm'));
+      $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format('MM/DD/YYYYTH:mm'));
+      $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format('MM/DD/YYYYTH:mm'));
       $('#bofModalEdit #eventTextEdit').val(thisEvent.message);
       $scope.editEvent = thisEvent;
       $('#bofModalEdit').modal('show');
@@ -285,8 +285,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
     var data = {
       'eventText': $scope.editEvent.message,
-      'startTime': startTimeP,
-      'endTime': endTimeP,
+      'startTime': moment(startTimeP, 'MM/DD/YYYYTHH:mm').format('YYYY-MM-DDTHH:mm'),
+      'endTime': moment(endTimeP, 'MM/DD/YYYYTHH:mm').format('YYYY-MM-DDTHH:mm'),
       'latitude': $scope.editEvent.lat,
       'longitude': $scope.editEvent.lng,
       'category':$scope.editEvent.category,
