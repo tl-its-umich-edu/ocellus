@@ -240,14 +240,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var thisEvent = _.findWhere($rootScope.events, {url: event.url});
     // the event is stale (it has expired while user was looking at it)
     if(moment(event.endTime).isBefore()){
-      // get position of this event in the 3 collections
-      var thisEventPos = $rootScope.events.indexOf(_.findWhere($rootScope.events, {url: event.url}));
-      var thisEventPosMF = $scope.markersFiltered.indexOf(_.findWhere($rootScope.events, {url: event.url}));
-      var thisEventPosM = $scope.markersAll.indexOf(_.findWhere($rootScope.events, {url: event.url}));
-      // remove the event from the three collections
-      $rootScope.events.splice(thisEventPos, 1);
-      $scope.markersFiltered.splice(thisEventPosMF, 1);
-      $scope.markersAll.splice(thisEventPosM, 1);
+      //remove the event
+      $scope.removeEvent(event);
       // alert the user that event expired
       $scope.alert={'type':'alert-danger','message':'Sorry - event has finished and you can no longer edit it.'};
       // hide alert after 3 seconds
@@ -273,10 +267,23 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
   });
 
+  $scope.removeEvent = function(event){
+    // get position of this event in the 3 collections
+    var thisEvent = _.findWhere($rootScope.events, {url: event.url});
+    var thisEventPos = $rootScope.events.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+    var thisEventPosMF = $scope.markersFiltered.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+    var thisEventPosM = $scope.markersAll.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+    // remove the event from the three collections
+    $rootScope.events.splice(thisEventPos, 1);
+    $scope.markersFiltered.splice(thisEventPosMF, 1);
+    $scope.markersAll.splice(thisEventPosM, 1);
+  };
 
   $scope.eventEditCancel = function(){
     $scope.editEvent.status = 'cancelled';
+    $scope.removeEvent($scope.editEvent);
     $scope.eventEditPost();
+
   };
 
   // handler for event edit PUT
