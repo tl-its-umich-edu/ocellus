@@ -276,17 +276,17 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     // use the editEvent model for the data for this PUT
     // only wrinkle is the time
     var startTimeP = $('#bofModalEdit #startTimeEdit').val();
-    if (startTimeP ==='') {
-      startTimeP = $scope.editEvent.startTime;
-    }
     var endTimeP = $('#bofModalEdit #endTimeEdit').val();
-    if (endTimeP ==='') {
-      endTimeP = $scope.editEvent.endTime;
+    if(!moment(startTimeP).isValid()) {
+      startTimeP = moment(startTimeP, 'MM/DD/YYYYTHH:mm').format('YYYY-MM-DDTHH:mm');
+    }
+    if(!moment(endTimeP).isValid()) {
+      endTimeP = moment(endTimeP, 'MM/DD/YYYYTHH:mm').format('YYYY-MM-DDTHH:mm');
     }
     var data = {
       'eventText': $scope.editEvent.message,
-      'startTime': moment(startTimeP, 'MM/DD/YYYYTHH:mm').format('YYYY-MM-DDTHH:mm'),
-      'endTime': moment(endTimeP, 'MM/DD/YYYYTHH:mm').format('YYYY-MM-DDTHH:mm'),
+      'startTime': startTimeP,
+      'endTime': endTimeP,
       'latitude': $scope.editEvent.lat,
       'longitude': $scope.editEvent.lng,
       'category':$scope.editEvent.category,
