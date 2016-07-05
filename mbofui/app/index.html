@@ -174,9 +174,17 @@
             <input id="endTimeEdit" value="" name="endTime" min="" class="form-control" type="datetime-local">
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" ng-click="eventEditPost()">Save Event</button>
+        <div class="modal-footer container-flex">
+          <div class="row">
+            <div class="col-lg-6">
+              <button type="button" class="btn btn-danger pull-left" ng-click="eventEditCancel()">Cancel Event</button>
+            </div>
+            <div class="col-lg-6">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" ng-click="eventEditPost()">Save Event</button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

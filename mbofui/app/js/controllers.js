@@ -112,6 +112,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'category':category,
       'longitude': coords[1],
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
+      // status field is not available in the end point/db at this point
+      //'status':'active',
       'postingTime': postingTime
     };
 
@@ -271,6 +273,12 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
   });
 
+
+  $scope.eventEditCancel = function(){
+    $scope.editEvent.status = 'cancelled';
+    $scope.eventEditPost();
+  };
+
   // handler for event edit PUT
   $scope.eventEditPost = function (){
     // use the editEvent model for the data for this PUT
@@ -290,6 +298,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'latitude': $scope.editEvent.lat,
       'longitude': $scope.editEvent.lng,
       'category':$scope.editEvent.category,
+      // status field is not available in the end point/db at this point
+      //'status':$scope.editEvent.status,
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
       'postingTime':  moment().format($rootScope.time_format)
     };
@@ -315,10 +325,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     else {
       addressUrl ='https://nominatim.openstreetmap.org/reverse?format=xml&lat=' + coords[0] + '&lon=' + coords[1] + '&zoom=18&addressdetails=1';
     }
-    //openstreets
-
-    //google url
-    //var addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
     Bof.GetAddress(addressUrl).then(function(result) {
       if (mode==="google") {
         //google parsing
@@ -330,6 +336,4 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       }
     });
   };
-
-
 }]);
