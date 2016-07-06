@@ -257,10 +257,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
     else {
       //populate the bofModalEdit modal and show it
-      thisEvent.startTime = new Date(thisEvent.startTime);
-      thisEvent.endTime = new Date(thisEvent.endTime);
-      $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format('MM/DD/YYYYTH:mm'));
-      $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format('MM/DD/YYYYTH:mm'));
+      $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format('YYYY-MM-DDTHH:mm'));
+      $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format('YYYY-MM-DDTHH:mm'));
       $('#bofModalEdit #eventTextEdit').val(thisEvent.message);
       $scope.editEvent = thisEvent;
       $('#bofModalEdit').modal('show');
@@ -274,15 +272,9 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   // handler for event edit PUT
   $scope.eventEditPost = function (){
     // use the editEvent model for the data for this PUT
-    // only wrinkle is the time
+    // only wrinkle is the time, that we had to populate via jQuery
     var startTimeP = $('#bofModalEdit #startTimeEdit').val();
     var endTimeP = $('#bofModalEdit #endTimeEdit').val();
-    if(!moment(startTimeP).isValid()) {
-      startTimeP = moment(startTimeP, 'MM/DD/YYYYTHH:mm').format('YYYY-MM-DDTHH:mm');
-    }
-    if(!moment(endTimeP).isValid()) {
-      endTimeP = moment(endTimeP, 'MM/DD/YYYYTHH:mm').format('YYYY-MM-DDTHH:mm');
-    }
     var data = {
       'eventText': $scope.editEvent.message,
       'startTime': startTimeP,
