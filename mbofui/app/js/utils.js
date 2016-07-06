@@ -60,6 +60,21 @@ var leafletize = function(data, user){
     return leafletList;
 };
 
+
+var normalizeaddressLookupResults = function(data){
+  var locationList = [];
+  _.each(data, function(location){
+    locationList.push({
+      locationName: location.display_name || location.formatted_address,
+      lat:location.lat || location.geometry.location.lat,
+      lng:location.lon || location.geometry.location.lng
+    });
+  });
+  return locationList;
+};
+
+
+
 var processDates = function(startTime, endTime) {
   var m_startTime = moment(startTime);
   var m_endTime = moment(endTime);
@@ -151,7 +166,4 @@ $(function(){
       $(this).collapse('hide');
     }
   });
-
-
-
 });

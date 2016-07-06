@@ -306,6 +306,20 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
+  $scope.selectLocation = function(location){
+    $scope.newEventAddress = location.locationName;
+    $scope.newEventLoc = {lat:location.lat,lng:location.lng};
+    $('#bofModal').attr('data-coords', [location.lat,location.lng]);
+    $('#coordsLookUpModal').modal('hide');
+    $('#bofModal').modal('show');
+    $scope.panMap($scope.newEventLoc);
+  };
+  $scope.panMap = function(){
+    leafletData.getMap().then(function(map) {
+      map.panTo($scope.newEventLoc);
+    });
+  };
+
   $scope.lookUpCoords = function(mode){
     var coordsUrl ='';
     if (mode==="google") {
@@ -317,15 +331,42 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
     Bof.GetAddress(coordsUrl).then(function(result) {
       if (mode==="google") {
-        console.log(result.data.results[0].geometry.location);
+        if (result.data.results.length === 1){
+          // pass the object to the edit dialog
+          $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
+          $scope.newEventAddress = result.data.results[0].formatted_address;
+          $scope.newEventLoc =result.data.results[0].geometry.location;
+          $scope.panMap($scope.newEventLoc);
+          $('#coordsLookUpModal').modal('hide');
+          $('#bofModal').modal('show');
+
+        } else {
+          $scope.addressLookupResults = normalizeaddressLookupResults(result.data.results);
+          $('#coordsLookUpModal').modal('show');
+        }
       }
       else {
-      console.log({lat:parseFloat(result.data[0].lat),lng:parseFloat(result.data[0].lon)} );  
-      }
+        if (result.data.length === 1){
+          // pass the object to the edit dialog
+          $('#bofModal').attr('data-coords', [parseFloat(result.data[0].lat), parseFloat(result.data[0].lon)]);
+           $scope.newEventLoc = {lat:parseFloat(result.data[0].lat),lng:parseFloat(result.data[0].lon)};
+           $scope.newEventAddress = result.data[0].display_name;
+           $scope.panMap($scope.newEventLoc);
+           $('#coordsLookUpModal').modal('hide');
+           $('#bofModal').modal('show');
 
+        } else {
+          $scope.addressLookupResults = normalizeaddressLookupResults(result.data);
+          $('#coordsLookUpModal').modal('show');
+        }
+      }
     });
   };
 
+  $('#coordsLookUpModal').on('hide.bs.modal', function () {
+    $scope.addressLookupResults =null;
+    $scope.coordsLookUp='';
+  });
 
   $scope.lookUpAddress = function(mode){
     var coords = $('#bofModal').attr('data-coords').split(',');
