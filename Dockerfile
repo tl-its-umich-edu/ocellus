@@ -32,4 +32,4 @@ RUN cd mbofui && bower install && npm install && grunt docker
 RUN if [ ! -d ./hacks_mbof/saml/ ]; then mkdir ./hacks_mbof/saml/; fi
 
 # copy settings file and launch django
-#CMD cp /usr/share/ocellus/settings.py ./hacks_mbof/; cp -a /usr/share/ocellus/saml/. ./hacks_mbof/saml/;REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
+CMD cp /usr/share/ocellus/settings.py ./hacks_mbof/; cp -a /usr/share/ocellus/saml/. ./hacks_mbof/saml/;REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
