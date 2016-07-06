@@ -331,6 +331,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
     Bof.GetAddress(coordsUrl).then(function(result) {
       if (mode==="google") {
+<<<<<<< HEAD
         if (result.data.results.length === 1){
           // pass the object to the edit dialog
           $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
@@ -367,6 +368,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.addressLookupResults =null;
     $scope.coordsLookUp='';
   });
+
 
   $scope.lookUpAddress = function(mode){
     var coords = $('#bofModal').attr('data-coords').split(',');
