@@ -98,7 +98,6 @@
             <select ng-model="selected_category" ng-options="item as item for item in event_categories" class="form-control">
                 <option value="">---Please select---</option>
             </select>
-
           </div>
 
           <div class="form-group backwardsTime alert-inline" style="display:none">
@@ -118,12 +117,14 @@
             <label for="hashtag" class="sr-only">Hashtags</label>
             <input id="hashtag" name="hashtag"  class="form-control" type="text" placeholder="Hashtags">
           </div>
+          {{newEventLoc}}
           <label for="address" class="sr-only">Address</label>
           <div class="input-group address">
+
             <span class="input-group-btn">
               <button class="btn btn-primary" type="button" ng-click="lookUpAddress('google')">Google</button>
             </span>
-            <input id="address" name="address"  class="form-control" type="text" placeholder="Address">
+            <input id="address" name="address"  ng-model="newEventAddress" class="form-control" type="text" placeholder="Address">
             <span class="input-group-btn">
               <button class="btn btn-primary" type="button" ng-click="lookUpAddress('openstreet')">Open Street</button>
             </span>
@@ -224,6 +225,20 @@
             <span class="input-group-btn">
               <button class="btn btn-primary" type="button" ng-click="lookUpCoords('google')">Get Coords (G)</button>
             </span>
+          </div>
+          <p  ng-show="addressLookupResults.length"></p>
+          <div class="alert alert-info" role="alert" ng-show="addressLookupResults.length">
+            Please select one of the possible options below.
+          </div>
+          <p  ng-show="addressLookupResults && !addressLookupResults.length"></p>
+          <div class="alert alert-warning" role="alert" ng-show="addressLookupResults && !addressLookupResults.length">
+            The search did not return any results. Sorry.
+          </div>
+          <div class="list-group">
+            <a href="" ng-click="selectLocation(location)" class="list-group-item" ng-repeat="location in addressLookupResults">
+              {{location.locationName}}
+              {{location.coords}}
+            </a>
           </div>
         </div>
       </div>
