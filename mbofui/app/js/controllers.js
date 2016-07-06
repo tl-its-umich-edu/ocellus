@@ -306,6 +306,27 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
+  $scope.lookUpCoords = function(mode){
+    var coordsUrl ='';
+    if (mode==="google") {
+      coordsUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent($scope.coordsLookUp) + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
+    }
+    else {
+      coordsUrl = 'https://nominatim.openstreetmap.org/search?q='  + encodeURIComponent($scope.coordsLookUp) + '&format=json';
+    }
+
+    Bof.GetAddress(coordsUrl).then(function(result) {
+      if (mode==="google") {
+        console.log(result.data.results[0].geometry.location);
+      }
+      else {
+      console.log({lat:parseFloat(result.data[0].lat),lng:parseFloat(result.data[0].lon)} );  
+      }
+
+    });
+  };
+
+
   $scope.lookUpAddress = function(mode){
     var coords = $('#bofModal').attr('data-coords').split(',');
     var addressUrl ='';
