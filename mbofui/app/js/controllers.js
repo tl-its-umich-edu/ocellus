@@ -316,6 +316,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
+  //Given coordinates, lookup address
+  //used in Create and Edit Event modals
+  //logic will be radically simplified when we decide what service to use
+
   $scope.lookUpAddress = function(mode){
     var coords = $('#bofModal').attr('data-coords').split(',');
     var addressUrl ='';
@@ -334,6 +338,88 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         //openstreet parsing
         $('#address').val($(result.data).find("result")[0].innerText);
       }
+    });
+  };
+
+  //used to create an event given a textual address
+  // flow:
+  // 1. user specifies address in coordsLookUpModal modal and searches (lookUpCoords)
+  // 2. if service returned one address, open Create Event modal (bofModal) with that address and that adress coordinates
+  // 3. if service returned more than one, populate lookup address modal (coordsLookUpModal) with the choices
+  // 4. user then selects one of the choices via selectLocation and then Create Event modal (bofModal) opens with that address and that adress coordinates
+
+  $scope.lookUpCoords = function(mode){
+    // ermove any previpus search results
+    $scope.addressLookupResults =null;
+    // if address supplied is too short, let user know
+    if($scope.coordsLookUp.length < 5) {
+      $scope.addressTooShort = true;
+    } else {
+      $scope.addressTooShort = false;
+      var coordsUrl ='';
+      if (mode==="google") {
+        coordsUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent($scope.coordsLookUp) + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
+      }
+      else {
+        coordsUrl = 'https://nominatim.openstreetmap.org/search?q='  + encodeURIComponent($scope.coordsLookUp) + '&format=json';
+      }
+
+      Bof.GetAddress(coordsUrl).then(function(result) {
+        if (mode==="google") {
+          if (result.data.results.length === 1){
+            // pass the object to the edit dialog
+            $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
+            $scope.newEventAddress = result.data.results[0].formatted_address;
+            $scope.newEventLoc =result.data.results[0].geometry.location;
+            $scope.panMap($scope.newEventLoc);
+            $('#coordsLookUpModal').modal('hide');
+            $('#bofModal').modal('show');
+
+          } else {
+            $scope.addressLookupResults = normalizeaddressLookupResults(result.data.results);
+            $('#coordsLookUpModal').modal('show');
+          }
+        }
+        else {
+          if (result.data.length === 1){
+            // pass the object to the edit dialog
+            $('#bofModal').attr('data-coords', [parseFloat(result.data[0].lat), parseFloat(result.data[0].lon)]);
+             $scope.newEventLoc = {lat:parseFloat(result.data[0].lat),lng:parseFloat(result.data[0].lon)};
+             $scope.newEventAddress = result.data[0].display_name;
+             $scope.panMap($scope.newEventLoc);
+             $('#coordsLookUpModal').modal('hide');
+             $('#bofModal').modal('show');
+
+          } else {
+            $scope.addressLookupResults = normalizeaddressLookupResults(result.data);
+            $('#coordsLookUpModal').modal('show');
+          }
+        }
+      });
+    }
+  };
+
+  // handles user selecting one of the locations after and address search that returned more than one choice
+  $scope.selectLocation = function(location){
+    $scope.newEventAddress = location.locationName;
+    $scope.newEventLoc = {lat:location.lat,lng:location.lng};
+    $('#bofModal').attr('data-coords', [location.lat,location.lng]);
+    $('#coordsLookUpModal').modal('hide');
+    $('#bofModal').modal('show');
+    $scope.panMap($scope.newEventLoc);
+  };
+
+  //clean up coordsLookUpModal after it is dismissed
+  $('#coordsLookUpModal').on('hide.bs.modal', function () {
+    $scope.addressLookupResults =null;
+    $scope.coordsLookUp='';
+    $scope.addressTooShort = false;
+  });
+
+  // generic function to pan map to a specified set of coordinates
+  $scope.panMap = function(loc){
+    leafletData.getMap().then(function(map) {
+      map.panTo(loc);
     });
   };
 }]);
