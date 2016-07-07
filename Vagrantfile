@@ -50,7 +50,7 @@ EOM
         service apache2 restart
 
         pip install coverage gunicorn
-        pip install -r requirements.txt
+        pip install -r requirements_vagrant.txt
 
         echo "Installing Bower..."
         cd /vagrant

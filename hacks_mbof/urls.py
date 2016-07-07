@@ -48,17 +48,17 @@ urlpatterns = [
 ]
 
 if 'djangosaml2' in settings.INSTALLED_APPS:
-    urlpatterns += (
+    urlpatterns += [
         url(r'^accounts/', include('djangosaml2.urls')),
         url(r'^test/', 'djangosaml2.views.echo_attributes'),
-    )
+    ]
 elif 'registration' in settings.INSTALLED_APPS:
-    urlpatterns += (
+    urlpatterns += [
         url(r'^accounts/', include('registration.backends.default.urls')),
-    )
+    ]
 
-urlpatterns += (
+urlpatterns += [
     url(r'^(?P<path>.*)$', serve, {
         'document_root': 'mbofui/app',
     }),
-)
+]
