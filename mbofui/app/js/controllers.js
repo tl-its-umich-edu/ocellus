@@ -316,19 +316,37 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
-  $scope.selectLocation = function(location){
-    $scope.newEventAddress = location.locationName;
-    $scope.newEventLoc = {lat:location.lat,lng:location.lng};
-    $('#bofModal').attr('data-coords', [location.lat,location.lng]);
-    $('#coordsLookUpModal').modal('hide');
-    $('#bofModal').modal('show');
-    $scope.panMap($scope.newEventLoc);
-  };
-  $scope.panMap = function(){
-    leafletData.getMap().then(function(map) {
-      map.panTo($scope.newEventLoc);
+  //Given coordinates, lookup address
+  //used in Create and Edit Event modals
+  //logic will be radically simplified when we decide what service to use
+
+  $scope.lookUpAddress = function(mode){
+    var coords = $('#bofModal').attr('data-coords').split(',');
+    var addressUrl ='';
+    if (mode==="google") {
+      addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
+    }
+    else {
+      addressUrl ='https://nominatim.openstreetmap.org/reverse?format=xml&lat=' + coords[0] + '&lon=' + coords[1] + '&zoom=18&addressdetails=1';
+    }
+    Bof.GetAddress(addressUrl).then(function(result) {
+      if (mode==="google") {
+        //google parsing
+        $('#address').val(result.data.results[0].formatted_address);
+      }
+      else {
+        //openstreet parsing
+        $('#address').val($(result.data).find("result")[0].innerText);
+      }
     });
   };
+
+  //used to create an event given a textual address
+  // flow:
+  // 1. user specifies address in coordsLookUpModal modal and searches (lookUpCoords)
+  // 2. if service returned one address, open Create Event modal (bofModal) with that address and that adress coordinates
+  // 3. if service returned more than one, populate lookup address modal (coordsLookUpModal) with the choices
+  // 4. user then selects one of the choices via selectLocation and then Create Event modal (bofModal) opens with that address and that adress coordinates
 
   $scope.lookUpCoords = function(mode){
     var coordsUrl ='';
@@ -373,29 +391,26 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
+  // handles user selecting one of the locations after and address search that returned more than one choice
+  $scope.selectLocation = function(location){
+    $scope.newEventAddress = location.locationName;
+    $scope.newEventLoc = {lat:location.lat,lng:location.lng};
+    $('#bofModal').attr('data-coords', [location.lat,location.lng]);
+    $('#coordsLookUpModal').modal('hide');
+    $('#bofModal').modal('show');
+    $scope.panMap($scope.newEventLoc);
+  };
+
+  //clean up coordsLookUpModal afte it is dismissed
   $('#coordsLookUpModal').on('hide.bs.modal', function () {
     $scope.addressLookupResults =null;
     $scope.coordsLookUp='';
   });
 
-  $scope.lookUpAddress = function(mode){
-    var coords = $('#bofModal').attr('data-coords').split(',');
-    var addressUrl ='';
-    if (mode==="google") {
-      addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
-    }
-    else {
-      addressUrl ='https://nominatim.openstreetmap.org/reverse?format=xml&lat=' + coords[0] + '&lon=' + coords[1] + '&zoom=18&addressdetails=1';
-    }
-    Bof.GetAddress(addressUrl).then(function(result) {
-      if (mode==="google") {
-        //google parsing
-        $('#address').val(result.data.results[0].formatted_address);
-      }
-      else {
-        //openstreet parsing
-        $('#address').val($(result.data).find("result")[0].innerText);
-      }
+  // generic function to pan map to a specified set of coordinates
+  $scope.panMap = function(loc){
+    leafletData.getMap().then(function(map) {
+      map.panTo(loc);
     });
   };
 }]);
