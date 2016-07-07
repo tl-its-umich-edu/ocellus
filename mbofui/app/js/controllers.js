@@ -112,6 +112,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'category':category,
       'longitude': coords[1],
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
+      // status field is not available in the end point/db at this point
+      //'status':'active',
       'postingTime': postingTime
     };
 
@@ -238,14 +240,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var thisEvent = _.findWhere($rootScope.events, {url: event.url});
     // the event is stale (it has expired while user was looking at it)
     if(moment(event.endTime).isBefore()){
-      // get position of this event in the 3 collections
-      var thisEventPos = $rootScope.events.indexOf(_.findWhere($rootScope.events, {url: event.url}));
-      var thisEventPosMF = $scope.markersFiltered.indexOf(_.findWhere($rootScope.events, {url: event.url}));
-      var thisEventPosM = $scope.markersAll.indexOf(_.findWhere($rootScope.events, {url: event.url}));
-      // remove the event from the three collections
-      $rootScope.events.splice(thisEventPos, 1);
-      $scope.markersFiltered.splice(thisEventPosMF, 1);
-      $scope.markersAll.splice(thisEventPosM, 1);
+      //remove the event
+      $scope.removeEvent(event);
       // alert the user that event expired
       $scope.alert={'type':'alert-danger','message':'Sorry - event has finished and you can no longer edit it.'};
       // hide alert after 3 seconds
@@ -271,6 +267,25 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
   });
 
+  $scope.removeEvent = function(event){
+    // get position of this event in the 3 collections
+    var thisEvent = _.findWhere($rootScope.events, {url: event.url});
+    var thisEventPos = $rootScope.events.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+    var thisEventPosMF = $scope.markersFiltered.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+    var thisEventPosM = $scope.markersAll.indexOf(_.findWhere($rootScope.events, {url: event.url}));
+    // remove the event from the three collections
+    $rootScope.events.splice(thisEventPos, 1);
+    $scope.markersFiltered.splice(thisEventPosMF, 1);
+    $scope.markersAll.splice(thisEventPosM, 1);
+  };
+
+  $scope.eventEditCancel = function(){
+    $scope.editEvent.status = 'cancelled';
+    $scope.removeEvent($scope.editEvent);
+    $scope.eventEditPost();
+
+  };
+
   // handler for event edit PUT
   $scope.eventEditPost = function (){
     // use the editEvent model for the data for this PUT
@@ -290,6 +305,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'latitude': $scope.editEvent.lat,
       'longitude': $scope.editEvent.lng,
       'category':$scope.editEvent.category,
+      // status field is not available in the end point/db at this point
+      //'status':$scope.editEvent.status,
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
       'postingTime':  moment().format($rootScope.time_format)
     };
@@ -315,10 +332,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     else {
       addressUrl ='https://nominatim.openstreetmap.org/reverse?format=xml&lat=' + coords[0] + '&lon=' + coords[1] + '&zoom=18&addressdetails=1';
     }
-    //openstreets
-
-    //google url
-    //var addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
     Bof.GetAddress(addressUrl).then(function(result) {
       if (mode==="google") {
         //google parsing
@@ -330,6 +343,4 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       }
     });
   };
-
-
 }]);
