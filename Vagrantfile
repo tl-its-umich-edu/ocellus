@@ -22,6 +22,7 @@ Vagrant.configure(2) do |config|
         apt-get dist-upgrade -y
 
         apt-get install -y libmysqlclient-dev
+        apt-get install -y xmlsec1
         debconf-set-selections <<< 'mysql-server mysql-server/root_password password MySuperPassword'
         debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password MySuperPassword'
         apt-get install -y mysql-server
@@ -49,7 +50,7 @@ EOM
         service apache2 restart
 
         pip install coverage gunicorn
-        pip install -r requirements.txt
+        pip install -r requirements_vagrant.txt
 
         echo "Installing Bower..."
         cd /vagrant
