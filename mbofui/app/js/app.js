@@ -21,6 +21,7 @@ ocellus.run(function($rootScope) {
     $rootScope.event_categories = ['Course/Class','Practice/Rehearsal','Social Gathering','Business/Networking','Public Ceremony','Family','Sports','Political/Rally'];
 
     $rootScope.time_format = 'YYYY-MM-DDTHH:mm:ssZ';
+    $rootScope.time_format_polyfill= 'YYYY-MM-DDTHH:mm';
     $rootScope.baselayers = {
       osm: {
         name: 'OpenStreetMap',
