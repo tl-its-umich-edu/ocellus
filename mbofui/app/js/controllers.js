@@ -257,8 +257,9 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
     else {
       //populate the bofModalEdit modal and show it
-      $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format('YYYY-MM-DDTHH:mm'));
-      $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format('YYYY-MM-DDTHH:mm'));
+      // $rootScope.time_format = 'YYYY-MM-DDTHH:mm:ssZ';
+      $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format($rootScope.time_format_polyfill));
+      $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format($rootScope.time_format_polyfill));
       $('#bofModalEdit #eventTextEdit').val(thisEvent.message);
       $scope.editEvent = thisEvent;
       $('#bofModalEdit').modal('show');
