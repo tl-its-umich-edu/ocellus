@@ -123,6 +123,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $('.form-group').removeClass('has-error');
     // use function in utils.js to see if the data validates
     var validationFailures = validate(data);
+
     //if there were no validation failures, post it
     // and construct a new marker to add to map
     if(!validationFailures.length) {
@@ -306,19 +307,29 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'altitudeMeters': 266.75274658203125, //placeholder - we will be using altitude
       'postingTime':  moment().format($rootScope.time_format)
     };
-    Bof.PutBof($scope.editEvent.url, data).then(function(result) {
-      // examine event and return a message to the user if
-      // the event's timeframe is NOT the current view's timeframe
-      $scope.alert = checkTimeSlice(result.data.startTime, result.data.endTime, $rootScope.currentViewUrl);
-      $timeout(function () { $scope.alert = false; }, 3000);
-      //reload events
-      getEvents($rootScope.currentViewUrl);
-      // clear the form controls in the modal and then hide it
-      $('#eventTextEdit, #newStartTimeEdit, #newEndTimeEdit').val('');
-      $('#bofModalEdit').modal('hide');
-    });
+    var validationFailures = validate(data);
+    //if there were no validation failures, post it
+    // and construct a new marker to add to map
+    if(!validationFailures.length) {
+      Bof.PutBof($scope.editEvent.url, data).then(function(result) {
+        // examine event and return a message to the user if
+        // the event's timeframe is NOT the current view's timeframe
+        $scope.alert = checkTimeSlice(result.data.startTime, result.data.endTime, $rootScope.currentViewUrl);
+        $timeout(function () { $scope.alert = false; }, 3000);
+        //reload events
+        getEvents($rootScope.currentViewUrl);
+        // clear the form controls in the modal and then hide it
+        $('#eventTextEdit, #newStartTimeEdit, #newEndTimeEdit').val('');
+        $('#bofModalEdit').modal('hide');
+      });
+    } else {
+      // there were validation failures, add an 'has-error' class to
+      // the offending element's parent
+      _.each(validationFailures, function(failure){
+         $('.' + failure).addClass('has-error').show();
+      });
+    }
   };
-
   //Given coordinates, lookup address
   //used in Create and Edit Event modals
   //logic will be radically simplified when we decide what service to use
