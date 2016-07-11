@@ -13,6 +13,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $rootScope.currentViewUrl = '/api/events/current/';
   });
 
+  // this variable will be true if user is in the text only view
+  if($('#text_only').length){
+    $scope.textOnly = true;
+  }
+
 
   // setting the markers to an empty array
   // markers array represents the filtered events
@@ -128,6 +133,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     // and construct a new marker to add to map
     if(!validationFailures.length) {
       Bof.PostBof(url, data).then(function(result) {
+        $scope.newEventText ='';
+        $scope.newEventTitle ='';
         // examine event and return a message to the user if
         // the event's timeframe is the NOT current view's timeframe
         $scope.alert = checkTimeSlice(result.data.startTime, result.data.endTime, $rootScope.currentViewUrl);
@@ -155,24 +162,43 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     if (key === 'all') {
       // set marker to unfiltered list
       $scope.markers = $scope.markersAll;
+      // note: on text only
+      if($scope.textOnly) {
+        $scope.textEvents = $scope.textEventsAll;
+      }
     } else {
+      $scope.selectedCategory = key;
       // use a filter to only show the selected category
       $scope.markers = $filter('filter')($scope.markersAll, {
         category: key
       });
+      // note: on text only
+      if($scope.textOnly) {
+        $scope.textEvents = $filter('filter')($scope.textEventsAll, {
+          category: key
+        });
+      }
     }
-
-
   };
 
   // get events
   var getEvents = function(url) {
     $scope.markersAll = [];
     $scope.markers = [];
+    // note: only text only
+    if($scope.textOnly) {
+      $scope.textEvents = [];
+      $scope.textEventsAll =[];
+    }
+
     var bofsUrl = url;
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(eventsList) {
-
+      // note: only to
+      if($scope.textOnly) {
+        $scope.textEventsAll = eventsList;
+        $scope.textEvents = eventsList;
+      }
       $rootScope.events=eventsList;
       // wish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
@@ -238,9 +264,19 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     getEvents(url);
   };
 
-  $(document).on('click','#editEvent',function(e) {
-    var event = JSON.parse($('#editEvent').attr('data-event'));
+  //$scope.editEvent = function (event) {
+  $(document).on('click','.editEvent',function(e) {
+    var event = JSON.parse($(this).attr('data-event'));
+    $scope.editEvent = {};
+
     var thisEvent = _.findWhere($rootScope.events, {url: event.url});
+
+    if($scope.textOnly) {
+      thisEvent = _.findWhere($scope.textEventsAll, {url: event.url});
+    }
+
+
+    $timeout(function () { $scope.editEvent = thisEvent; }, 0);
     // the event is stale (it has expired while user was looking at it)
     if(moment(event.endTime).isBefore()){
       //remove the event
@@ -255,12 +291,14 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       });
     }
     else {
+
+
       //populate the bofModalEdit modal and show it
-      // $rootScope.time_format = 'YYYY-MM-DDTHH:mm:ssZ';
       $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format($rootScope.time_format_polyfill));
       $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format($rootScope.time_format_polyfill));
       $('#bofModalEdit #eventTextEdit').val(thisEvent.message);
-      $scope.editEvent = thisEvent;
+      //$('#bofModalEdit #eventTitleEdit').val(thisEvent.title);
+
       $('#bofModalEdit').modal('show');
       // close the popup
       leafletData.getMap().then(function(map) {

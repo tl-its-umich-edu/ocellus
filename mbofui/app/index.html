@@ -61,6 +61,7 @@
         </form>
 
         <ul class="nav navbar-nav navbar-right">
+          <li><a href="text-only.html">Text only</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Showing {{currentView}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -99,50 +100,7 @@
           <h4 class="modal-title" id="bofModalLabel">{{strings.modal_title}}</h4>
         </div>
         <div class="modal-body">
-          <div class="form-group title">
-            <label for="eventText">Title</label>
-            <span class="req-text">(required)</span>
-            <input type="text" ng-model="newEventTitle" class="form-control" id="eventTitle" required></textarea>
-          </div>
-          <div class="form-group eventText">
-            <label for="eventText">{{strings.modal_description}}</label>
-            <span class="req-text">(required)</span>
-            <textarea ng-model="newEventText" class="form-control" id="eventText" rows="3" required></textarea>
-          </div>
-          <div class="form-group">
-            <label for="category">{{strings.app_categories}}</label>
-            <select ng-model="selected_category" ng-options="item as item for item in event_categories" class="form-control">
-                <option value="">---Please select---</option>
-            </select>
-          </div>
-
-          <div class="form-group backwardsTime alert-inline" style="display:none">
-            Cannot have an event that starts after it ends.
-          </div>
-          <div class="form-group startTime">
-            <label for="startTime">{{strings.modal_starttime}}</label>
-            <span class="req-text">(required)</span>
-            <input id="startTime" name="startTime" min="" class="form-control" type="datetime-local">
-          </div>
-          <div class="form-group endTime">
-            <label for="endTime">{{strings.modal_endtime}}</label>
-            <span class="req-text">(required)</span><span class="endToSoon alert-inline" style="display:none">&nbsp;&nbsp;Cannot end events in the past.</span>
-            <input id="endTime" name="endTime" min="" class="form-control" type="datetime-local">
-          </div>
-          <div class="form-group hashTagAndAddess">
-            <label for="hashtag" class="sr-only">Hashtags</label>
-            <input id="hashtag" name="hashtag"  class="form-control" type="text" placeholder="Hashtags">
-          </div>
-          <label for="address" class="sr-only">Address</label>
-          <div class="input-group address">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button" ng-click="lookUpAddress('google')">Google</button>
-            </span>
-            <input id="address" name="address"  ng-model="newEventAddress" class="form-control" type="text" placeholder="Address">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button" ng-click="lookUpAddress('openstreet')">Open Street</button>
-            </span>
-          </div>
+          <div ng-include="'views/event-create.html'"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -161,38 +119,8 @@
           <h4 class="modal-title" id="bofModalEditLabel">Edit Event</h4>
         </div>
         <div class="modal-body">
-          <div class="form-group title">
-            <label for="eventTextEdit">Title</label>
-            <span class="req-text">(required)</span>
-            <input type="text" ng-model="editEvent.title" class="form-control" id="eventTitleEdit" required></textarea>
-          </div>
-          <div class="form-group eventText">
-            <label for="eventTextEdit">{{strings.modal_description}}</label>
-            <span class="req-text">(required)</span>
-            <textarea class="form-control" id="eventTextEdit" rows="3" required ng-model="editEvent.message"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="categoryEdit">{{strings.app_categories}}</label>
-            <select ng-model="editEvent.category" class="form-control" id="categoryEdit">
-              <option> -- select a category -- </option>
-              <option ng-repeat="category in event_categories" value="{{category}}">{{category}}</option>
-            </select>
 
-          </div>
-
-          <div class="form-group backwardsTime alert-inline" style="display:none">
-            Cannot have an event that starts after it ends.
-          </div>
-          <div class="form-group startTime">
-            <label for="startTimeEdit">{{strings.modal_starttime}}</label>
-            <span class="req-text">(required)</span>
-            <input id="startTimeEdit" value="" name="startTime" min="" class="form-control" type="datetime-local">
-          </div>
-          <div class="form-group endTime">
-            <label for="endTimeEdit">{{strings.modal_endtime}}</label>
-            <span class="req-text">(required)</span><span class="endToSoon alert-inline" style="display:none">&nbsp;&nbsp;Cannot end events in the past.</span>
-            <input id="endTimeEdit" value="" name="endTime" min="" class="form-control" type="datetime-local">
-          </div>
+          <div ng-include="'views/event-edit.html'"></div>
         </div>
         <div class="modal-footer container-flex">
           <div class="row">
@@ -236,32 +164,7 @@
           <h4 class="modal-title" id="coordsLookUpLabel">Specify Address</h4>
         </div>
         <div class="modal-body">
-          <div class="alert alert-warning" role="alert" ng-show="addressTooShort">
-            Please supply a more detailed address.
-          </div>
-
-          <div class="input-group">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button" ng-click="lookUpCoords('openst')">Verify Address (OS)</button>
-            </span>
-            <input type="text" class="form-control" placeholder="Address" value="" ng-model="coordsLookUp">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button" ng-click="lookUpCoords('google')">Verify Address (G)</button>
-            </span>
-          </div>
-          <p  ng-show="addressLookupResults.length"></p>
-          <div class="alert alert-info" role="alert" ng-show="addressLookupResults.length">
-            Please select one of the possible options below.
-          </div>
-          <p  ng-show="addressLookupResults && !addressLookupResults.length"></p>
-          <div class="alert alert-warning" role="alert" ng-show="addressLookupResults && !addressLookupResults.length">
-            The search did not return any results. Sorry.
-          </div>
-          <div class="list-group">
-            <a href="" ng-click="selectLocation(location)" class="list-group-item" ng-repeat="location in addressLookupResults">
-              {{location.locationName}}
-            </a>
-          </div>
+          <div ng-include="'views/coords-lookup.html'"></div>
         </div>
       </div>
     </div>
