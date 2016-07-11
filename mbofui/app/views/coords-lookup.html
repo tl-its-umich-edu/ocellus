@@ -1,0 +1,27 @@
+<div>
+  <div class="alert alert-warning" role="alert" ng-show="addressTooShort">
+    Please supply a more detailed address.
+  </div>
+  <div class="input-group">
+    <span class="input-group-btn">
+    <button class="btn btn-primary" type="button" ng-click="lookUpCoords('openst')">Verify Address (OS)</button>
+  </span>
+    <input type="text" class="form-control" placeholder="Address" value="" ng-model="$parent.coordsLookUp">
+    <span class="input-group-btn">
+    <button class="btn btn-primary" type="button" ng-click="lookUpCoords('google')">Verify Address (G)</button>
+  </span>
+  </div>
+  <p ng-show="addressLookupResults.length"></p>
+  <div class="alert alert-info" role="alert" ng-show="addressLookupResults.length">
+    Please select one of the possible options below.
+  </div>
+  <p ng-show="addressLookupResults && !addressLookupResults.length"></p>
+  <div class="alert alert-warning" role="alert" ng-show="addressLookupResults && !addressLookupResults.length">
+    The search did not return any results. Sorry.
+  </div>
+  <div class="list-group">
+    <a href="" ng-click="selectLocation(location)" class="list-group-item" ng-repeat="location in addressLookupResults">
+    {{location.locationName}}
+  </a>
+  </div>
+</div>

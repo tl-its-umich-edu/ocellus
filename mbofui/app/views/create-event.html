@@ -1,0 +1,41 @@
+<div>
+  <!-- Create Modal -->
+  <div class="form-group eventText">
+    <label for="eventText">{{strings.modal_description}}</label>
+    <span class="req-text">(required)</span>
+    <textarea ng-model="newEventText" class="form-control" id="eventText" rows="3" required></textarea>
+  </div>
+  <div class="form-group">
+    <label for="category">{{strings.app_categories}}</label>
+    <select ng-model="selected_category" ng-options="item as item for item in event_categories" class="form-control">
+      <option value="">---Please select---</option>
+    </select>
+  </div>
+
+  <div class="form-group backwardsTime alert-inline" style="display:none">
+    Cannot have an event that starts after it ends.
+  </div>
+  <div class="form-group startTime">
+    <label for="startTime">{{strings.modal_starttime}}</label>
+    <span class="req-text">(required)</span>
+    <input id="startTime" name="startTime" min="" class="form-control" type="datetime-local">
+  </div>
+  <div class="form-group endTime">
+    <label for="endTime">{{strings.modal_endtime}}</label>
+    <span class="req-text">(required)</span><span class="endToSoon alert-inline" style="display:none">&nbsp;&nbsp;Cannot end events in the past.</span>
+    <input id="endTime" name="endTime" min="" class="form-control" type="datetime-local">
+  </div>
+  <div class="form-group hashTagAndAddess">
+    <label for="hashtag" class="sr-only">Hashtags</label>
+    <input id="hashtag" name="hashtag" class="form-control" type="text" placeholder="Hashtags">
+  </div>
+  <label for="address" class="sr-only">Address</label>
+  <div class="input-group address">
+    <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" ng-click="lookUpAddress('google')">Google</button>
+            </span>
+    <input id="address" name="address" ng-model="newEventAddress" class="form-control" type="text" placeholder="Address">
+    <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" ng-click="lookUpAddress('openstreet')">Open Street</button>
+            </span>
+  </div>

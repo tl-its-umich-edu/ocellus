@@ -377,7 +377,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     // ermove any previpus search results
     $scope.addressLookupResults =null;
     // if address supplied is too short, let user know
-    if($scope.coordsLookUp.length < 5) {
+    if($scope.coordsLookUp && $scope.coordsLookUp.length < 5) {
       $scope.addressTooShort = true;
     } else {
       $scope.addressTooShort = false;
@@ -426,8 +426,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   // handles user selecting one of the locations after and address search that returned more than one choice
   $scope.selectLocation = function(location){
-    $scope.newEventAddress = location.locationName;
-    $scope.newEventLoc = {lat:location.lat,lng:location.lng};
+    $rootScope.newEventAddress = location.locationName;
+    $rootScope.newEventLoc = {lat:location.lat,lng:location.lng};
     $('#bofModal').attr('data-coords', [location.lat,location.lng]);
     $('#coordsLookUpModal').modal('hide');
     $('#bofModal').modal('show');
