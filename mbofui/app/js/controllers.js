@@ -106,6 +106,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
     var data = {
       'eventText': $scope.newEventText,
+      'title':  $scope.newEventTitle,
       'startTime': startTime,
       'endTime': endTime,
       'latitude': coords[0],
@@ -180,6 +181,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           lng: parseFloat(eventsList[i].lng),
           url: eventsList[i].url,
           category: eventsList[i].category,
+          title: eventsList[i].title,
           messageSearch: eventsList[i].category + ' ' + eventsList[i].message,
           message: "<popup event='events[" + i + "]'></popup>",
           //message:dateDisplayD,
@@ -293,6 +295,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var endTimeP = $('#bofModalEdit #endTimeEdit').val();
     var data = {
       'eventText': $scope.editEvent.message,
+      'title':$scope.editEvent.title,
       'startTime': startTimeP,
       'endTime': endTimeP,
       'latitude': $scope.editEvent.lat,
