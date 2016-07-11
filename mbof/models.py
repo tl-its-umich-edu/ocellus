@@ -47,9 +47,9 @@ class User(models.Model):
             votes = Vote.objects.filter(event=e)
             for vote in votes:
                 if vote.vote == '+1':
-                    rep = rep + 1
+                    rep += 1
                 if vote.vote == '-1':
-                    rep = rep - 1
+                    rep -= 1
         return rep
 
     def __str__(self):
@@ -58,6 +58,7 @@ class User(models.Model):
 
 @python_2_unicode_compatible
 class Event(models.Model):
+    title = models.CharField(max_length=50, default='Untitled')
     latitude = models.FloatField()
     longitude = models.FloatField()
     altitudeMeters = models.FloatField()
@@ -88,10 +89,10 @@ class Event(models.Model):
              update_fields=None):
         self.postingTime = timezone.now()
 
-        if (self.startTime is None):
+        if self.startTime is None:
             self.startTime = self.postingTime
 
-        if (self.endTime is None):
+        if self.endTime is None:
             self.endTime = self.startTime + datetime.timedelta(days=5)
 
         return super(Event, self).save(force_insert, force_update, using, update_fields)
