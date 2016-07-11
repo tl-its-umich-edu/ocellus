@@ -10,10 +10,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/custom.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
-  <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
-  <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css">
-  <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css">
-  <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css">
 </head>
 
 <body ng-controller="mapController">
@@ -35,13 +31,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="ocellusNav">
         <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Create Event <span class="caret"></span></a>
-            <ul class="dropdown-menu" id="categories">
-              <li> <a href="" ng-click="createEventCurrentlocation()" title="{{strings.app_action}}">Create event at current location</a></li>
-              <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Input Address">Create event at specified address</a></li>
-            </ul>
-          </li>
+          <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Input Address">Create event</a></li>
         </ul>
 
         <ul class="nav navbar-nav">
@@ -54,14 +44,9 @@
             </ul>
           </li>
         </ul>
-        <form class="navbar-form navbar-left" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search" value="" ng-model="markerFilter">
-          </div>
-        </form>
 
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="text-only.html">Text only</a></li>
+          <li><a href="index.html">Map</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Showing {{currentView}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -84,12 +69,37 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-  <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{alert.message}}
-  </div>
+  <div id="text_only"></div>
+  <div class="alert alert-info" style="margin:10px" ng-show="!textEvents.length" ng-cloak>
+    No {{currentView | lowercase}} {{selectedCategory}} events available.
 
-  <leaflet lf-center="center" controls="controls" layers="layers" markers="markersFiltered" width="100%"></leaflet>
+  </div>
+  <ul class="list-group">
+    <li ng-repeat="event in textEvents" class="list-group-item container-fluid">
+      <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+          <h4 class="list-group-item-heading">Event title would go here</h4>
+          <p class="list-group-item-text">
+            {{event.category}}
+          </p>
+          <p class="list-group-item-text">
+            <small>{{event.dateBlob}}</small>
+          </p>
+          <br>
+          <p class="list-group-item-text">
+            {{event.message}}
+          </p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right">
+          <button data-event="{{event}}" ng-if="event.mine && event.inTime" type="button" class="btn btn-primary editEvent" ng-click="">Edit</button>
+        </div>
+      </div>
+      <p>
+        <!-- {{event}} -->
+      </p>
+    </li>
+  </ul>
+
 
   <!-- Create Modal -->
   <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
@@ -100,11 +110,6 @@
           <h4 class="modal-title" id="bofModalLabel">{{strings.modal_title}}</h4>
         </div>
         <div class="modal-body">
-          <div class="form-group eventTitle">
-            <label for="eventText">Title</label>
-            <span class="req-text">(required)</span>
-            <input type="text" ng-model="newEventTitle" class="form-control" id="eventTitle" required></textarea>
-          </div>
           <div class="form-group eventText">
             <label for="eventText">{{strings.modal_description}}</label>
             <span class="req-text">(required)</span>
@@ -162,11 +167,6 @@
           <h4 class="modal-title" id="bofModalEditLabel">Edit Event</h4>
         </div>
         <div class="modal-body">
-          <div class="form-group eventTitle">
-            <label for="eventTextEdit">Title</label>
-            <span class="req-text">(required)</span>
-            <input type="text" ng-model="editEvent.title" class="form-control" id="eventTitleEdit" required></textarea>
-          </div>
           <div class="form-group eventText">
             <label for="eventTextEdit">{{strings.modal_description}}</label>
             <span class="req-text">(required)</span>
@@ -269,15 +269,12 @@
   </div>
 
   <!-- libraries -->
-  <script src="bower_components/leaflet/dist/leaflet.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js">
   </script>
   <script src="bower_components/jquery/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
   <script src="bower_components/ui-leaflet/dist/ui-leaflet.min.js"></script>
-  <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.min.js"></script>
   <script src="bower_components/underscore/underscore-min.js"></script>
   <script src="bower_components/moment/min/moment.min.js"></script>
   <script src="bower_components/webshim/js-webshim/minified/polyfiller.js"></script>

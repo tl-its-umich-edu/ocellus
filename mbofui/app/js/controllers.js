@@ -13,6 +13,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $rootScope.currentViewUrl = '/api/events/current/';
   });
 
+  // this variable will be true if user is in the text only view
+  if($('#text_only').length){
+    $scope.textOnly = true;
+  }
 
   // setting the markers to an empty array
   // markers array represents the filtered events
@@ -154,24 +158,44 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     if (key === 'all') {
       // set marker to unfiltered list
       $scope.markers = $scope.markersAll;
+      // note: on text only
+      if($scope.textOnly) {
+        $scope.textEvents = $scope.textEventsAll;
+      }
     } else {
+      $scope.selectedCategory = key;
       // use a filter to only show the selected category
       $scope.markers = $filter('filter')($scope.markersAll, {
         category: key
       });
+      // note: on text only
+      if($scope.textOnly) {
+        $scope.textEvents = $filter('filter')($scope.textEventsAll, {
+          category: key
+        });
+      }
     }
-
-
   };
 
   // get events
   var getEvents = function(url) {
     $scope.markersAll = [];
     $scope.markers = [];
+    // note: only text only
+    if($scope.textOnly) {
+      $scope.textEvents = [];
+      $scope.textEventsAll =[];
+    }
+
     var bofsUrl = url;
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(eventsList) {
 
+      // note: only to
+      if($scope.textOnly) {
+        $scope.textEventsAll = eventsList;
+        $scope.textEvents = eventsList;
+      }
       $rootScope.events=eventsList;
       // wish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
@@ -183,6 +207,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           category: eventsList[i].category,
           title: eventsList[i].title,
           messageSearch: eventsList[i].category + ' ' + eventsList[i].message,
+          messagePlain: eventsList[i].message,
           message: "<popup event='events[" + i + "]'></popup>",
           //message:dateDisplayD,
           layer: 'events',
@@ -237,8 +262,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     getEvents(url);
   };
 
-  $(document).on('click','#editEvent',function(e) {
-    var event = JSON.parse($('#editEvent').attr('data-event'));
+  $(document).on('click','.editEvent',function(e) {
+    var event = JSON.parse($(this).attr('data-event'));
     var thisEvent = _.findWhere($rootScope.events, {url: event.url});
     // the event is stale (it has expired while user was looking at it)
     if(moment(event.endTime).isBefore()){
