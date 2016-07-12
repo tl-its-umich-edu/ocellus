@@ -88,11 +88,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   });
 
-  $scope.eventEditPost = function (){
-
-  };
-
-
   // handles click on "Add Event" button on modal
   $('#postBof').on('click', function() {
     // handles click on "Add Event" button on modal
@@ -209,7 +204,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           url: eventsList[i].url,
           category: eventsList[i].category,
           title: eventsList[i].title,
-          messageSearch: eventsList[i].category + ' ' + eventsList[i].message,
+          messageSearch: eventsList[i].category + ' ' + eventsList[i].message + ' ' +eventsList[i].title,
           message: "<popup event='events[" + i + "]'></popup>",
           //message:dateDisplayD,
           layer: 'events',
@@ -227,6 +222,17 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.$watch('markerFilter', function(text) {
       $scope.markersFiltered = $filter('filter')($scope.markers, {
         messageSearch: text
+      });
+    });
+  }, true);
+
+
+  // watch on changes to text only view  collection and text input so that only events with
+  // the searched for text appear
+  $scope.$watch("textEventsAll", function() {
+    $scope.$watch('textEventsFilter', function(text) {
+      $scope.textEvents = $filter('filter')($scope.textEventsAll, {
+        message: text
       });
     });
   }, true);
@@ -474,4 +480,5 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       map.panTo(loc);
     });
   };
+
 }]);
