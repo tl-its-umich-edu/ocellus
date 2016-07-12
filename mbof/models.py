@@ -59,6 +59,7 @@ class User(models.Model):
 @python_2_unicode_compatible
 class Event(models.Model):
     title = models.CharField(max_length=50, default='Untitled')
+    address = models.CharField(max_length=500, default='Undefined')
     latitude = models.FloatField()
     longitude = models.FloatField()
     altitudeMeters = models.FloatField()
