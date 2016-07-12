@@ -84,7 +84,7 @@
   <table class="table" role="display">
 
     <tr ng-repeat="event in textEvents  | orderBy:'startTime'" class="row">
-        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:center;padding:30px 10px;background:{{(event.category | textOnlyCategory).background}}">
+        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:center;vertical-align:middle;background:{{(event.category | textOnlyCategory).background}}">
           <i style="color: #fff;font-size:25px" class="glyphicon glyphicon-{{(event.category | textOnlyCategory).icon}}"></i><br>
         </rd>
         <td class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="padding:10px">
