@@ -44,6 +44,12 @@
             </ul>
           </li>
         </ul>
+        <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" value="" ng-model="textEventsFilter">
+          </div>
+        </form>
+
 
         <ul class="nav navbar-nav navbar-right">
           <li><a href="index.html">Map</a></li>
@@ -75,11 +81,13 @@
   <div class="alert alert-info" style="margin:10px" ng-show="!textEvents.length" ng-cloak>
     No {{currentView | lowercase}} {{selectedCategory}} events available.
   </div>
-  <ul class="list-group">
-    <li ng-repeat="event in textEvents  | orderBy:'startTime'" class="list-group-item container-fluid">
-      {{event.startTime}}
-      <div class="row">
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+  <table class="table" role="display">
+
+    <tr ng-repeat="event in textEvents  | orderBy:'startTime'" class="row">
+        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:center;padding:30px 10px;background:{{(event.category | textOnlyCategory).background}}">
+          <i style="color: #fff;font-size:25px" class="glyphicon glyphicon-{{(event.category | textOnlyCategory).icon}}"></i><br>
+        </rd>
+        <td class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="padding:10px">
           <h4 class="list-group-item-heading">{{event.title}}</h4>
           <p class="list-group-item-text">
             {{event.category}}
@@ -91,16 +99,13 @@
           <p class="list-group-item-text">
             {{event.message}}
           </p>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right">
+        </td>
+        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right">
           <button data-event="{{event}}" ng-if="event.mine && event.inTime" type="button" class="btn btn-primary editEvent">Edit</button>
-        </div>
-      </div>
-      <p>
-        <!-- {{event}} -->
-      </p>
-    </li>
-  </ul>
+        </td>
+      </tr>
+    </table>
+
 
     <!-- Create Modal -->
     <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
@@ -187,9 +192,7 @@
     </script>
     <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
     <script src="bower_components/ui-leaflet/dist/ui-leaflet.min.js"></script>
-    <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.min.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
     <script src="bower_components/moment/min/moment.min.js"></script>
     <script src="bower_components/webshim/js-webshim/minified/polyfiller.js"></script>
