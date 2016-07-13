@@ -18,7 +18,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
     else {
       $rootScope.currentView = 'current';
-      getEvents('/api/events/current/');
+      getEvents('/api/events/' + $rootScope.currentView + '/');
     }
   });
 
