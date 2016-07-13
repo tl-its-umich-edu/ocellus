@@ -37,6 +37,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       zoom: 16,
       autoDiscover: true
     },
+    minZoom: 2,
+    maxZoom: 4,
     events: {},
     layers: {
       baselayers: $rootScope.baselayers,
@@ -382,7 +384,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var coords = $('#bofModal').attr('data-coords').split(',');
     var addressUrl ='';
     if (mode==="google") {
-      addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
+      addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=' + $rootScope.currentMapKey;
     }
     else {
       addressUrl ='https://nominatim.openstreetmap.org/reverse?format=xml&lat=' + coords[0] + '&lon=' + coords[1] + '&zoom=18&addressdetails=1';
@@ -416,7 +418,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       $scope.addressTooShort = false;
       var coordsUrl ='';
       if (mode==="google") {
-        coordsUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent($scope.coordsLookUp) + '&key=AIzaSyCW4R3mnwONsDfsZWfdSXDlnUtqKOoI50k';
+        coordsUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent($scope.coordsLookUp) + '&key=' + $rootScope.currentMapKey;
       }
       else {
         coordsUrl = 'https://nominatim.openstreetmap.org/search?q='  + encodeURIComponent($scope.coordsLookUp) + '&format=json';
