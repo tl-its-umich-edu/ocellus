@@ -7,6 +7,7 @@ ocellus.run(function($rootScope) {
     $rootScope.server = '';
     $rootScope.currentView="Current";
     $rootScope.user = {};
+    $rootScope.currentMapKey='AIzaSyBJfRs5m2aIl3cKjMy0es9Fh6-EJeXpP4k';
     $rootScope.currentMapAPI = 'google';
     $rootScope.pollInterval = 15000;
     $rootScope.strings = {
