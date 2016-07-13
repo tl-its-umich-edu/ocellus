@@ -34,11 +34,8 @@
 </div>
 <label for="address" class="sr-only">Address</label>
 <div class="input-group address">
-  <span class="input-group-btn">
-    <button class="btn btn-primary" type="button" ng-click="lookUpAddress('google')">Google</button>
-  </span>
   <input id="address" name="address"  ng-model="newEventAddress" class="form-control" type="text" placeholder="Address">
   <span class="input-group-btn">
-    <button class="btn btn-primary" type="button" ng-click="lookUpAddress('openstreet')">Open Street</button>
+    <button class="btn btn-primary" type="button" ng-click="lookUpAddress(currentMapAPI)">Get Address</button>
   </span>
 </div>

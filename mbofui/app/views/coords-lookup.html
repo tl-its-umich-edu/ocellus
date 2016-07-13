@@ -3,12 +3,9 @@
 </div>
 
 <div class="input-group">
-  <span class="input-group-btn">
-    <button class="btn btn-primary" type="button" ng-click="lookUpCoords('openst')">Verify Address (OS)</button>
-  </span>
   <input type="text" class="form-control" placeholder="Address" value="" ng-model="$parent.coordsLookUp">
   <span class="input-group-btn">
-    <button class="btn btn-primary" type="button" ng-click="lookUpCoords('google')">Verify Address (G)</button>
+    <button class="btn btn-primary" type="button" ng-click="lookUpCoords(currentMapAPI)">Verify Address</button>
   </span>
 </div>
 <p  ng-show="addressLookupResults.length"></p>

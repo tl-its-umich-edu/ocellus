@@ -37,6 +37,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       zoom: 16,
       autoDiscover: true
     },
+    minZoom: 2,
+    maxZoom: 4,
     events: {},
     layers: {
       baselayers: $rootScope.baselayers,
