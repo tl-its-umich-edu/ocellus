@@ -3,6 +3,14 @@
 
 var ocellus = angular.module( 'ocellus', [ 'ui-leaflet', 'ocellusFilters'] );
 
+ocellus.config(function($locationProvider) {
+  $locationProvider.html5Mode({
+    enabled: true,
+    requireBase: false
+  });
+});
+
+
 ocellus.run(function($rootScope) {
     $rootScope.server = '';
     $rootScope.currentView="Current";
