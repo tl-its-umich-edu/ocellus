@@ -131,7 +131,7 @@ popupLink.appendChild(linktext);
 // force all browsers to use widget
 // open widget on focus, start view on month/day view, add an up arrow to title
 webshim.setOptions("forms-ext", {
-  'replaceUI': true,
+  'replaceUI': false,
   'datetime-local': {
     'openOnFocus': true,
     'startView':2,
