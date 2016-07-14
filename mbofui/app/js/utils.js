@@ -168,7 +168,7 @@ $(function(){
     }
   });
 
-  if( navigator.userAgent.match(/iPhone|iPad|iPod/i) ) {
+  if( navigator.userAgent.match(/iPhone|iPad|iPod|Android/i) ) {
       $('.modal').on('show.bs.modal', function() {
           // Position modal absolute and bump it down to the scrollPosition
           $(this)
