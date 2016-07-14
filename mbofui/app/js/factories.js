@@ -23,7 +23,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         });
     },
 
-    // post an event
+    // put and edited event
     PutBof: function(url, data) {
       return $http.put(url, data).then(
         function success(result) {
