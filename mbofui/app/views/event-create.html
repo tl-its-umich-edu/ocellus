@@ -1,5 +1,6 @@
+<div class="alert alert-warning validationFailureMessage" role="alert" style="display:none">Sorry, some fields are missing or wrong.</div>
 <div class="form-group title">
-  <label for="eventText">Title</label>
+  <label for="eventTitle">Title</label>
   <span class="req-text">(required)</span>
   <input type="text" ng-model="$parent.newEventTitle" class="form-control" id="eventTitle" required></textarea>
 </div>
@@ -9,8 +10,8 @@
   <textarea ng-model="$parent.newEventText" class="form-control" id="eventText" rows="3" required></textarea>
 </div>
 <div class="form-group">
-  <label for="category">{{strings.app_categories}}</label>
-  <select ng-model="$parent.selected_category" ng-options="item as item for item in event_categories" class="form-control">
+  <label for="categoryCreate">{{strings.app_categories}}</label>
+  <select id="categoryCreate" ng-model="$parent.selected_category" ng-options="item as item for item in event_categories" class="form-control">
       <option value="">---Please select---</option>
   </select>
 </div>

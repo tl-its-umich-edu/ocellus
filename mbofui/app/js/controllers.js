@@ -159,6 +159,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     } else {
       // there were validation failures, add an 'has-error' class to
       // the offending element's parent
+      $('.validationFailureMessage').fadeIn('fast');
       _.each(validationFailures, function(failure){
          $('.' + failure).addClass('has-error').show();
       });
@@ -262,7 +263,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.selected_category ='';
     $scope.newEventText =undefined;
     $scope.newEventTitle =undefined;
-    $('#bofModal .alert-inline').hide();
+    $('#bofModal .alert-inline, .validationFailureMessage').hide();
     $('.form-group').removeClass('has-error');
     $('#eventText, #startTime, #endTime, #address').val('');
   });
@@ -393,6 +394,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     } else {
       // there were validation failures, add an 'has-error' class to
       // the offending element's parent
+
       _.each(validationFailures, function(failure){
          $('.' + failure).addClass('has-error').show();
       });
