@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="ocellus">
+<html ng-app="ocellus" lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -7,9 +7,9 @@
   </title>
   <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
   <link rel="apple-touch-icon" href="images/apple-touch-icon-180x180.png" />
+  <link rel="stylesheet" href="css/custom.css" media="screen" title="no title">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/custom.css" media="screen" title="no title" charset="utf-8">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen">
 </head>
 
 <body ng-controller="mapController">
@@ -24,7 +24,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <span class="navbar-brand" href="#">{{strings.app_name}}</span>
+        <span class="navbar-brand">{{strings.app_name}}</span>
       </div>
 
 
@@ -81,12 +81,12 @@
   <div class="alert alert-info" style="margin:10px" ng-show="!textEvents.length" ng-cloak>
     No {{currentView | lowercase}} {{selectedCategory}} events available.
   </div>
-  <table class="table" role="display">
+  <table class="table" role="presentation">
 
     <tr ng-repeat="event in textEvents  | orderBy:'startTime'" class="row">
         <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:center;vertical-align:middle;background:{{(event.category | textOnlyCategory).background}}">
           <i style="color: #fff;font-size:25px" class="glyphicon glyphicon-{{(event.category | textOnlyCategory).icon}}"></i><br>
-        </rd>
+        </td>
         <td class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="padding:10px">
           <h4 class="list-group-item-heading">{{event.title}}</h4>
           <p class="list-group-item-text">

@@ -61,12 +61,6 @@ body {
   z-index: 1
 }
 
-body.modal-open {
-  overflow: hidden;
-  position:fixed;
-}
-
-
 @media (max-width: 480px) {
   .leaflet-popup-content {width:auto}
 }
