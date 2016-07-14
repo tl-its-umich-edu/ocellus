@@ -128,7 +128,7 @@ var linktext = document.createTextNode('Add an event here?');
 popupLink.appendChild(linktext);
 
 // set options for datetime polyfill
-// force all browsers to use widget
+// allow browsers that talk datetime to use native controls  ('replaceUI': false)
 // open widget on focus, start view on month/day view, add an up arrow to title
 webshim.setOptions("forms-ext", {
   'replaceUI': false,
