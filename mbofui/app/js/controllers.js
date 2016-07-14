@@ -1,7 +1,7 @@
 /*jshint strict:false */
 /* global angular, ocellus, $, L,  resolveIcon, moment, validate, _, popupLink, checkTimeSlice */
 
-ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', 'leafletData', 'Bof' , function($compile, $scope, $rootScope, $filter, $timeout, $log, leafletData, Bof) {
+ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', '$location', '$window', 'leafletData', 'Bof' , function($compile, $scope, $rootScope, $filter, $timeout, $log, $location, $window, leafletData, Bof) {
   // setting up init values
   // get user
   Bof.GetUser('/api/me/').then(function(userResult) {
@@ -9,8 +9,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     // only function inmediately invoked - get current events on page load,
     // it fires after we have a user so that we can determine
     // which belong to the current user
-    getEvents('/api/events/current/');
-    $rootScope.currentViewUrl = '/api/events/current/';
+
+    $rootScope.currentView = $location.search().currentView;
+
+    if ($rootScope.currentView) {
+      getEvents('/api/events/' + $rootScope.currentView + '/');
+    }
+    else {
+      $rootScope.currentView = 'current';
+      getEvents('/api/events/' + $rootScope.currentView + '/');
+    }
   });
 
   // this variable will be true if user is in the text only view
@@ -266,9 +274,20 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $('#myEventsModal').modal({});
   };
 
-  $scope.switchViews = function (url, title) {
+  $scope.switchModes = function (mode) {
+    if(mode ==='text') {
+      $window.location='/text-only.html' + '?currentView=' + $rootScope.currentView;
+    }
+    else {
+      $window.location='/index.html'  + '?currentView=' + $rootScope.currentView;
+    }
+
+  };
+
+  $scope.switchViews = function (url, title, hash) {
     $rootScope.currentView= title;
     $rootScope.currentViewUrl = url;
+    $location.search({'currentView':$rootScope.currentView});
     getEvents(url);
   };
 
