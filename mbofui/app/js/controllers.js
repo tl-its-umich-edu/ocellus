@@ -10,7 +10,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     // it fires after we have a user so that we can determine
     // which belong to the current user
 
-    $rootScope.currentView = window.location.search.split('=')[1];
     $rootScope.currentView = $location.search().currentView;
 
     if ($rootScope.currentView) {
