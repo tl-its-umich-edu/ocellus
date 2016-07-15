@@ -8,6 +8,9 @@
   <div class="">
     <small>{{event.dateBlob}}</small>
   </div>
+  <div ng-show="event.address !=='Undefined'">
+    <small>{{event.address}}</small>
+  </div>
   <hr class="popupRule">
   <div class="btn-group btn-group-sm btn-group-justified" ng-show="!event.mine">
     <a role="button" href="" class="btn btn-primary" style="color:#fff">
