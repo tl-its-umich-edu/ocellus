@@ -58,13 +58,13 @@ class User(models.Model):
 
 @python_2_unicode_compatible
 class Event(models.Model):
-    ACTIVE = 'active'
-    CANCELED = 'canceled'
+    STATUS_ACTIVE = 'active'
+    STATUS_CANCELED = 'canceled'
     title = models.CharField(max_length=50, default='Untitled')
     address = models.CharField(max_length=500, default='Undefined')
-    status = models.CharField(max_length=8, default=ACTIVE, choices=(
-        (ACTIVE, ACTIVE),
-        (CANCELED, CANCELED)
+    status = models.CharField(max_length=8, default=STATUS_ACTIVE, choices=(
+        (STATUS_ACTIVE, STATUS_ACTIVE),
+        (STATUS_CANCELED, STATUS_CANCELED)
     ))
     latitude = models.FloatField()
     longitude = models.FloatField()
