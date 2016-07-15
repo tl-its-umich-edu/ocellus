@@ -47,10 +47,12 @@ class EventListViewSet(generics.ListAPIView):
         query_type = self.kwargs['type']
         query_type = query_type.replace('/', '')
         if query_type == 'current':
-            return Event.objects.filter(startTime__lte=current_time, endTime__gte=current_time).order_by('postingTime')
+            return Event.objects.filter(startTime__lte=current_time, endTime__gte=current_time,
+                                        status=Event.STATUS_ACTIVE).order_by('postingTime')
         if query_type == 'upcoming':
             one_week_out = current_time + datetime.timedelta(days=7)
-            return Event.objects.filter(startTime__range=[current_time, one_week_out]).order_by('postingTime')
+            return Event.objects.filter(startTime__range=[current_time, one_week_out],
+                                        status=Event.STATUS_ACTIVE).order_by('postingTime')
         else:
             return Event.objects.all().order_by('postingTime')
 
