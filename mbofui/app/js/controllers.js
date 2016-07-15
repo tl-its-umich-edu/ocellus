@@ -101,8 +101,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   });
 
   // handles click on "Add Event" button on modal
-  $('#postBof').on('click', function() {
-    // handles click on "Add Event" button on modal
+  $scope.postEvent = function() {
     var coords = $('#bofModal').attr('data-coords').split(',');
     var url = '/api/events/';
     //set starttime/endtime to the value of the field in the format specified in the settings in app.js
@@ -159,12 +158,12 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     } else {
       // there were validation failures, add an 'has-error' class to
       // the offending element's parent
-      $('.validationFailureMessage').fadeIn('fast');
+      $scope.validationFailuresCreate = true;
       _.each(validationFailures, function(failure){
          $('.' + failure).addClass('has-error').show();
       });
     }
-  });
+  };
 
   $scope.filter_category = function(key){
     if (key === 'all') {
@@ -263,7 +262,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.selected_category ='';
     $scope.newEventText =undefined;
     $scope.newEventTitle =undefined;
-    $('#bofModal .alert-inline, .validationFailureMessage').hide();
+    $('#bofModal .alert-inline').hide();
+    $scope.validationFailuresCreate = false;
     $('.form-group').removeClass('has-error');
     $('#eventText, #startTime, #endTime, #address').val('');
   });
@@ -295,9 +295,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     getEvents(url);
   };
 
-  //$scope.editEvent = function (event) {
+
   $(document).on('click','.editEvent',function(e) {
+
     var event = JSON.parse($(this).attr('data-event'));
+
     $scope.editEvent = {};
 
     var thisEvent = _.findWhere($rootScope.events, {url: event.url});
@@ -455,7 +457,9 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
             $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
             $scope.newEventAddress = result.data.results[0].formatted_address;
             $scope.newEventLoc =result.data.results[0].geometry.location;
-            $scope.panMap($scope.newEventLoc);
+            if(!$scope.textOnly){
+              $scope.panMap($scope.newEventLoc);
+            }
             $('#coordsLookUpModal').modal('hide');
             $('#bofModal').modal('show');
 
@@ -470,7 +474,9 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
             $('#bofModal').attr('data-coords', [parseFloat(result.data[0].lat), parseFloat(result.data[0].lon)]);
              $scope.newEventLoc = {lat:parseFloat(result.data[0].lat),lng:parseFloat(result.data[0].lon)};
              $scope.newEventAddress = result.data[0].display_name;
-             $scope.panMap($scope.newEventLoc);
+             if(!$scope.textOnly){
+               $scope.panMap($scope.newEventLoc);
+             }
              $('#coordsLookUpModal').modal('hide');
              $('#bofModal').modal('show');
 
@@ -490,14 +496,19 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $('#bofModal').attr('data-coords', [location.lat,location.lng]);
     $('#coordsLookUpModal').modal('hide');
     $('#bofModal').modal('show');
-    $scope.panMap($scope.newEventLoc);
+    if(!$scope.textOnly){
+      $scope.panMap($scope.newEventLoc);
+    }
+
   };
 
   //clean up coordsLookUpModal after it is dismissed
   $('#coordsLookUpModal').on('hide.bs.modal', function () {
-    $scope.addressLookupResults =null;
-    $scope.coordsLookUp='';
-    $scope.addressTooShort = false;
+    $timeout(function () {
+      $scope.addressLookupResults =undefined;
+      $scope.coordsLookUp=undefined;
+      $scope.addressTooShort = false;
+     }, 0);
   });
 
   // generic function to pan map to a specified set of coordinates
