@@ -1,16 +1,16 @@
-<div class="alert alert-warning" role="alert" ng-show="addressTooShort">
+<div class="alert alert-warning" role="alert" ng-show="$parent.addressTooShort">
   Please supply a more detailed address.
 </div>
 
 <div class="input-group">
-  <input type="text" class="form-control" placeholder="Address" value="" ng-model="$parent.coordsLookUp">
+  <input type="text" class="form-control coordsLookUp" placeholder="Address" ng-model="$parent.coordsLookUp">
   <span class="input-group-btn">
     <button class="btn btn-primary" type="button" ng-click="lookUpCoords(currentMapAPI)">Verify Address</button>
   </span>
 </div>
 <p  ng-show="addressLookupResults.length"></p>
 <div class="alert alert-info" role="alert" ng-show="addressLookupResults.length">
-  Please select one of the possible options below.
+  Please select one of the following possible options.
 </div>
 <p  ng-show="addressLookupResults && !addressLookupResults.length"></p>
 <div class="alert alert-warning" role="alert" ng-show="addressLookupResults && !addressLookupResults.length">

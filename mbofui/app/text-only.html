@@ -46,7 +46,8 @@
         </ul>
         <form class="navbar-form navbar-left" role="search">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search" value="" ng-model="textEventsFilter">
+            <label for="searchText" class="sr-only">Search events</label>
+            <input  id="searchText" type="text" class="form-control" placeholder="Search" value="" ng-model="textEventsFilter">
           </div>
         </form>
 
@@ -101,7 +102,7 @@
           </p>
         </td>
         <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right">
-          <button data-event="{{event}}" ng-if="event.mine && event.inTime" type="button" class="btn btn-primary editEvent">Edit</button>
+          <button data-toggle="modal" data-target="#bofModalEdit" data-event="{{event}}" ng-if="event.mine && event.inTime" type="button" class="btn btn-primary editEvent">Edit <span class="sr-only">{{event.title}} event</span></button>
         </td>
       </tr>
     </table>
@@ -120,7 +121,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="postBof">{{strings.modal_post}}</button>
+            <button type="button" class="btn btn-primary" ng-click="postEvent()">{{strings.modal_post}}</button>
           </div>
         </div>
       </div>
