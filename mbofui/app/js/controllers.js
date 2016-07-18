@@ -303,10 +303,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var event = JSON.parse($(this).attr('data-event'));
 
     $scope.editEvent = {};
-
+    // clone the event so that no edits will affect the listed event
     var thisEvent = _.clone(_.findWhere($rootScope.events, {url: event.url}));
 
     if($scope.textOnly) {
+      // clone the event so that no edits will affect the listed event
       thisEvent =  _.clone(_.findWhere($scope.textEventsAll, {url: event.url}));
     }
 
