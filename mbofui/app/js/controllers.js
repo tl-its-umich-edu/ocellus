@@ -120,6 +120,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'title':  $scope.newEventTitle,
       'startTime': startTime,
       'address':$scope.newEventAddress,
+      'hashtag':$scope.newEventHashtag,
       'endTime': endTime,
       'latitude': coords[0],
       'category':category,
@@ -326,7 +327,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
     else {
 
-
       //populate the bofModalEdit modal and show it
       $('#bofModalEdit #startTimeEdit').val(moment(thisEvent.startTime).format($rootScope.time_format_polyfill));
       $('#bofModalEdit #endTimeEdit').val(moment(thisEvent.endTime).format($rootScope.time_format_polyfill));
@@ -372,6 +372,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'startTime': startTimeP,
       'endTime': endTimeP,
       'address':  $scope.editEvent.address,
+      'hashtag':  $scope.editEvent.hashTag,
       'latitude': $scope.editEvent.lat,
       'longitude': $scope.editEvent.lng,
       'category':$scope.editEvent.category,
