@@ -27,6 +27,8 @@
   </div>
   <div class="popupMessage" ng-show="revealInfo">
     {{event.message}}
+    <br>
+    <strong>{{event.hashTag}}</strong>
   </div>
   <div class="popupMessageToggle">
     <a href="#" ng-show="!revealInfo" ng-click="revealInfo=!revealInfo">More information?</a>
