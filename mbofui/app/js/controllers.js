@@ -304,12 +304,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
     $scope.editEvent = {};
 
-    var thisEvent = _.findWhere($rootScope.events, {url: event.url});
+    var thisEvent = _.clone(_.findWhere($rootScope.events, {url: event.url}));
 
     if($scope.textOnly) {
-      thisEvent = _.findWhere($scope.textEventsAll, {url: event.url});
+      thisEvent =  _.clone(_.findWhere($scope.textEventsAll, {url: event.url}));
     }
-
 
     $timeout(function () { $scope.editEvent = thisEvent; }, 0);
     // the event is stale (it has expired while user was looking at it)
