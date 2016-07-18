@@ -354,14 +354,19 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   };
 
   $scope.eventEditCancel = function(){
-    $scope.editEvent.status = 'cancelled';
+    $scope.editEvent.status = 'canceled';
     $scope.removeEvent($scope.editEvent);
     $scope.eventEditPost();
-
   };
 
   // handler for event edit PUT
-  $scope.eventEditPost = function (){
+  $scope.eventEditPost = function(){
+    if ($scope.editEvent.status) {
+      status = $scope.editEvent.status;
+    }
+    else {
+      status = 'active';
+    }
     // use the editEvent model for the data for this PUT
     // only wrinkle is the time, that we had to populate via jQuery
     var startTimeP = $('#bofModalEdit #startTimeEdit').val();
@@ -374,6 +379,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'address':  $scope.editEvent.address,
       'hashtag':  $scope.editEvent.hashTag,
       'latitude': $scope.editEvent.lat,
+      'status':  status,
       'longitude': $scope.editEvent.lng,
       'category':$scope.editEvent.category,
       // status field is not available in the end point/db at this point
