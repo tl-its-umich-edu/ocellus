@@ -44,6 +44,7 @@ var leafletize = function(data, user){
       lng: event.longitude,
       category: event.category,
       title: event.title,
+      address: event.address,
       message:event.eventText,
       layer: 'events',
       icon: {},

@@ -120,6 +120,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'eventText': $scope.newEventText,
       'title':  $scope.newEventTitle,
       'startTime': startTime,
+      'address':$scope.newEventAddress,
       'endTime': endTime,
       'latitude': coords[0],
       'category':category,
@@ -367,6 +368,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'title':$scope.editEvent.title,
       'startTime': startTimeP,
       'endTime': endTimeP,
+      'address':  $scope.editEvent.address,
       'latitude': $scope.editEvent.lat,
       'longitude': $scope.editEvent.lng,
       'category':$scope.editEvent.category,
@@ -414,11 +416,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     Bof.GetAddress(addressUrl).then(function(result) {
       if (mode==="google") {
         //google parsing
-        $('#address').val(result.data.results[0].formatted_address);
+        $scope.newEventAddress = result.data.results[0].formatted_address;
       }
       else {
         //openstreet parsing
-        $('#address').val($(result.data).find("result")[0].innerText);
+        $scope.newEventAddress =  $(result.data).find("result")[0].innerText;
       }
     });
   };
