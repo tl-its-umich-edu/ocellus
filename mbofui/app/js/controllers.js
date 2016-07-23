@@ -136,7 +136,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $('.form-group').removeClass('has-error');
     // use function in utils.js to see if the data validates
     var validationFailures = validate(data);
-
     //if there were no validation failures, post it
     // and construct a new marker to add to map
     if(!validationFailures.length) {
@@ -419,7 +418,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var coords = $('#bofModal').attr('data-coords').split(',');
     var addressUrl ='';
     if (mode==="google") {
-      addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',') + '&key=' + $rootScope.currentMapKey;
+      addressUrl='https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#bofModal').attr('data-coords').split(',').join(',');
     }
     else {
       addressUrl ='https://nominatim.openstreetmap.org/reverse?format=xml&lat=' + coords[0] + '&lon=' + coords[1] + '&zoom=18&addressdetails=1';
@@ -453,7 +452,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       $scope.addressTooShort = false;
       var coordsUrl ='';
       if (mode==="google") {
-        coordsUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent($scope.coordsLookUp) + '&key=' + $rootScope.currentMapKey;
+        coordsUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent($scope.coordsLookUp);
       }
       else {
         coordsUrl = 'https://nominatim.openstreetmap.org/search?q='  + encodeURIComponent($scope.coordsLookUp) + '&format=json';

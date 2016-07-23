@@ -91,12 +91,17 @@ var processDates = function(startTime, endTime) {
 
 // new event validation - either the dates are blank or wrong or the description is blank
 var validate = function(data) {
+  // data we want to validate
+  var toValidate = ['eventText', 'title', 'startTime', 'endTime', 'address'];
   //init array
   var validationFailures = [];
   _.each(data, function(value, key, list){
-    if(value ===undefined || value==='Invalid date') {
-      // add to array with key (that corresponds to the id of the offending element)
-      validationFailures.push(key);
+    // if the key is in the validate array, check the value
+    if(_.indexOf(toValidate, key) !== -1) {
+      if(value ===undefined || value==='Invalid date')  {
+        // add to array with key (that corresponds to the id of the offending element)
+        validationFailures.push(key);
+      }
     }
   });
   if (validationFailures.length){
