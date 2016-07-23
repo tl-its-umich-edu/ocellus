@@ -17,17 +17,6 @@ ocellus.run(function($rootScope) {
     $rootScope.user = {};
     $rootScope.currentMapKey='AIzaSyBJfRs5m2aIl3cKjMy0es9Fh6-EJeXpP4k';
     $rootScope.currentMapAPI = 'google';
-    $rootScope.pollInterval = 15000;
-    $rootScope.strings = {
-      'app_name': 'Ocellus',
-      'app_action':'Ocellize it',
-      'app_categories':'Categories',
-      'modal_title':'Event details',
-      'modal_description':'Event description',
-      'modal_starttime':'Start time',
-      'modal_endtime':'End time',
-      'modal_post':'Add Event'
-    };
     $rootScope.event_categories = ['Course/Class','Practice/Rehearsal','Social Gathering','Business/Networking','Public Ceremony','Family','Sports','Political/Rally'];
 
     $rootScope.time_format = 'YYYY-MM-DDTHH:mm:ssZ';
