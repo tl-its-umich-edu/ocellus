@@ -86,7 +86,6 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
-
   <div role="main">
     <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -95,83 +94,83 @@
 
     <leaflet lf-center="center" controls="controls" layers="layers" markers="markersFiltered" width="100%"></leaflet>
 
-      <!-- Create Modal -->
-      <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="bofModalLabel">{{strings.modal_title}}</h4>
-            </div>
-            <div class="modal-body">
-              <div ng-include="'views/event-create.html'"></div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="postBof" ng-click="postEvent()">{{strings.modal_post}}</button>
-            </div>
+    <!-- Create Modal -->
+    <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="bofModalLabel">Create event</h4>
+          </div>
+          <div class="modal-body">
+            <div ng-include="'views/event-create.html'"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="postBof" ng-click="postEvent()">Add Event</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Edit Modal -->
-      <div class="modal fade" id="bofModalEdit" tabindex="-1" role="dialog" aria-labelledby="bofModalEditLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="bofModalEditLabel">Edit Event</h4>
-            </div>
-            <div class="modal-body">
-              <div ng-include="'views/event-edit.html'"></div>
-            </div>
-            <div class="modal-footer container-flex">
-              <div class="row">
-                <div class="col-lg-6">
-                  <button type="button" class="btn btn-danger pull-left" ng-click="eventEditCancel()">Cancel Event</button>
-                </div>
-                <div class="col-lg-6">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" ng-click="eventEditPost()">Save Event</button>
-                </div>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="bofModalEdit" tabindex="-1" role="dialog" aria-labelledby="bofModalEditLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="bofModalEditLabel">Edit Event</h4>
+          </div>
+          <div class="modal-body">
+            <div ng-include="'views/event-edit.html'"></div>
+          </div>
+          <div class="modal-footer container-flex">
+            <div class="row">
+              <div class="col-lg-6">
+                <button type="button" class="btn btn-danger pull-left" ng-click="eventEditCancel()">Cancel Event</button>
               </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- My Events Modal -->
-      <div class="modal fade" id="myEventsModal" tabindex="-1" role="dialog" aria-labelledby="myEventsLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myEventsLabel">My Events</h4>
-            </div>
-            <div class="modal-body">
-              <div ng-include="'views/myevents.html'">
+              <div class="col-lg-6">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="eventEditPost()">Save Event</button>
               </div>
             </div>
+
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Coords LookUp Modal -->
-      <div class="modal fade" id="coordsLookUpModal" tabindex="-1" role="dialog" aria-labelledby="coordsLookUpLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="coordsLookUpLabel">Specify Address</h4>
-            </div>
-            <div class="modal-body">
-              <div ng-include="'views/coords-lookup.html'"></div>
+    <!-- My Events Modal -->
+    <div class="modal fade" id="myEventsModal" tabindex="-1" role="dialog" aria-labelledby="myEventsLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myEventsLabel">My Events</h4>
+          </div>
+          <div class="modal-body">
+            <div ng-include="'views/myevents.html'">
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Coords LookUp Modal -->
+    <div class="modal fade" id="coordsLookUpModal" tabindex="-1" role="dialog" aria-labelledby="coordsLookUpLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="coordsLookUpLabel">Specify Address</h4>
+          </div>
+          <div class="modal-body">
+            <div ng-include="'views/coords-lookup.html'"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- libraries -->
 
     <script src="bower_components/leaflet/dist/leaflet.js"></script>
