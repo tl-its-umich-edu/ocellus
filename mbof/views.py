@@ -72,6 +72,15 @@ class IntentionViewSet(viewsets.ModelViewSet):
     queryset = Intention.objects.all()
     serializer_class = IntentionSerializer
 
-
-class CurrentUserIntentionViewSet(IntentionViewSet):
-    queryset = Intention.objects.filter(respondent_id=os.getenv('REMOTE_USER')).order_by('id')
+    def filter_queryset(self, queryset):
+        queryset = Intention.objects.all()
+        username = self.request.query_params.get('username', None)
+        event = self.request.query_params.get('event', None)
+        if username is not None:
+            if username == 'self':
+                queryset = queryset.filter(respondent_id=os.getenv('REMOTE_USER'))
+            else:
+                queryset = queryset.filter(respondent_id=username)
+        if event is not None:
+            queryset = queryset.filter(event_id=event)
+        return queryset

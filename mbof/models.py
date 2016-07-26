@@ -156,7 +156,7 @@ class Intention(models.Model):
         return str(self.respondent) + ' responded ' + str(self.intention) + ' on ' + str(
                 self.event) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
 
-    def save(self, force_insert=False, force_update=True, using=None,
+    def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
 
         return super(Intention, self).save(force_insert, force_update, using, update_fields)

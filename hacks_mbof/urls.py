@@ -24,7 +24,6 @@ from mbof import views
 
 router = routers.DefaultRouter()
 router.register(r'me', views.CurrentUserViewSet, base_name='me')
-router.register(r'my_intentions', views.CurrentUserIntentionViewSet, base_name='my_intentions')
 router.register(r'events', views.EventViewSet)
 router.register(r'users', views.UserViewSet)
 router.register(r'votes', views.VoteViewSet)
@@ -32,13 +31,11 @@ router.register(r'intentions', views.IntentionViewSet)
 
 urlpatterns = [
     url(r'^api/events/(?P<type>[a-zA-Z ]*/$)', views.EventListViewSet.as_view()),
-    url(r'^api/intentions/(?P<type>[a-zA-Z ]*/$)', views.EventListViewSet.as_view()),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url(r'^mbof/', include(mbof.urls)),
     url(r'^admin/', admin.site.urls),
-
     url(r'^$', serve, {
         'path': '/index.html',
         'document_root': 'mbofui/app',
