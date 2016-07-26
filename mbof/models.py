@@ -89,6 +89,17 @@ class Event(models.Model):
         )
         return voteTotal
 
+    @property
+    def guests(self):
+        guestTotal = reduce(
+                lambda sum, intention: sum + (
+                    1 if intention.intention == Intention.INTENTION_GOING or
+                    intention.intention == Intention.INTENTION_MAYBE else 0),
+                Intention.objects.filter(event=self),
+                0
+        )
+        return guestTotal
+
     def __str__(self):
         return str(self.eventText) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
 
@@ -124,3 +135,28 @@ class Vote(models.Model):
     def __str__(self):
         return str(self.voter) + ' voted ' + str(self.vote) + ' on ' + str(
                 self.event) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+
+
+@python_2_unicode_compatible
+class Intention(models.Model):
+    INTENTION_GOING = 'going'
+    INTENTION_MAYBE = 'maybe'
+    INTENTION_DECLINED = 'declined' #may use in future
+    event = models.ForeignKey(Event)
+    respondent = models.ForeignKey(User, default=currentUserObject, editable=False)
+    intention = models.CharField(max_length=5, choices=(
+        (INTENTION_GOING, INTENTION_GOING),
+        (INTENTION_MAYBE, INTENTION_MAYBE),
+    ))
+
+    class Meta:
+        unique_together = ('event', 'respondent',)
+
+    def __str__(self):
+        return str(self.respondent) + ' responded ' + str(self.intention) + ' on ' + str(
+                self.event) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+
+        return super(Intention, self).save(force_insert, force_update, using, update_fields)

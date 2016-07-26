@@ -27,6 +27,7 @@ router.register(r'me', views.CurrentUserViewSet, base_name='me')
 router.register(r'events', views.EventViewSet)
 router.register(r'users', views.UserViewSet)
 router.register(r'votes', views.VoteViewSet)
+router.register(r'intentions', views.IntentionViewSet)
 
 urlpatterns = [
     url(r'^api/events/(?P<type>[a-zA-Z ]*/$)', views.EventListViewSet.as_view()),
@@ -35,7 +36,6 @@ urlpatterns = [
 
     url(r'^mbof/', include(mbof.urls)),
     url(r'^admin/', admin.site.urls),
-
     url(r'^$', serve, {
         'path': '/index.html',
         'document_root': 'mbofui/app',

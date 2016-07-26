@@ -7,8 +7,8 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from rest_framework import generics, viewsets
 
-from .models import Event, User, Vote
-from .serializers import EventSerializer, UserSerializer, VoteSerializer
+from .models import Event, User, Vote, Intention
+from .serializers import EventSerializer, UserSerializer, VoteSerializer, IntentionSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -63,3 +63,24 @@ class VoteViewSet(viewsets.ModelViewSet):
     """
     queryset = Vote.objects.all()
     serializer_class = VoteSerializer
+
+
+class IntentionViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Intention.objects.all()
+    serializer_class = IntentionSerializer
+
+    def filter_queryset(self, queryset):
+        queryset = Intention.objects.all()
+        username = self.request.query_params.get('username', None)
+        event = self.request.query_params.get('event', None)
+        if username is not None:
+            if username == 'self':
+                queryset = queryset.filter(respondent_id=os.getenv('REMOTE_USER'))
+            else:
+                queryset = queryset.filter(respondent_id=username)
+        if event is not None:
+            queryset = queryset.filter(event_id=event)
+        return queryset
