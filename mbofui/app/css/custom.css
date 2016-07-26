@@ -61,6 +61,10 @@ body {
   z-index: 1
 }
 
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
 @media (max-width: 480px) {
   .leaflet-popup-content {width:auto}
 }
