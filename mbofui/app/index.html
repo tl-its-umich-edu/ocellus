@@ -18,7 +18,7 @@
 
 <body ng-app="ocellus" ng-controller="mapController">
 
-  <nav class="navbar navbar-default navbar-fixed-top">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -85,110 +85,111 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-  <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{alert.message}}
-  </div>
 
-  <leaflet lf-center="center" controls="controls" layers="layers" markers="markersFiltered" width="100%"></leaflet>
-
-  <!-- Create Modal -->
-  <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="bofModalLabel">{{strings.modal_title}}</h4>
-        </div>
-        <div class="modal-body">
-          <div ng-include="'views/event-create.html'"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="postBof" ng-click="postEvent()">{{strings.modal_post}}</button>
-        </div>
+    <div role="main">
+      <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{alert.message}}
       </div>
-    </div>
-  </div>
 
-  <!-- Edit Modal -->
-  <div class="modal fade" id="bofModalEdit" tabindex="-1" role="dialog" aria-labelledby="bofModalEditLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="bofModalEditLabel">Edit Event</h4>
-        </div>
-        <div class="modal-body">
-          <div ng-include="'views/event-edit.html'"></div>
-        </div>
-        <div class="modal-footer container-flex">
-          <div class="row">
-            <div class="col-lg-6">
-              <button type="button" class="btn btn-danger pull-left" ng-click="eventEditCancel()">Cancel Event</button>
+      <leaflet lf-center="center" controls="controls" layers="layers" markers="markersFiltered" width="100%"></leaflet>
+
+      <!-- Create Modal -->
+      <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="bofModalLabel">{{strings.modal_title}}</h4>
             </div>
-            <div class="col-lg-6">
+            <div class="modal-body">
+              <div ng-include="'views/event-create.html'"></div>
+            </div>
+            <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" ng-click="eventEditPost()">Save Event</button>
+              <button type="button" class="btn btn-primary" id="postBof" ng-click="postEvent()">{{strings.modal_post}}</button>
             </div>
           </div>
-
         </div>
       </div>
-    </div>
-  </div>
 
+      <!-- Edit Modal -->
+      <div class="modal fade" id="bofModalEdit" tabindex="-1" role="dialog" aria-labelledby="bofModalEditLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="bofModalEditLabel">Edit Event</h4>
+            </div>
+            <div class="modal-body">
+              <div ng-include="'views/event-edit.html'"></div>
+            </div>
+            <div class="modal-footer container-flex">
+              <div class="row">
+                <div class="col-lg-6">
+                  <button type="button" class="btn btn-danger pull-left" ng-click="eventEditCancel()">Cancel Event</button>
+                </div>
+                <div class="col-lg-6">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" ng-click="eventEditPost()">Save Event</button>
+                </div>
+              </div>
 
-  <!-- My Events Modal -->
-  <div class="modal fade" id="myEventsModal" tabindex="-1" role="dialog" aria-labelledby="myEventsLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myEventsLabel">My Events</h4>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
-          <div ng-include="'views/myevents.html'">
+      </div>
+
+      <!-- My Events Modal -->
+      <div class="modal fade" id="myEventsModal" tabindex="-1" role="dialog" aria-labelledby="myEventsLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myEventsLabel">My Events</h4>
+            </div>
+            <div class="modal-body">
+              <div ng-include="'views/myevents.html'">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coords LookUp Modal -->
+      <div class="modal fade" id="coordsLookUpModal" tabindex="-1" role="dialog" aria-labelledby="coordsLookUpLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="coordsLookUpLabel">Specify Address</h4>
+            </div>
+            <div class="modal-body">
+              <div ng-include="'views/coords-lookup.html'"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <!-- libraries -->
 
-  <!-- Coords LookUp Modal -->
-  <div class="modal fade" id="coordsLookUpModal" tabindex="-1" role="dialog" aria-labelledby="coordsLookUpLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="coordsLookUpLabel">Specify Address</h4>
-        </div>
-        <div class="modal-body">
-          <div ng-include="'views/coords-lookup.html'"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js">
+    </script>
+    <script src="../bower_components/leaflet-plugins/layer/tile/Google.js"></script>
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+    <script src="bower_components/ui-leaflet/dist/ui-leaflet.min.js"></script>
+    <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/moment/min/moment.min.js"></script>
+    <script src="bower_components/webshim/js-webshim/minified/polyfiller.js"></script>
+    <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyBJfRs5m2aIl3cKjMy0es9Fh6-EJeXpP4k"></script>
 
-  <!-- libraries -->
-
-  <script src="bower_components/leaflet/dist/leaflet.js"></script>
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js">
-  </script>
-  <script src="../bower_components/leaflet-plugins/layer/tile/Google.js"></script>
-  <script src="bower_components/jquery/jquery.min.js"></script>
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
-  <script src="bower_components/ui-leaflet/dist/ui-leaflet.min.js"></script>
-  <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.min.js"></script>
-  <script src="bower_components/underscore/underscore-min.js"></script>
-  <script src="bower_components/moment/min/moment.min.js"></script>
-  <script src="bower_components/webshim/js-webshim/minified/polyfiller.js"></script>
-  <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyBJfRs5m2aIl3cKjMy0es9Fh6-EJeXpP4k"></script>
-
-  <!-- grunt concatenated app files -->
-  <script src="js/dist/all.min.js"></script>
+    <!-- grunt concatenated app files -->
+    <script src="js/dist/all.min.js"></script>
 
 
 
