@@ -80,6 +80,7 @@
     <!-- /.container-fluid -->
   </nav>
 
+  <div role="main">
     <div id="text_only"></div>
     <div class="alert alert-info" style="margin:10px" ng-show="!textEvents.length" ng-cloak>
       No {{currentView | lowercase}} {{selectedCategory}} events available.
@@ -107,7 +108,7 @@
         </td>
       </tr>
     </table>
-
+  </div>
 
     <!-- Create Modal -->
     <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
@@ -186,7 +187,7 @@
           </div>
         </div>
       </div>
-    
+
     <!-- libraries -->
     <script src="bower_components/leaflet/dist/leaflet.js"></script>
     <script src="bower_components/angular/angular.js"></script>
