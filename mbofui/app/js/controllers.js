@@ -302,6 +302,14 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     getEvents(url);
   };
 
+  $(document).on('click','.declareIntent',function(e) {
+    var eventId = _.last(_.compact($(this).attr('data-event').split('/')));
+    data = {
+        "intention": $(this).attr('data-intention'),
+        "event": eventId
+    };
+    console.log(data);
+  });
 
   $(document).on('click','.editEvent',function(e) {
 
@@ -530,9 +538,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     //now we decorate this event with the data from intentions
     // same as we can mod the title we can mod the controls for intention
     thisEvent.title='waaaa';
-
   });
-
 
 
   // generic function to pan map to a specified set of coordinates
