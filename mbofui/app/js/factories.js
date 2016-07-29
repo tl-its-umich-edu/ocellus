@@ -12,6 +12,16 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           // do some error things
         });
     },
+    GetIntentions: function(url) {
+      // at some point this will need to be paged
+      return $http.get(url).then(
+        function success(result) {
+          return result;
+        },
+        function error(result) {
+          // do some error things
+        });
+    },
     // post an event
     PostBof: function(url, data) {
       return $http.post(url, data).then(

@@ -189,6 +189,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
   };
 
+
   // get events
   var getEvents = function(url) {
     $scope.markersAll = [];
@@ -202,12 +203,19 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var bofsUrl = url;
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(eventsList) {
-      // note: only to
+      Bof.GetIntentions('/api/intentions/?username=self').then(function(intentionsList) {
+        $scope.intentions=intentionsList;
+        // decorate the eventsList with  the intentions
+        eventsList = addIntentions(eventsList, intentionsList);
+      });
+      // note: only for the text - only
       if($scope.textOnly) {
         $scope.textEventsAll = eventsList;
         $scope.textEvents = eventsList;
       }
       $rootScope.events=eventsList;
+
+
       // wish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < eventsList.length; i++) {
@@ -518,6 +526,15 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       $scope.addressTooShort = false;
      }, 0);
   });
+
+  $scope.$on('leafletDirectiveMarker.click', function(e, args){
+    var thisEvent =_.findWhere($rootScope.events, {url: args.model.url});
+    //now we decorate this event with the data from intentions
+    thisEvent.title='waaaa';
+
+  });
+
+
 
   // generic function to pan map to a specified set of coordinates
   $scope.panMap = function(loc){
