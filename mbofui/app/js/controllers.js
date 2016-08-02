@@ -537,7 +537,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var thisEvent =_.findWhere($rootScope.events, {url: args.model.url});
     //now we decorate this event with the data from intentions
     // same as we can mod the title we can mod the controls for intention
-    thisEvent.title='waaaa';
+    //thisEvent.title='waaaa';
   });
 
 

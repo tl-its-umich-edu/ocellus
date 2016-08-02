@@ -105,6 +105,14 @@
         </td>
         <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right">
           <button data-toggle="modal" data-target="#bofModalEdit" data-event="{{event}}" ng-if="event.mine && event.inTime" type="button" class="btn btn-primary editEvent">Edit <span class="sr-only">{{event.title}} event</span></button>
+          <div class="btn-group btn-group-sm btn-group-justified" ng-show="!event.mine">
+            <a role="button" href="" class="btn btn-primary" style="color:#fff" ng-click="intend('going', event.url)">
+              Going
+            </a>
+            <a role="button" href="" class="btn btn-default" data-intention="maybe" data-event="{{event.url}}" ng-click="intend('maybe', event.url)">
+              Maybe
+            </a>
+          </div>
         </td>
       </tr>
     </table>
