@@ -13,12 +13,12 @@
   </div>
   <hr class="popupRule">
   <div class="btn-group btn-group-sm btn-group-justified" ng-show="!event.mine">
-    <button class="btn btn-primary declareIntent" style="color:#fff" ng-click="intend('going', event.url)">
+    <a href="" class="btn btn-primary declareIntent" style="color:#fff" ng-click="intend('going', event.url)">
       Going
-    </button>
-    <button class="btn btn-default declareIntent" data-intention="maybe" data-event="{{event.url}}" ng-click="intend('maybe', event.url)">
+    </a>
+    <a href="" class="btn btn-default declareIntent" data-intention="maybe" data-event="{{event.url}}" ng-click="intend('maybe', event.url)">
       Maybe
-    </button>
+    </a>
   </div>
   <div class="btn-group btn-group-sm btn-group-justified" ng-show="event.mine && event.inTime">
     <a data-toggle="modal" data-target="#bofModalEdit" data-event="{{event}}" role="button" href="" class="btn btn-primary editEvent" style="color:#fff" >
