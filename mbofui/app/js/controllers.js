@@ -145,7 +145,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         // examine event and return a message to the user if
         // the event's timeframe is the NOT current view's timeframe
         $scope.alert = checkTimeSlice(result.data.startTime, result.data.endTime, $rootScope.currentViewUrl);
-        $timeout(function () { $scope.alert = false; }, 3000);
+        $timeout(function () { $scope.alert = false; }, 5000);
         // reload events
         getEvents($rootScope.currentViewUrl);
         // close the popup
@@ -394,7 +394,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         // examine event and return a message to the user if
         // the event's timeframe is NOT the current view's timeframe
         $scope.alert = checkTimeSlice(result.data.startTime, result.data.endTime, $rootScope.currentViewUrl);
-        $timeout(function () { $scope.alert = false; }, 3000);
+        $timeout(function () { $scope.alert = false; }, 5000);
         //reload events
         getEvents($rootScope.currentViewUrl);
         // clear the form controls in the modal and then hide it
