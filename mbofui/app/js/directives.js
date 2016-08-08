@@ -4,21 +4,11 @@ ocellus.directive('popup', ['$http', '$compile', 'Bof', function($http, $compile
         restrict: 'E',
         //replace: true,
         //transclude: true,
+        controller: 'mapController',
         scope: {
           event: '=event',
-          intend: "&"
+          intend: '&'
         },
-        templateUrl: '../views/popup.html',
-        link: function (scope) {
-          scope.intend = function (intent, eventUrl) {
-            var eventId = _.last(_.compact(eventUrl.split('/')));
-            data = {
-                "intention": intent,
-                "event": eventId
-            };
-            console.log(data);
-            // use a factory to post new or edited intent
-         };
-       }
+        templateUrl: '../views/popup.html'
     };
 }]);

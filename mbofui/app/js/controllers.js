@@ -302,14 +302,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     getEvents(url);
   };
 
-  $(document).on('click','.declareIntent',function(e) {
-    var eventId = _.last(_.compact($(this).attr('data-event').split('/')));
+
+  $scope.intend = function (intent, eventUrl) {
+    var eventId = _.last(_.compact(eventUrl.split('/')));
     data = {
-        "intention": $(this).attr('data-intention'),
+        "intention": intent,
         "event": eventId
     };
+    // use a factory to post new or edited intent
     console.log(data);
-  });
+  };
 
   $(document).on('click','.editEvent',function(e) {
 
