@@ -146,12 +146,17 @@ webshim.setOptions("forms-ext", {
 });
 
 var checkTimeSlice  = function(start,end,currentView) {
-  if(moment(start).isAfter(moment()) && currentView ==='/api/events/current/'){
-    return {'type':'alert-success','message':'Event created for the future - view in upcoming events.'};
-  } else if (moment(start).isSameOrBefore(moment(),'hour') && moment(end).isSameOrAfter(moment(), 'hour')  && currentView ==='/api/events/upcoming/'){
-    return {'type':'alert-success','message':'Event created for the current - view in current events.'};
-  } else {
-    return null;
+  if (moment(start).isAfter(   moment().add(7, 'days') )) {
+    return {'type':'alert-success','message':'Event start (' + moment(start).format("dddd, MMMM Do YYYY, h:mm:ss a") + ') is more than a week away - will not be visible till start time is less than a week away.'};
+  }
+   else {
+    if(moment(start).isAfter(moment()) && currentView ==='/api/events/current/'){
+      return {'type':'alert-success','message':'Event created for the future - view in upcoming events.'};
+    } else if (moment(start).isSameOrBefore(moment(),'hour') && moment(end).isSameOrAfter(moment(), 'hour')  && currentView ==='/api/events/upcoming/'){
+      return {'type':'alert-success','message':'Event created for the current - view in current events.'};
+    } else {
+      return null;
+    }
   }
 };
 
