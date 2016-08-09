@@ -353,9 +353,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   };
 
   $scope.eventEditCancel = function(){
-    $scope.editEvent.status = 'canceled';
-    $scope.removeEvent($scope.editEvent);
-    $scope.eventEditPost();
+    if (window.confirm("Are you sure you want to cancel this event?")) {
+      $scope.editEvent.status = 'canceled';
+      $scope.removeEvent($scope.editEvent);
+      $scope.eventEditPost();
+    }
   };
 
   // handler for event edit PUT
