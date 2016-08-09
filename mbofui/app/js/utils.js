@@ -127,6 +127,7 @@ var validate = function(data) {
 // TODO: placeholder - need to use a directive with an actual template
 var popupLink = document.createElement('a');
 popupLink.setAttribute('data-toggle','modal');
+popupLink.setAttribute('data-backdrop','static');
 popupLink.setAttribute('data-target','#bofModal');
 popupLink.setAttribute('href','');
 popupLink.setAttribute('data-target', '#bofModal');
