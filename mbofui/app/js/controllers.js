@@ -224,7 +224,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           category: eventsList[i].category,
           title: eventsList[i].title,
           messageSearch: eventsList[i].category + ' ' + eventsList[i].message + ' ' +eventsList[i].title,
-          message: "<popup event='events[" + i + "]'></popup>",
+          message: "<popup item-click='toggleInBasket(item)' event='events[" + i + "]'></popup>",
           //message:dateDisplayD,
           layer: 'events',
           icon: Bof.resolveIcon(eventsList[i].category)
@@ -292,7 +292,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     else {
       $window.location='/index.html'  + '?currentView=' + $rootScope.currentView;
     }
-
   };
 
   $scope.switchViews = function (url, title, hash) {
@@ -302,15 +301,49 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     getEvents(url);
   };
 
+  $(document).on('click','.declareIntentPut', function(e){
+    $scope.intendPut($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent'), $(this).attr('data-intention-url')  );
+    //($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent') );
+  });
 
-  $scope.intend = function (intent, eventUrl) {
+  $(document).on('click','.declareIntentPost', function(e){
+    $scope.intendPost($(this).attr('data-intention'), $(this).attr('data-event'));
+  });
+
+  $scope.intendPut = function (intention, targetEvent, respondent, intentionUrl) {
+    data = {
+      'intention': intention,
+      'event': targetEvent,
+      'respondent': respondent
+    };
+
+    // console.log(intentionUrl);
+    // use a factory to post new or edited intent
+    Bof.IntendPut(intentionUrl, data).then(function(result) {
+      leafletData.getMap().then(function(map) {
+        map.closePopup();
+      });
+      Bof.GetIntentions('/api/intentions/?username=self').then(function(intentionsList) {
+        $scope.intentions=intentionsList;
+      });
+    });
+  };
+  $scope.intendPost = function (intent, eventUrl) {
     var eventId = _.last(_.compact(eventUrl.split('/')));
     data = {
-        "intention": intent,
-        "event": eventId
+        'intention': intent,
+        'event':eventUrl
     };
+    var intentionsUrl = '/api/intentions/';
     // use a factory to post new or edited intent
-    console.log(data);
+    Bof.IntendPost(intentionsUrl, data).then(function(result) {
+      leafletData.getMap().then(function(map) {
+        map.closePopup();
+      });
+      Bof.GetIntentions('/api/intentions/?username=self').then(function(intentionsList) {
+        $scope.intentions=intentionsList;
+      });
+    });
   };
 
   $(document).on('click','.editEvent',function(e) {
@@ -536,10 +569,12 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   });
 
   $scope.$on('leafletDirectiveMarker.click', function(e, args){
+    // TODO:  might need to check if event is "mine" and omit the lookups below
     var thisEvent =_.findWhere($rootScope.events, {url: args.model.url});
-    //now we decorate this event with the data from intentions
-    // same as we can mod the title we can mod the controls for intention
-    //thisEvent.title='waaaa';
+    var correlateIntention = _.findWhere($scope.intentions.data.results, {event: args.model.url});
+    if(correlateIntention){
+      thisEvent.intention=correlateIntention;
+    }
   });
 
 

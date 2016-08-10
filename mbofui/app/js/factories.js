@@ -22,6 +22,25 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           // do some error things
         });
     },
+    IntendPost: function(url, data) {
+      return $http.post(url, data).then(
+        function success(result) {
+          return result;
+        },
+        function error(result) {
+          // do some error things
+      });
+    },
+    IntendPut: function(url, data) {
+      return $http.put(url, data).then(
+        function success(result) {
+          return result;
+        },
+        function error(result) {
+          // do some error things
+      });
+    },
+
     // post an event
     PostBof: function(url, data) {
       return $http.post(url, data).then(

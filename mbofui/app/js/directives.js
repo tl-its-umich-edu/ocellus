@@ -2,13 +2,9 @@
 ocellus.directive('popup', ['$http', '$compile', 'Bof', function($http, $compile, Bof) {
     return {
         restrict: 'E',
-        //replace: true,
-        //transclude: true,
-        controller: 'mapController',
         scope: {
-          event: '=event',
-          intend: '&'
+          event: '=event'
         },
         templateUrl: '../views/popup.html'
-    };
+      };
 }]);

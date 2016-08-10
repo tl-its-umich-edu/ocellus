@@ -36,6 +36,9 @@ var leafletize = function(data, user){
     if(user.data.results[0].url ===event.owner) {
       mine = true;
     }
+    else {
+      mine = false;
+    }
     if(moment(event.endTime).isAfter(now)){
       inTime=true;
     }

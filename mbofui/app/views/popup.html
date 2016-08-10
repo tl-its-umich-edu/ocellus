@@ -12,11 +12,24 @@
     <small>{{event.address}}</small>
   </div>
   <hr class="popupRule">
-  <div class="btn-group btn-group-sm btn-group-justified" ng-show="!event.mine">
-    <a href="" class="btn btn-primary declareIntent" style="color:#fff" ng-click="intend('going', event.url)">
+  <div ng-show="!event.mine && event.intention">
+    <p>
+      Intention: {{event.intention.intention | capitalize}}
+    </p>
+    <div class="btn-group btn-group-sm btn-group-justified">
+      <a href="" ng-if="event.intention.intention!=='going' && event.inTime" class="btn btn-primary declareIntentPut" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+        Change to <strong>going for sure</strong>
+      </a>
+      <a href="" ng-if="event.intention.intention==='going' && event.inTime" class="btn btn-default declareIntentPut" data-intention="maybe" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+        Change to <strong>maybe</strong> going
+      </a>
+    </div>
+  </div>
+  <div class="btn-group btn-group-sm btn-group-justified" ng-show="!event.mine && !event.intention && event.inTime">
+    <a href="" class="btn btn-primary declareIntentPost" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-method="POST">
       Going
     </a>
-    <a href="" class="btn btn-default declareIntent" data-intention="maybe" data-event="{{event.url}}" ng-click="intend('maybe', event.url)">
+    <a href="" class="btn btn-default declareIntentPost" data-intention="maybe" data-event="{{event.url}}">
       Maybe
     </a>
   </div>
