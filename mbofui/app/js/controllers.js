@@ -225,7 +225,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           category: eventsList[i].category,
           title: eventsList[i].title,
           messageSearch: eventsList[i].category + ' ' + eventsList[i].message + ' ' +eventsList[i].title,
-          message: "<popup item-click='toggleInBasket(item)' event='events[" + i + "]'></popup>",
+          message: "<popup event='events[" + i + "]'></popup>",
           //message:dateDisplayD,
           layer: 'events',
           icon: Bof.resolveIcon(eventsList[i].category)
