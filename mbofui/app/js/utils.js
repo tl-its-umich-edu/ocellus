@@ -158,6 +158,7 @@ var checkTimeSlice  = function(start,end,currentView) {
   }
 };
 
+// function to peer events and intentions - used by text only view
 var intentionIncluded = function(eventsList, intentionsList) {
   _.each(eventsList, function(event){
     var correlateIntention = _.findWhere(intentionsList.data.results, {event: event.url});

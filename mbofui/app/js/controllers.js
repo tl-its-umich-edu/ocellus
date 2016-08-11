@@ -203,9 +203,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var bofsUrl = url;
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(eventsList) {
-      Bof.GetIntentions('/api/intentions/?username=self').then(function(intentionsList) {
+      Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
         $scope.intentions=intentionsList;
         if($scope.textOnly) {
+          // use intentionIncluded function to add to each event whatever intention is germane
           var intentionsAdded = intentionIncluded(eventsList, intentionsList);
           $scope.textEventsAll = intentionsAdded;
           $scope.textEvents = intentionsAdded;
@@ -302,27 +303,34 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     getEvents(url);
   };
 
+  //DOM event listener for editing an intention. Launches an Angular function
   $(document).on('click','.declareIntentPut', function(e){
     $scope.intendPut($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent'), $(this).attr('data-intention-url')  );
   });
-
+  //DOM event listener for creating an intention. Launches an Angular function
   $(document).on('click','.declareIntentPost', function(e){
     $scope.intendPost($(this).attr('data-intention'), $(this).attr('data-event'));
   });
 
+  // PUT an intention
   $scope.intendPut = function (intention, targetEvent, respondent, intentionUrl) {
+    //data to send to endpoint
     data = {
       'intention': intention,
       'event': targetEvent,
       'respondent': respondent
     };
+    // use factory to handle the PUT
     Bof.IntendPut(intentionUrl, data).then(function(result) {
+      //close popup
       leafletData.getMap().then(function(map) {
         map.closePopup();
       });
-      Bof.GetIntentions('/api/intentions/?username=self').then(function(intentionsList) {
+      //reload intentions
+      Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
         $scope.intentions=intentionsList;
         if($scope.textOnly){
+          // peer events with intentions for text only view
           var intentionsAdded = intentionIncluded($scope.textEventsAll, intentionsList);
           $scope.textEventsAll = intentionsAdded;
           $scope.textEvents = intentionsAdded;
@@ -330,21 +338,26 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       });
     });
   };
+  // POST an intention
   $scope.intendPost = function (intent, eventUrl) {
     var eventId = _.last(_.compact(eventUrl.split('/')));
+    //data to send to endpoint
     data = {
         'intention': intent,
         'event':eventUrl
     };
-    var intentionsUrl = '/api/intentions/';
-    // use a factory to post new or edited intent
+    var intentionsUrl = $rootScope.urls.intentions;
+    // use a factory to post new intent
     Bof.IntendPost(intentionsUrl, data).then(function(result) {
+      // close popup
       leafletData.getMap().then(function(map) {
         map.closePopup();
       });
-      Bof.GetIntentions('/api/intentions/?username=self').then(function(intentionsList) {
+      // use factory to handle POST
+      Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
         $scope.intentions=intentionsList;
         if($scope.textOnly){
+          // peer events with intentions for text only view
           var intentionsAdded = intentionIncluded($scope.textEventsAll, intentionsList);
           $scope.textEventsAll = intentionsAdded;
           $scope.textEvents = intentionsAdded;

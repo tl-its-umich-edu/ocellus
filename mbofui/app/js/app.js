@@ -18,7 +18,9 @@ ocellus.run(function($rootScope) {
     $rootScope.currentMapKey='AIzaSyBJfRs5m2aIl3cKjMy0es9Fh6-EJeXpP4k';
     $rootScope.currentMapAPI = 'google';
     $rootScope.event_categories = ['Course/Class','Practice/Rehearsal','Social Gathering','Business/Networking','Public Ceremony','Family','Sports','Political/Rally'];
-
+    $rootScope.urls = {
+      'intentions':'/api/intentions/'
+    };
     $rootScope.time_format = 'YYYY-MM-DDTHH:mm:ssZ';
     $rootScope.time_format_polyfill= 'YYYY-MM-DDTHH:mm';
     $rootScope.baselayers = {
