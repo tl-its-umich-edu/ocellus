@@ -205,12 +205,13 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     Bof.GetBofs(bofsUrl).then(function(eventsList) {
       Bof.GetIntentions('/api/intentions/?username=self').then(function(intentionsList) {
         $scope.intentions=intentionsList;
+        if($scope.textOnly) {
+          var intentionsAdded = intentionIncluded(eventsList, intentionsList);
+          $scope.textEventsAll = intentionsAdded;
+          $scope.textEvents = intentionsAdded;
+        }
       });
       // note: only for the text - only
-      if($scope.textOnly) {
-        $scope.textEventsAll = eventsList;
-        $scope.textEvents = eventsList;
-      }
       $rootScope.events=eventsList;
 
 
@@ -303,7 +304,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   $(document).on('click','.declareIntentPut', function(e){
     $scope.intendPut($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent'), $(this).attr('data-intention-url')  );
-    //($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent') );
   });
 
   $(document).on('click','.declareIntentPost', function(e){
@@ -316,15 +316,17 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'event': targetEvent,
       'respondent': respondent
     };
-
-    // console.log(intentionUrl);
-    // use a factory to post new or edited intent
     Bof.IntendPut(intentionUrl, data).then(function(result) {
       leafletData.getMap().then(function(map) {
         map.closePopup();
       });
       Bof.GetIntentions('/api/intentions/?username=self').then(function(intentionsList) {
         $scope.intentions=intentionsList;
+        if($scope.textOnly){
+          var intentionsAdded = intentionIncluded($scope.textEventsAll, intentionsList);
+          $scope.textEventsAll = intentionsAdded;
+          $scope.textEvents = intentionsAdded;
+        }
       });
     });
   };
@@ -342,6 +344,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       });
       Bof.GetIntentions('/api/intentions/?username=self').then(function(intentionsList) {
         $scope.intentions=intentionsList;
+        if($scope.textOnly){
+          var intentionsAdded = intentionIncluded($scope.textEventsAll, intentionsList);
+          $scope.textEventsAll = intentionsAdded;
+          $scope.textEvents = intentionsAdded;
+        }
       });
     });
   };

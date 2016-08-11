@@ -158,6 +158,16 @@ var checkTimeSlice  = function(start,end,currentView) {
   }
 };
 
+var intentionIncluded = function(eventsList, intentionsList) {
+  _.each(eventsList, function(event){
+    var correlateIntention = _.findWhere(intentionsList.data.results, {event: event.url});
+    if(correlateIntention){
+      event.intention=correlateIntention;
+    }
+  });
+  return eventsList;
+};
+
 var reinitTimeFields = function(){
   // add current datetime to startTime and endTime inputs to be used by polyfill
   // as well as default value for start time
