@@ -1,10 +1,10 @@
 /*jshint strict:false */
-ocellus.directive('popup', ['$http', '$compile', function($http, $compile) {
+ocellus.directive('popup', ['$http', '$compile', 'Bof', function($http, $compile, Bof) {
     return {
         restrict: 'E',
         scope: {
-            event: "="
+          event: '=event'
         },
         templateUrl: '../views/popup.html'
-    };
+      };
 }]);

@@ -36,6 +36,9 @@ var leafletize = function(data, user){
     if(user.data.results[0].url ===event.owner) {
       mine = true;
     }
+    else {
+      mine = false;
+    }
     if(moment(event.endTime).isAfter(now)){
       inTime=true;
     }
@@ -159,6 +162,17 @@ var checkTimeSlice  = function(start,end,currentView) {
       return null;
     }
   }
+};
+
+// function to peer events and intentions - used by text only view
+var intentionIncluded = function(eventsList, intentionsList) {
+  _.each(eventsList, function(event){
+    var correlateIntention = _.findWhere(intentionsList.data.results, {event: event.url});
+    if(correlateIntention){
+      event.intention=correlateIntention;
+    }
+  });
+  return eventsList;
 };
 
 var reinitTimeFields = function(){

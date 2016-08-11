@@ -189,6 +189,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     }
   };
 
+
   // get events
   var getEvents = function(url) {
     $scope.markersAll = [];
@@ -202,12 +203,19 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     var bofsUrl = url;
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(eventsList) {
-      // note: only to
-      if($scope.textOnly) {
-        $scope.textEventsAll = eventsList;
-        $scope.textEvents = eventsList;
-      }
+      Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
+        $scope.intentions=intentionsList;
+        if($scope.textOnly) {
+          // use intentionIncluded function to add to each event whatever intention is germane
+          var intentionsAdded = intentionIncluded(eventsList, intentionsList);
+          $scope.textEventsAll = intentionsAdded;
+          $scope.textEvents = intentionsAdded;
+        }
+      });
+      // note: only for the text - only
       $rootScope.events=eventsList;
+
+
       // wish there was a better way to display a collection
       // TODO: align property names (db, json response and marker definition) so that we are not doing so much reformating
       for (var i = 0; i < eventsList.length; i++) {
@@ -286,7 +294,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     else {
       $window.location='/index.html'  + '?currentView=' + $rootScope.currentView;
     }
-
   };
 
   $scope.switchViews = function (url, title, hash) {
@@ -296,6 +303,68 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     getEvents(url);
   };
 
+  //DOM event listener for editing an intention. Launches an Angular function
+  $(document).on('click','.declareIntentPut', function(e){
+    $scope.intendPut($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent'), $(this).attr('data-intention-url')  );
+  });
+  //DOM event listener for creating an intention. Launches an Angular function
+  $(document).on('click','.declareIntentPost', function(e){
+    $scope.intendPost($(this).attr('data-intention'), $(this).attr('data-event'));
+  });
+
+  // PUT an intention
+  $scope.intendPut = function (intention, targetEvent, respondent, intentionUrl) {
+    //data to send to endpoint
+    data = {
+      'intention': intention,
+      'event': targetEvent,
+      'respondent': respondent
+    };
+    // use factory to handle the PUT
+    Bof.IntendPut(intentionUrl, data).then(function(result) {
+      //close popup
+      leafletData.getMap().then(function(map) {
+        map.closePopup();
+      });
+      //reload intentions
+      Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
+        $scope.intentions=intentionsList;
+        if($scope.textOnly){
+          // peer events with intentions for text only view
+          var intentionsAdded = intentionIncluded($scope.textEventsAll, intentionsList);
+          $scope.textEventsAll = intentionsAdded;
+          $scope.textEvents = intentionsAdded;
+        }
+      });
+    });
+  };
+  // POST an intention
+  $scope.intendPost = function (intent, eventUrl) {
+    var eventId = _.last(_.compact(eventUrl.split('/')));
+    //data to send to endpoint
+    data = {
+        'intention': intent,
+        'event':eventUrl
+    };
+    var intentionsUrl = $rootScope.urls.intentions;
+    // use a factory to post new intent
+    Bof.IntendPost(intentionsUrl, data).then(function(result) {
+      // close popup
+      leafletData.getMap().then(function(map) {
+        map.closePopup();
+      });
+      // use factory to handle POST
+      Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
+        $scope.intentions=intentionsList;
+        if($scope.textOnly){
+          // peer events with intentions for text only view
+          var intentionsAdded = intentionIncluded($scope.textEventsAll, intentionsList);
+          $scope.textEventsAll = intentionsAdded;
+          $scope.textEvents = intentionsAdded;
+        }
+      });
+    });
+  };
 
   $(document).on('click','.editEvent',function(e) {
 
@@ -520,6 +589,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       $scope.addressTooShort = false;
      }, 0);
   });
+
+  $scope.$on('leafletDirectiveMarker.click', function(e, args){
+    // TODO:  might need to check if event is "mine" and omit the lookups below
+    var thisEvent =_.findWhere($rootScope.events, {url: args.model.url});
+    var correlateIntention = _.findWhere($scope.intentions.data.results, {event: args.model.url});
+    if(correlateIntention){
+      thisEvent.intention=correlateIntention;
+    }
+  });
+
 
   // generic function to pan map to a specified set of coordinates
   $scope.panMap = function(loc){
