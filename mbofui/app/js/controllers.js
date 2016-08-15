@@ -516,7 +516,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.addressDirty = true;
   };
   $scope.lookUpNewCoords = function(mode){
-    console.log($scope.newEventAddress);
+    $log.info($scope.newEventAddress);
     //$scope.coordsLookUp = $scope.newEventAddress;
     // need to decouple the function below so it just returns a value, then things can be assigned to scope based on that
   };
