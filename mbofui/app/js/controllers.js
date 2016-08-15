@@ -78,7 +78,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       function onLocationFound(e) {
         var radius = e.accuracy / 2;
         $('#bofModal').attr('data-coords', [e.latlng.lat, e.latlng.lng]);
-        //$scope.lookUpAddress($rootScope.currentMapAPI);
         L.popup()
           .setLatLng(e.latlng)
           .setContent(popupLink)
@@ -94,7 +93,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     leafletData.getMap().then(function(map) {
       var leafEvent = args.leafletEvent;
       $('#bofModal').attr('data-coords', [leafEvent.latlng.lat, leafEvent.latlng.lng]);
-      //$scope.lookUpAddress($rootScope.currentMapAPI);
       L.popup()
         .setLatLng(leafEvent.latlng)
         .setContent(popupLink)
@@ -155,7 +153,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           map.closePopup();
         });
         // clear the form controls in the modal
-        $('#eventText, #newStartTime, #newEndTime, #address').val('');
+        $('#eventText, #newStartTime, #newEndTime').val('');
         $('#bofModal').modal('hide');
       });
     } else {
@@ -276,6 +274,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.selected_category ='';
     $scope.newEventText =undefined;
     $scope.newEventTitle =undefined;
+    $scope.addressDirty = false;
     $('#bofModal .alert-inline').hide();
     $scope.validationFailuresCreate = false;
     $('.form-group').removeClass('has-error');
@@ -493,6 +492,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   //logic will be radically simplified when we decide what service to use
 
   $scope.lookUpAddress = function(mode){
+
     var coords = $('#bofModal').attr('data-coords').split(',');
     var addressUrl ='';
     if (mode==="google") {
@@ -516,7 +516,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.addressDirty = true;
   };
   $scope.lookUpNewCoords = function(mode){
-    $scope.coordsLookUp = $scope.newEventAddress;
+    console.log($scope.newEventAddress);
+    //$scope.coordsLookUp = $scope.newEventAddress;
     // need to decouple the function below so it just returns a value, then things can be assigned to scope based on that
   };
   //used to create an event given a textual address
@@ -546,7 +547,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       Bof.GetAddress(coordsUrl).then(function(result) {
         if (mode==="google") {
           if (result.data.results.length === 1){
-            // pass the object to the edit dialog
+            // pass the object to the create event dialog
             $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
             $scope.newEventAddress = result.data.results[0].formatted_address;
             $scope.newEventLoc =result.data.results[0].geometry.location;
@@ -563,7 +564,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         }
         else {
           if (result.data.length === 1){
-            // pass the object to the edit dialog
+            // pass the object to the create event dialog
             $('#bofModal').attr('data-coords', [parseFloat(result.data[0].lat), parseFloat(result.data[0].lon)]);
              $scope.newEventLoc = {lat:parseFloat(result.data[0].lat),lng:parseFloat(result.data[0].lon)};
              $scope.newEventAddress = result.data[0].display_name;
