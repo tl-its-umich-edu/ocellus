@@ -275,6 +275,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.newEventText =undefined;
     $scope.newEventTitle =undefined;
     $scope.addressDirty = false;
+    $scope.newEventAddress=undefined;
     $('#bofModal .alert-inline').hide();
     $scope.validationFailuresCreate = false;
     $('.form-group').removeClass('has-error');
@@ -516,9 +517,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.addressDirty = true;
   };
   $scope.lookUpNewCoords = function(mode){
-    $log.info($scope.newEventAddress);
-    //$scope.coordsLookUp = $scope.newEventAddress;
-    // need to decouple the function below so it just returns a value, then things can be assigned to scope based on that
+    $scope.coordsLookUp = $scope.newEventAddress;
+    $scope.lookUpCoords(mode);
   };
   //used to create an event given a textual address
   // flow:
