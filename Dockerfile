@@ -35,4 +35,4 @@ RUN cd mbofui && bower install && npm install && grunt docker
 EXPOSE 8000
 
 # copy settings file and launch django
-CMD cp /usr/share/ocellus/settings.py ./hacks_mbof/; python manage.py migrate; REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
+CMD python manage.py migrate; REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
