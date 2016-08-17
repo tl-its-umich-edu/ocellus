@@ -271,6 +271,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.selected_category ='';
     $scope.newEventText =undefined;
     $scope.newEventTitle =undefined;
+    $scope.newEventHashtag= undefined;
     $('#bofModal .alert-inline').hide();
     $scope.validationFailuresCreate = false;
     $('.form-group').removeClass('has-error');
