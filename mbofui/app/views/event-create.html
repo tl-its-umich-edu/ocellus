@@ -34,9 +34,9 @@
   <input id="hashtag" ng-model="$parent.newEventHashtag"  name="hashtag"  class="form-control" type="text" placeholder="Hashtags">
 </div>
 <label for="address" class="sr-only">Address</label>
-<div class="input-group address">
-  <input id="address" name="address"  ng-model="newEventAddress" class="form-control" type="text" placeholder="Address">
-  <span class="input-group-btn">
-    <button class="btn btn-primary" type="button" ng-click="lookUpAddress(currentMapAPI)">Get Address</button>
-  </span>
+<div ng-class="addressDirty ? 'input-group address' : 'address'">
+  <input id="address" name="address" ng-model-options='{ debounce: 1000 }' ng-change="addressEdited()" ng-model="$parent.newEventAddress" class="form-control" type="text" placeholder="Address">
+  <div class="input-group-btn" ng-show="addressDirty" >
+    <button  ng-show="addressDirty" class="btn btn-primary" type="button" ng-click="lookUpNewCoords(currentMapAPI)">Save New Address</button>
+  </div>
 </div>
