@@ -204,10 +204,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(eventsList) {
       Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
-        $scope.intentions=intentionsList;
+        $scope.intentions=intentionsList.data.results;
         if($scope.textOnly) {
           // use intentionIncluded function to add to each event whatever intention is germane
-          var intentionsAdded = intentionIncluded(eventsList, intentionsList);
+          var intentionsAdded = intentionIncluded(eventsList, $scope.intentions);
           $scope.textEventsAll = intentionsAdded;
           $scope.textEvents = intentionsAdded;
         }
@@ -328,10 +328,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       });
       //reload intentions
       Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
-        $scope.intentions=intentionsList;
+        $scope.intentions=intentionsList.data.results;
         if($scope.textOnly){
           // peer events with intentions for text only view
-          var intentionsAdded = intentionIncluded($scope.textEventsAll, intentionsList);
+          var intentionsAdded = intentionIncluded($scope.textEventsAll, $scope.intentions);
           $scope.textEventsAll = intentionsAdded;
           $scope.textEvents = intentionsAdded;
         }
@@ -355,10 +355,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       });
       // use factory to handle POST
       Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
-        $scope.intentions=intentionsList;
+        $scope.intentions=intentionsList.data.results;
         if($scope.textOnly){
           // peer events with intentions for text only view
-          var intentionsAdded = intentionIncluded($scope.textEventsAll, intentionsList);
+          var intentionsAdded = intentionIncluded($scope.textEventsAll, $scope.intentions);
           $scope.textEventsAll = intentionsAdded;
           $scope.textEvents = intentionsAdded;
         }
@@ -593,7 +593,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   $scope.$on('leafletDirectiveMarker.click', function(e, args){
     // TODO:  might need to check if event is "mine" and omit the lookups below
     var thisEvent =_.findWhere($rootScope.events, {url: args.model.url});
-    var correlateIntention = _.findWhere($scope.intentions.data.results, {event: args.model.url});
+    var correlateIntention = _.findWhere($scope.intentions, {event: args.model.url});
     if(correlateIntention){
       thisEvent.intention=correlateIntention;
     }
