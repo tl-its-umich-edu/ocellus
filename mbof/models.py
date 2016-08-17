@@ -141,12 +141,13 @@ class Vote(models.Model):
 class Intention(models.Model):
     INTENTION_GOING = 'going'
     INTENTION_MAYBE = 'maybe'
-    INTENTION_DECLINED = 'declined' #may use in future
+    INTENTION_DECLINED = 'declined'
     event = models.ForeignKey(Event)
     respondent = models.ForeignKey(User, default=currentUserObject, editable=False)
-    intention = models.CharField(max_length=5, choices=(
+    intention = models.CharField(max_length=10, choices=(
         (INTENTION_GOING, INTENTION_GOING),
         (INTENTION_MAYBE, INTENTION_MAYBE),
+        (INTENTION_DECLINED, INTENTION_DECLINED),
     ))
 
     class Meta:
