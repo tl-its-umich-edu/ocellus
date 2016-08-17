@@ -153,7 +153,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           map.closePopup();
         });
         // clear the form controls in the modal
-        $('#eventText, #newStartTime, #newEndTime, #address').val('');
+        $('#eventText, #newStartTime, #newEndTime').val('');
         $('#bofModal').modal('hide');
       });
     } else {
@@ -268,18 +268,27 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   // clean up modal's form elems when modal closes
   $('#bofModal').on('hide.bs.modal', function () {
+    leafletData.getMap().then(function(map) {
+      map.closePopup();
+    });
     $scope.selected_category ='';
     $scope.newEventText =undefined;
     $scope.newEventTitle =undefined;
+    $scope.addressDirty = false;
+    $scope.newEventAddress=undefined;
     $scope.newEventHashtag= undefined;
     $('#bofModal .alert-inline').hide();
     $scope.validationFailuresCreate = false;
     $('.form-group').removeClass('has-error');
-    $('#eventText, #startTime, #endTime, #address').val('');
+    $('#eventText, #startTime, #endTime').val('');
   });
 
     // handler for modal opening
   $('#bofModal').on('show.bs.modal', function () {
+    $scope.lookUpAddress($rootScope.currentMapAPI);
+    leafletData.getMap().then(function(map) {
+      map.closePopup();
+    });
     reinitTimeFields();
   });
 
@@ -507,6 +516,15 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
+  $scope.addressEdited = function(){
+    $scope.addressDirty = true;
+  };
+  $scope.lookUpNewCoords = function(mode){
+   $scope.coordsLookUp = $scope.newEventAddress;
+   $scope.lookUpCoords(mode);
+  };
+
+
   //used to create an event given a textual address
   // flow:
   // 1. user specifies address in coordsLookUpModal modal and searches (lookUpCoords)
@@ -533,8 +551,9 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       Bof.GetAddress(coordsUrl).then(function(result) {
         if (mode==="google") {
           if (result.data.results.length === 1){
-            // pass the object to the edit dialog
+            // pass the object to the create event dialog
             $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
+            console.log($('#bofModal').attr('data-coords'));
             $scope.newEventAddress = result.data.results[0].formatted_address;
             $scope.newEventLoc =result.data.results[0].geometry.location;
             if(!$scope.textOnly){
@@ -550,7 +569,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         }
         else {
           if (result.data.length === 1){
-            // pass the object to the edit dialog
+            // pass the object to the create event dialog
             $('#bofModal').attr('data-coords', [parseFloat(result.data[0].lat), parseFloat(result.data[0].lon)]);
              $scope.newEventLoc = {lat:parseFloat(result.data[0].lat),lng:parseFloat(result.data[0].lon)};
              $scope.newEventAddress = result.data[0].display_name;
