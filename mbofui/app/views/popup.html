@@ -1,4 +1,4 @@
-<div>
+<div ng-cloak>
   <div>
     <strong>
       {{event.title}}
@@ -12,7 +12,7 @@
     <small>{{event.address}}</small>
   </div>
   <hr class="popupRule">
-  <div ng-show="!event.mine && event.intention">
+  <div ng-if="!event.mine && event.intention">
     <p>
       {{event.intention.intention | capitalize}}. Change?
     </p>
@@ -28,10 +28,10 @@
       </a>
     </div>
   </div>
-  <p ng-show="!event.mine && !event.intention && event.inTime">
+  <p ng-if="!event.mine && !event.intention && event.inTime">
     Going?
   </p>
-  <div class="btn-group btn-group-sm btn-group-justified" ng-show="!event.mine && !event.intention && event.inTime">
+  <div class="btn-group btn-group-sm btn-group-justified" ng-if="!event.mine && !event.intention && event.inTime">
     <a href="" class="btn btn-primary declareIntentPost" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-method="POST">
       <i class="glyphicon glyphicon-ok"></i>  Going
     </a>
