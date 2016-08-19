@@ -109,11 +109,14 @@
         <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right">
           <div ng-show="!event.mine && event.intention">
             <div class="btn-group btn-group-sm btn-group-justified">
-              <a href="" ng-if="event.intention.intention!=='going' && event.inTime" class="btn btn-primary declareIntentPut" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
-                Going
+              <a href="" ng-if="(event.intention.intention !=='going' || event.intention.intention==='declined') && event.inTime" class="btn btn-primary declareIntentPut" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+                Change to <strong>going</strong>
               </a>
-              <a href="" ng-if="event.intention.intention==='going' && event.inTime" class="btn btn-default declareIntentPut" data-intention="maybe" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
-                Maybe going
+              <a href="" ng-if="(event.intention.intention==='going'  || event.intention.intention==='declined') && event.inTime" class="btn btn-default declareIntentPut" data-intention="maybe" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+                Change to <strong>maybe</strong>
+              </a>
+              <a href="" ng-if="(event.intention.intention==='going' || event.intention.intention==='maybe') && event.inTime" class="btn btn-default declareIntentPut" data-intention="declined" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+                Am not going
               </a>
             </div>
           </div>
