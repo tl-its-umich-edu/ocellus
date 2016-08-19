@@ -28,7 +28,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.textOnly = true;
   }
 
-
   // setting the markers to an empty array
   // markers array represents the filtered events
   // markersAll represents the prefiltered events
@@ -281,6 +280,13 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.validationFailuresCreate = false;
     $('.form-group').removeClass('has-error');
     $('#eventText, #startTime, #endTime').val('');
+  });
+
+  $('#bofModalEdit').on('hide.bs.modal', function () {
+    $scope.editEvent = null;
+    leafletData.getMap().then(function(map) {
+      map.closePopup();
+    });
   });
 
     // handler for modal opening
@@ -555,27 +561,22 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       Bof.GetAddress(coordsUrl).then(function(result) {
         if (mode==="google") {
           if (result.data.results.length === 1){
+            $scope.newEventLoc =result.data.results[0].geometry.location;
             // pass the object to the create event dialog
             if(origin ==='create'){
               $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
               $scope.newEventAddress = result.data.results[0].formatted_address;
-              $scope.newEventLoc =result.data.results[0].geometry.location;
-              if(!$scope.textOnly){
-                $scope.panMap($scope.newEventLoc);
-              }
               $('#coordsLookUpModal').modal('hide');
               $('#bofModal').modal('show');
             } else if (origin ==='edit') {
               $scope.editEvent.lat = result.data.results[0].geometry.location.lat;
               $scope.editEvent.lng = result.data.results[0].geometry.location.lng;
-              //$('#bofModalEdit').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
               $scope.editEvent.address = result.data.results[0].formatted_address;
-              $scope.newEventLoc =result.data.results[0].geometry.location;
-              if(!$scope.textOnly){
-                $scope.panMap($scope.newEventLoc);
-              }
               $('#coordsLookUpModal').modal('hide');
               $('#bofModalEdit').modal('show');
+            }
+            if(!$scope.textOnly){
+              $scope.panMap($scope.newEventLoc);
             }
           } else {
             $scope.addressLookupResults = normalizeaddressLookupResults(result.data.results);
@@ -583,7 +584,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           }
         }
         else {
-          if (result.data.length === 1 && modal==='create'){
+          if (result.data.length === 1){
             // pass the object to the create event dialog
             $('#bofModal').attr('data-coords', [parseFloat(result.data[0].lat), parseFloat(result.data[0].lon)]);
              $scope.newEventLoc = {lat:parseFloat(result.data[0].lat),lng:parseFloat(result.data[0].lon)};
@@ -604,12 +605,32 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   };
 
   // handles user selecting one of the locations after and address search that returned more than one choice
+  // results get passed to create or edit event modal depending on what workflow is active
+  // 1. Creating on map and then editing the address to something abiguous before saving the event (results get passed to create modal)
+  // 2. Editing an event from map (results het passed to edit modal)
+  // 3. Creating an event by typing address (results get passed to create modal)
   $scope.selectLocation = function(location){
-    $scope.newEventAddress = location.locationName;
+    if($scope.newEventAddress){
+      // user is in the act of creating an event and edited the address to
+      // something ambiguous
+      $scope.newEventAddress = location.locationName;
+      $('#bofModal').attr('data-coords', [location.lat,location.lng]);
+      $('#bofModal').modal('show');
+    } else if($scope.editEvent) {
+      // user is in the act of editing an event and edited the address to
+      // something ambiguous
+      $scope.editEvent.lat = location.lat;
+      $scope.editEvent.lng = location.lng;
+      $scope.editEvent.address = location.locationName;
+    } else {
+      // user is in the act of creating an event by typing address
+      $scope.newEventAddress = location.locationName;
+      $('#bofModal').attr('data-coords', [location.lat,location.lng]);
+      $('#bofModal').modal('show');
+    }
+    // pan map to new location of event
     $scope.newEventLoc = {lat:location.lat,lng:location.lng};
-    $('#bofModal').attr('data-coords', [location.lat,location.lng]);
     $('#coordsLookUpModal').modal('hide');
-    $('#bofModal').modal('show');
     if(!$scope.textOnly){
       $scope.panMap($scope.newEventLoc);
     }
@@ -633,7 +654,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       thisEvent.intention=correlateIntention;
     }
   });
-
 
   // generic function to pan map to a specified set of coordinates
   $scope.panMap = function(loc){
