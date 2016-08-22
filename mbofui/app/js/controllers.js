@@ -28,7 +28,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.textOnly = true;
   }
 
-
   // setting the markers to an empty array
   // markers array represents the filtered events
   // markersAll represents the prefiltered events
@@ -283,6 +282,13 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $('#eventText, #startTime, #endTime').val('');
   });
 
+  $('#bofModalEdit').on('hide.bs.modal', function () {
+    $scope.editEvent = null;
+    leafletData.getMap().then(function(map) {
+      map.closePopup();
+    });
+  });
+
     // handler for modal opening
   $('#bofModal').on('show.bs.modal', function () {
     $scope.lookUpAddress($rootScope.currentMapAPI);
@@ -519,9 +525,13 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   $scope.addressEdited = function(){
     $scope.addressDirty = true;
   };
-  $scope.lookUpNewCoords = function(mode){
-   $scope.coordsLookUp = $scope.newEventAddress;
-   $scope.lookUpCoords(mode);
+  $scope.lookUpNewCoords = function(mode, origin){
+    if(origin ==='create') {
+      $scope.coordsLookUp = $scope.newEventAddress;
+    } else {
+      $scope.coordsLookUp = $scope.editEvent.address;
+    }
+   $scope.lookUpCoords(mode, origin);
   };
 
 
@@ -532,7 +542,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   // 3. if service returned more than one, populate lookup address modal (coordsLookUpModal) with the choices
   // 4. user then selects one of the choices via selectLocation and then Create Event modal (bofModal) opens with that address and that adress coordinates
 
-  $scope.lookUpCoords = function(mode){
+  $scope.lookUpCoords = function(mode, origin){
     // ermove any previpus search results
     $scope.addressLookupResults =null;
     // if address supplied is too short, let user know
@@ -551,17 +561,23 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       Bof.GetAddress(coordsUrl).then(function(result) {
         if (mode==="google") {
           if (result.data.results.length === 1){
-            // pass the object to the create event dialog
-            $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
-            console.log($('#bofModal').attr('data-coords'));
-            $scope.newEventAddress = result.data.results[0].formatted_address;
             $scope.newEventLoc =result.data.results[0].geometry.location;
+            // pass the object to the create event dialog
+            if(origin ==='create'){
+              $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
+              $scope.newEventAddress = result.data.results[0].formatted_address;
+              $('#coordsLookUpModal').modal('hide');
+              $('#bofModal').modal('show');
+            } else if (origin ==='edit') {
+              $scope.editEvent.lat = result.data.results[0].geometry.location.lat;
+              $scope.editEvent.lng = result.data.results[0].geometry.location.lng;
+              $scope.editEvent.address = result.data.results[0].formatted_address;
+              $('#coordsLookUpModal').modal('hide');
+              $('#bofModalEdit').modal('show');
+            }
             if(!$scope.textOnly){
               $scope.panMap($scope.newEventLoc);
             }
-            $('#coordsLookUpModal').modal('hide');
-            $('#bofModal').modal('show');
-
           } else {
             $scope.addressLookupResults = normalizeaddressLookupResults(result.data.results);
             $('#coordsLookUpModal').modal('show');
@@ -589,12 +605,32 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   };
 
   // handles user selecting one of the locations after and address search that returned more than one choice
+  // results get passed to create or edit event modal depending on what workflow is active
+  // 1. Creating on map and then editing the address to something abiguous before saving the event (results get passed to create modal)
+  // 2. Editing an event from map (results het passed to edit modal)
+  // 3. Creating an event by typing address (results get passed to create modal)
   $scope.selectLocation = function(location){
-    $scope.newEventAddress = location.locationName;
+    if($scope.newEventAddress){
+      // user is in the act of creating an event and edited the address to
+      // something ambiguous
+      $scope.newEventAddress = location.locationName;
+      $('#bofModal').attr('data-coords', [location.lat,location.lng]);
+      $('#bofModal').modal('show');
+    } else if($scope.editEvent) {
+      // user is in the act of editing an event and edited the address to
+      // something ambiguous
+      $scope.editEvent.lat = location.lat;
+      $scope.editEvent.lng = location.lng;
+      $scope.editEvent.address = location.locationName;
+    } else {
+      // user is in the act of creating an event by typing address
+      $scope.newEventAddress = location.locationName;
+      $('#bofModal').attr('data-coords', [location.lat,location.lng]);
+      $('#bofModal').modal('show');
+    }
+    // pan map to new location of event
     $scope.newEventLoc = {lat:location.lat,lng:location.lng};
-    $('#bofModal').attr('data-coords', [location.lat,location.lng]);
     $('#coordsLookUpModal').modal('hide');
-    $('#bofModal').modal('show');
     if(!$scope.textOnly){
       $scope.panMap($scope.newEventLoc);
     }
@@ -618,7 +654,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       thisEvent.intention=correlateIntention;
     }
   });
-
 
   // generic function to pan map to a specified set of coordinates
   $scope.panMap = function(loc){

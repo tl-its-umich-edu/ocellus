@@ -37,6 +37,6 @@
 <div ng-class="addressDirty ? 'input-group address' : 'address'">
   <input id="address" name="address" ng-model-options='{ debounce: 1000 }' ng-change="addressEdited()" ng-model="$parent.newEventAddress" class="form-control" type="text" placeholder="Address">
   <div class="input-group-btn" ng-show="addressDirty" >
-    <button  ng-show="addressDirty" class="btn btn-primary" type="button" ng-click="lookUpNewCoords(currentMapAPI)">Save New Address</button>
+    <button  ng-show="addressDirty" class="btn btn-primary" type="button" ng-click="lookUpNewCoords(currentMapAPI, 'create')">Save New Address</button>
   </div>
 </div>
