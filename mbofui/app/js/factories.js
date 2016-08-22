@@ -98,6 +98,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
             }
           }, function(result) {
             // TODO: deal with errors, probably here
+            $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
             deferred.resolve(result);
           });
       };
