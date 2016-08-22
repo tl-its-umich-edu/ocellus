@@ -2,6 +2,12 @@
 /* global angular, ocellus, $, L,  resolveIcon, moment, validate, _, popupLink, checkTimeSlice */
 
 ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', '$location', '$window', 'leafletData', 'Bof' , function($compile, $scope, $rootScope, $filter, $timeout, $log, $location, $window, leafletData, Bof) {
+  // ping Google geolocation, if over quota fall back to openstreet
+  Bof.GetAddress('https://maps.googleapis.com/maps/api/geocode/json?latlng=42.2698111,-83.74706599999999').then(function(result) {
+    if(result.status ==='OVER_QUERY_LIMIT'){
+      $rootScope.currentMapAPI ='openstreet';
+    }
+  });
   // setting up init values
   // get user
   Bof.GetUser('/api/me/').then(function(userResult) {
