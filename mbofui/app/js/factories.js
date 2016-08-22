@@ -9,9 +9,10 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           return result;
         },
         function error(result) {
-          // do some error things
+          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
         });
     },
+    // get intentions for current user
     GetIntentions: function(url) {
       // at some point this will need to be paged
       return $http.get(url).then(
@@ -19,28 +20,29 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           return result;
         },
         function error(result) {
-          // do some error things
+          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.configurl};
         });
     },
+    // edt a declared intention
     IntendPost: function(url, data) {
       return $http.post(url, data).then(
         function success(result) {
           return result;
         },
         function error(result) {
-          // do some error things
+          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
       });
     },
+    // declare an intention
     IntendPut: function(url, data) {
       return $http.put(url, data).then(
         function success(result) {
           return result;
         },
         function error(result) {
-          // do some error things
+          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
       });
     },
-
     // post an event
     PostBof: function(url, data) {
       return $http.post(url, data).then(
@@ -48,10 +50,9 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           return result;
         },
         function error(result) {
-          // do some error things
+          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
         });
     },
-
     // put and edited event
     PutBof: function(url, data) {
       return $http.put(url, data).then(
@@ -59,10 +60,9 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           return result;
         },
         function error(result) {
-          // do some error things
+          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
         });
     },
-
     // get an address
     GetAddress: function(url) {
       return $http.get(url).then(
@@ -70,10 +70,9 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         return result;
       },
       function error(result) {
-        // do some error things
+        $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
       });
     },
-
     // get events (current, upcoming will depend on url)
     GetBofs: function(url) {
       var bofs = [];
