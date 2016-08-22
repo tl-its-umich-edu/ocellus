@@ -1,4 +1,4 @@
-<div>
+<div ng-cloak>
   <div>
     <strong>
       {{event.title}}
@@ -12,25 +12,31 @@
     <small>{{event.address}}</small>
   </div>
   <hr class="popupRule">
-  <div ng-show="!event.mine && event.intention">
+  <div ng-if="!event.mine && event.intention">
     <p>
-      Intention: {{event.intention.intention | capitalize}}
+      {{event.intention.intention | capitalize}}. Change?
     </p>
     <div class="btn-group btn-group-sm btn-group-justified">
-      <a href="" ng-if="event.intention.intention!=='going' && event.inTime" class="btn btn-primary declareIntentPut" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
-        Change to <strong>going for sure</strong>
+      <a href="" ng-if="(event.intention.intention !=='going' || event.intention.intention==='declined') && event.inTime" class="btn btn-primary declareIntentPut" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+      <i class="glyphicon glyphicon-ok"></i>  Going
       </a>
-      <a href="" ng-if="event.intention.intention==='going' && event.inTime" class="btn btn-default declareIntentPut" data-intention="maybe" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
-        Change to <strong>maybe</strong> going
+      <a href="" ng-if="(event.intention.intention==='going'  || event.intention.intention==='declined') && event.inTime" class="btn btn-default declareIntentPut" data-intention="maybe" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+        <i class="glyphicon glyphicon-question-sign"></i> Maybe
+      </a>
+      <a href="" style="color:#fff" ng-if="(event.intention.intention==='going' || event.intention.intention==='maybe') && event.inTime" class="btn btn-danger declareIntentPut" data-intention="declined" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+        <i class="glyphicon glyphicon-remove"></i> Not going
       </a>
     </div>
   </div>
-  <div class="btn-group btn-group-sm btn-group-justified" ng-show="!event.mine && !event.intention && event.inTime">
+  <p ng-if="!event.mine && !event.intention && event.inTime">
+    Going?
+  </p>
+  <div class="btn-group btn-group-sm btn-group-justified" ng-if="!event.mine && !event.intention && event.inTime">
     <a href="" class="btn btn-primary declareIntentPost" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-method="POST">
-      Going
+      <i class="glyphicon glyphicon-ok"></i>  Going
     </a>
     <a href="" class="btn btn-default declareIntentPost" data-intention="maybe" data-event="{{event.url}}">
-      Maybe
+      <i class="glyphicon glyphicon-question-sign"></i> Maybe
     </a>
   </div>
   <div class="btn-group btn-group-sm btn-group-justified" ng-show="event.mine && event.inTime">
