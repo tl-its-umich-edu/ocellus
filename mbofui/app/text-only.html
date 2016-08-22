@@ -216,20 +216,13 @@
         </div>
       </div>
 
-    <!-- libraries -->
-    <script src="bower_components/leaflet/dist/leaflet.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js">
-    </script>
-    <script src="bower_components/jquery/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="bower_components/ui-leaflet/dist/ui-leaflet.min.js"></script>
-    <script src="bower_components/underscore/underscore-min.js"></script>
-    <script src="bower_components/moment/min/moment.min.js"></script>
-    <script src="bower_components/webshim/js-webshim/minified/polyfiller.js"></script>
-    <!-- grunt concatenated app files -->
-    <script src="js/dist/all.min.js"></script>
-
+      <!-- all libraries compressed - see bower.json for manifest-->
+      <script src="js/dist/all-vendor.min.js"></script>
+      <!-- polyfiller did not worked concatenated -->
+      <script src="bower_components/webshim/js-webshim/minified/polyfiller.js"></script>
+      <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyAdDEnwa5coKM-lzMb9Mn3GKdGvQPFnOKo"></script>
+      <!-- grunt concatenated app files -->
+      <script src="js/dist/all.min.js"></script>
   </div>
 
   </body>
