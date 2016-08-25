@@ -8,7 +8,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # Install dependencies
 RUN apt-get update && \
 apt-get dist-upgrade -y && \
-apt-get install -y libmysqlclient-dev git python-pip python-dev apache2 apache2-utils libldap2-dev libsasl2-dev nodejs curl xmlsec1
+apt-get install -y libmysqlclient-dev git python-pip python-dev apache2 apache2-utils libldap2-dev libsasl2-dev nodejs curl libssl-dev libffi-dev xmlsec1
 
 # Install Ocellus
 WORKDIR /tmp/
