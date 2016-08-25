@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     # FIXME: This is OK for dev., but make it safe for prod.
     # Uncomment DEFAULT_PERMISSION_CLASSES to require username/password set by "manage.py createsuperuser"
-    # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
@@ -70,7 +70,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # FIXME: Disabled security for dev. only.  Needs to be enabled and support code added for prod. use.
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -185,4 +185,84 @@ LOGGING = {
             'handlers': ['console'],
         },
     },
+}
+
+#Shib
+
+SAML2_URL_PATH = '/accounts/'
+# modify to use port request comes
+SAML2_URL_BASE = getenv('DJANGO_SAML2_URL_BASE', 'http://localhost:18000/accounts/')
+
+INSTALLED_APPS += ('djangosaml2',)
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'djangosaml2.backends.Saml2Backend',
+)
+LOGIN_URL = '%slogin/' % SAML2_URL_PATH
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+from os import path
+import saml2
+BASEDIR = path.dirname(path.abspath(__file__))
+SAML_CONFIG = {
+  'xmlsec_binary': '/usr/bin/xmlsec1',
+  'entityid': '%smetadata/' % SAML2_URL_BASE,
+
+  # directory with attribute mapping
+  # 'attribute_map_dir': path.join(BASEDIR, 'attribute-maps'),
+  'name': 'Ocellus',
+  # this block states what services we provide
+  'service': {
+      # we are just a lonely SP
+      'sp': {
+          'name': 'Ocellus',
+          'name_id_format': ('urn:oasis:names:tc:SAML:2.0:'
+                             'nameid-format:transient'),
+          'authn_requests_signed': 'true',
+          'allow_unsolicited': True,
+          'endpoints': {
+              # url and binding to the assetion consumer service view
+              # do not change the binding or service name
+              'assertion_consumer_service': [
+                  ('%sacs/' % SAML2_URL_BASE, saml2.BINDING_HTTP_POST),
+                  ],
+              # url and binding to the single logout service view+
+
+              # do not change the binding or service name
+              'single_logout_service': [
+                  ('%sls/' % SAML2_URL_BASE, saml2.BINDING_HTTP_REDIRECT),
+                  ('%sls/post' % SAML2_URL_BASE, saml2.BINDING_HTTP_POST),
+                  ],
+              },
+
+          # attributes that this project need to identify a user
+          'required_attributes': ['uid'],
+
+          # attributes that may be useful to have but not required
+          'optional_attributes': ['eduPersonAffiliation'],
+          },
+      },
+
+  # where the remote metadata is stored
+  'metadata': {
+      'local': [path.join(BASEDIR, 'saml/remote_metadata.xml')],
+      },
+
+  # set to 1 to output debugging information
+  'debug': 1,
+
+  # certificate
+  'key_file': path.join(BASEDIR, 'saml/ocellus_saml.key'),  'cert_file': path.join(BASEDIR, 'saml/ocellus_saml.pem'),
+  }
+
+ACS_DEFAULT_REDIRECT_URL = getenv('DJANGO_ACS_DEFAULT_REDIRECT', 'http://localhost:18000/')
+LOGIN_REDIRECT_URL = getenv('DJANGO_LOGIN_REDIRECT_URL', 'http://localhost:18000/')
+
+SAML_CREATE_UNKNOWN_USER = True
+
+SAML_ATTRIBUTE_MAPPING = {
+    'uid': ('username', ),
+    'mail': ('email', ),
+    'givenName': ('first_name', ),
+    'sn': ('last_name', ),
 }

@@ -18,6 +18,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.static import serve
 from rest_framework import routers
+from django.conf import settings
+import logging
 
 import mbof.urls
 from mbof import views
@@ -43,6 +45,19 @@ urlpatterns = [
     url(r'^bower_components/(?P<path>.*)$', serve, {
         'document_root': 'mbofui/bower_components',
     }),
+]
+
+if 'djangosaml2' in settings.INSTALLED_APPS:
+     urlpatterns += [
+         url(r'^accounts/', include('djangosaml2.urls')),
+         url(r'^test/', 'djangosaml2.views.echo_attributes'),
+     ]
+elif 'registration' in settings.INSTALLED_APPS:
+     urlpatterns += [
+         url(r'^accounts/', include('registration.backends.default.urls')),
+]
+
+urlpatterns += [
     url(r'^(?P<path>.*)$', serve, {
         'document_root': 'mbofui/app',
     }),
