@@ -245,14 +245,14 @@ SAML_CONFIG = {
 
   # where the remote metadata is stored
   'metadata': {
-      'local': [path.join(BASEDIR, 'saml/remote_metadata.xml')],
+      'local': [path.join(BASEDIR, 'saml/remote-metadata.xml')],
       },
 
   # set to 1 to output debugging information
   'debug': 1,
 
   # certificate
-  'key_file': path.join(BASEDIR, 'saml/ocellus_saml.key'),  'cert_file': path.join(BASEDIR, 'saml/ocellus_saml.pem'),
+  'key_file': path.join(BASEDIR, 'saml/ocellus-saml.key'),  'cert_file': path.join(BASEDIR, 'saml/ocellus-saml.pem'),
   }
 
 ACS_DEFAULT_REDIRECT_URL = getenv('DJANGO_ACS_DEFAULT_REDIRECT', 'http://localhost:18000/')
