@@ -167,6 +167,7 @@ var checkTimeSlice  = function(start,end,currentView) {
 // function to peer events and intentions - used by text only view
 var intentionIncluded = function(eventsList, intentionsList) {
   _.each(eventsList, function(event){
+    event.messageSearch = event.category + ' ' +event.message + ' ' + event.title;
     var correlateIntention = _.findWhere(intentionsList, {event: event.url});
     if(correlateIntention){
       event.intention=correlateIntention;

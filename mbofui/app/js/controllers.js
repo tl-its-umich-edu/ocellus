@@ -258,7 +258,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   $scope.$watch("textEventsAll", function() {
     $scope.$watch('textEventsFilter', function(text) {
       $scope.textEvents = $filter('filter')($scope.textEventsAll, {
-        message: text
+        messageSearch: text
       });
     });
   }, true);
