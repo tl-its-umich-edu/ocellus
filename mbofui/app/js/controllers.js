@@ -185,6 +185,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       $scope.markers = $filter('filter')($scope.markersAll, {
         category: key
       });
+      $rootScope.alert=true;
+      $rootScope.alert={'type':'alert-info','message':'Showing ' + key};
+      $timeout(function () {
+         $rootScope.alert = false;
+       }, 2000);
       // note: on text only
       if($scope.textOnly) {
         $scope.textEvents = $filter('filter')($scope.textEventsAll, {
