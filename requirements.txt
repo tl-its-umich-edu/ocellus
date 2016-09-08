@@ -6,3 +6,4 @@ django-crispy-forms
 python-ldap
 whitenoise
 requests
+djangosaml2
