@@ -566,6 +566,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   // 4. user then selects one of the choices via selectLocation and then Create Event modal (bofModal) opens with that address and that adress coordinates
 
   $scope.lookUpCoords = function(mode, origin){
+    console.log(origin);
     // ermove any previpus search results
     $scope.addressLookupResults =null;
     // if address supplied is too short, let user know
@@ -586,7 +587,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           if (result.data.results.length === 1){
             $scope.newEventLoc =result.data.results[0].geometry.location;
             // pass the object to the create event dialog
-            if(origin ==='create'){
+            if(origin ==='create' || origin ==='specifiedAddress'){
               $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
               $scope.newEventAddress = result.data.results[0].formatted_address;
               $('#coordsLookUpModal').modal('hide');
