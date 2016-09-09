@@ -192,6 +192,12 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         });
       }
     }
+    $rootScope.category=key;
+    $rootScope.alert=true;
+    $rootScope.alert={'type':'alert-info','message':'Showing ' + key};
+    $timeout(function () {
+       $rootScope.alert = false;
+     }, 2000);
   };
 
 
@@ -342,6 +348,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'event': targetEvent,
       'respondent': respondent
     };
+    if(data.intention === 'declined'){
+      if (window.confirm("Are you sure you do not want to go?")) {
+        $scope.putIntention(intentionUrl, data);
+      }
+    } else {
+      $scope.putIntention(intentionUrl, data);
+    }
+  };
+
+  $scope.putIntention  = function(intentionUrl, data){
     // use factory to handle the PUT
     Bof.IntendPut(intentionUrl, data).then(function(result) {
       //close popup
@@ -360,6 +376,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       });
     });
   };
+
   // POST an intention
   $scope.intendPost = function (intent, eventUrl) {
     var eventId = _.last(_.compact(eventUrl.split('/')));
