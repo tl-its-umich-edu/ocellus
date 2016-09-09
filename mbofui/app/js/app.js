@@ -3,13 +3,14 @@
 
 var ocellus = angular.module( 'ocellus', [ 'ui-leaflet', 'ocellusFilters'] );
 
-ocellus.config(function($locationProvider) {
+ocellus.config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
   $locationProvider.html5Mode({
     enabled: true,
     requireBase: false
   });
-});
-
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+}]);
 
 ocellus.run(function($rootScope) {
     $rootScope.server = '';
