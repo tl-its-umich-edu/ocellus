@@ -51,6 +51,18 @@ body {
 .ws-po-box button[aria-label="Now"] {
   display: none !important;
 }
+.btn-um {
+  background-color: #00274c;
+  border-color: #00274c;
+  color:#fff !important;
+}
+.btn-um:hover, .btn-um:active {
+  background-color: #00417f;
+  border-color: #00417f;
+  color:#fff !important;
+}
+
+
 .leaflet-popup-content {max-width:100%;width:400px}
 
 .alertPanel {

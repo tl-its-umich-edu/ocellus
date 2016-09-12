@@ -16,162 +16,25 @@
   <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css">
 </head>
 
-<body ng-app="ocellus" ng-controller="mapController" ng-cloak>
+<body ng-app="ocellus" ng-controller="mapController" style="padding-top:0">
 
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ocellusNav" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <span class="navbar-brand" href="#">Ocellus</span>
-      </div>
-
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="ocellusNav">
-        <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Create Event <span class="caret"></span></a>
-            <ul class="dropdown-menu" id="categories">
-              <li> <a href="" ng-click="createEventCurrentlocation()" title="Create event at current location">Create event at current location</a></li>
-              <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Create event at specified address">Create event at specified address</a></li>
-            </ul>
-          </li>
-        </ul>
-
-        <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter by category <span class="caret"></span></a>
-            <ul class="dropdown-menu" id="categories">
-              <li ng-repeat="category in event_categories"><a href="#" ng-click="filter_category(category)">{{category}}</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#" ng-click="filter_category('all')">All categories</a></li>
-            </ul>
-          </li>
-          <li ng-show="category" class="visible-lg-inline visible-md-inline"><p class="navbar-text">Showing: {{category}}</p></li>
-        </ul>
-        <form class="navbar-form navbar-left" role="search">
-          <div class="form-group">
-            <label for="searchText" class="sr-only">Search events</label>
-            <input type="text" id="searchText" class="form-control" placeholder="Search" value="" ng-model="markerFilter">
-          </div>
-        </form>
-
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="" ng-click="switchModes('text')">Text only</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Showing {{currentView}} <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="" ng-click="switchViews('/api/events/current/','current')">Current</a></li>
-              <li><a href="" ng-click="switchViews('/api/events/upcoming/','upcoming')">Upcoming</a></li>
-              <!--// display a list of events organized by user or for which user has said she has an intention
-              commented out as it is in V2.
-               TBD: are there any time filters at play here
-              <li><a href="" ng-click="showMyEvents()">My events</a></li>
-              -->
-              <!--
-              <li role="separator" class="divider"></li>
-              <li><a>Current center: <strong>{{center.lat}} {{center.lng}}</strong> </a></li>
-              <li><a>Markers: <strong>{{markersAll.length}}</strong></a></li>
-              <li><a>Cat Filtered Markers: <strong>{{markers.length}}</strong></a></li>
-              <li><a>Search Filtered Markers: <strong>{{markersFiltered.length}}</strong></a></li>
-            -->
-            </ul>
-          </li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-    <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      {{alert.message}}
+    <!--// knuckle duster -->
+    <!-- <div style=" left: 20%;position: absolute;right: 20%;top: 10%;z-index: 1;background:transparent url(images/m_andb_marker1.png) top center no-repeat;text-align:center;height:300px"></div> -->
+    <!--// safe bland -->
+    <!-- <div style=" left: 20%;position: absolute;right: 20%;top: 10%;z-index: 1;background:transparent url(images/m_andb_marker2.png) top center no-repeat;text-align:center;height:300px" ></div> -->
+    <!-- jaundiced peacock -->
+    <!-- <div style=" left: 20%;position: absolute;right: 20%;top: 10%;z-index: 1;background:transparent url(images/peacock-head1.png) top center no-repeat;text-align:center;height:300px" ></div> -->
+    <!-- evil peacock -->
+    <div style=" left: 20%;position: absolute;right: 20%;top: 10%;z-index: 1;background:transparent url(images/peacock-head2.png) top center no-repeat;text-align:center;height:300px" ></div>
+    <!-- evil peacock -->
+    <!-- <div style=" left: 20%;position: absolute;right: 20%;top: 10%;z-index: 1;background:transparent url(images/peacock1.png) top center no-repeat;text-align:center;height:330px" ></div> -->
+    <!-- sick of M & B peacock -->
+    <!-- <div style=" left: 20%;position: absolute;right: 20%;top: 10%;z-index: 1;background:transparent url(images/peacock2.png) top center no-repeat;text-align:center;height:330px" ></div> -->
+    <div style="text-align:center;left: 20%;position: absolute;right: 20%;top: 375px;z-index: 1;background:transparent;height:300px" >
+      <br>
+      <a class="btn btn-lg btn-um" style="font-size:35px" href="/accounts/login/" onclick="window.location.href='/accounts/login/'">Login</a>
     </div>
-
-    <leaflet lf-center="center" controls="controls" layers="layers" markers="markersFiltered" width="100%"></leaflet>
-
-    <!-- Create Modal -->
-    <div class="modal fade" id="bofModal" tabindex="-1" role="dialog" aria-labelledby="bofModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="bofModalLabel">Create event</h4>
-          </div>
-          <div class="modal-body">
-            <div ng-include="'views/event-create.html'"></div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="postBof" ng-click="postEvent()">Add Event</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Edit Modal -->
-    <div class="modal fade" id="bofModalEdit" tabindex="-1" role="dialog" aria-labelledby="bofModalEditLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="bofModalEditLabel">Edit Event</h4>
-          </div>
-          <div class="modal-body">
-            <div ng-include="'views/event-edit.html'"></div>
-          </div>
-          <div class="modal-footer container-flex">
-            <div class="row">
-              <div class="col-lg-6">
-                <button type="button" class="btn btn-danger pull-left" ng-click="eventEditCancel()">Cancel Event</button>
-              </div>
-              <div class="col-lg-6">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="eventEditPost()">Save Event</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- My Events Modal -->
-    <div class="modal fade" id="myEventsModal" tabindex="-1" role="dialog" aria-labelledby="myEventsLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myEventsLabel">My Events</h4>
-          </div>
-          <div class="modal-body">
-            <div ng-include="'views/myevents.html'">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Coords LookUp Modal -->
-    <div class="modal fade" id="coordsLookUpModal" tabindex="-1" role="dialog" aria-labelledby="coordsLookUpLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="coordsLookUpLabel">Specify Address</h4>
-          </div>
-          <div class="modal-body">
-            <div ng-include="'views/coords-lookup.html'"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <leaflet lf-center="center" layers="layers" width="100%"></leaflet>
     <!-- all libraries compressed - see bower.json for manifest-->
     <script src="js/dist/all-vendor.min.js"></script>
     <!-- polyfiller did not worked concatenated -->

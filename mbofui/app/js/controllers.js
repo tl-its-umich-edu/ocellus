@@ -320,7 +320,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       $window.location='/text-only.html' + '?currentView=' + $rootScope.currentView;
     }
     else {
-      $window.location='/index.html'  + '?currentView=' + $rootScope.currentView;
+      $window.location='/map.html'  + '?currentView=' + $rootScope.currentView;
     }
   };
 
