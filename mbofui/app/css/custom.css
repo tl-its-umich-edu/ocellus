@@ -3,8 +3,11 @@ html {
     height: 100%;
     width: 100%;
 }
-
-body {
+body.entry {
+  padding-top:0
+}
+body.entry  .leaflet-control-container {
+  display:none
 }
 html,
 body,
@@ -16,6 +19,27 @@ body {
   margin: 0;
   padding-top:50px
 }
+
+.logo-peacock1 {
+  left: 20%;
+  position: absolute;
+  right: 20%;
+  top: 10%;
+  z-index: 1;
+  background:transparent url(../images/peacock-head2.png) top center no-repeat;
+  text-align:center;height:300px;
+}
+.login-box {
+  text-align:center;
+  left: 20%;
+  position: absolute;
+  right: 20%;
+  top: 375px;
+  z-index: 1;
+  background:transparent;
+  height:200px;
+}
+
 
 .status {
     display: none;
@@ -79,4 +103,34 @@ body {
 
 @media (max-width: 480px) {
   .leaflet-popup-content {width:auto}
+  .logo-peacock1 {
+    left: 20%;
+    width:275px;
+    right: 10%;
+  }
+  .login-box {
+    left: 20%;
+    right: 10%;
+  }
 }
+@media screen and (min-device-width: 375px)
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation:landscape) {
+  .logo-peacock1 {
+    left: 15%;
+    top:50px;
+    width:300px;
+    right: auto;
+    text-align:left
+  }
+  .login-box {
+    text-align:right;
+    right: 20%;
+    position: absolute;
+    left: auto;
+    top: 125px;
+    z-index: 1;
+    background:transparent;
+    height:300px;
+  }
