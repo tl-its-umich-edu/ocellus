@@ -11,21 +11,25 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   // setting up init values
   // get user
   Bof.GetUser('/api/me/').then(function(userResult) {
-    $rootScope.user = userResult;
-    // only function inmediately invoked - get current events on page load,
-    // it fires after we have a user so that we can determine
-    // which belong to the current user
+    if (userResult.status===403){
+      $rootScope.loggedin=false;
+    } else {
+      $rootScope.loggedin=true;
+      $rootScope.user = userResult;
+      // only function inmediately invoked - get current events on page load,
+      // it fires after we have a user so that we can determine
+      // which belong to the current user
+      $rootScope.currentView = $location.search().currentView;
 
-    $rootScope.currentView = $location.search().currentView;
-
-    if ($rootScope.currentView) {
-      getEvents('/api/events/' + $rootScope.currentView + '/');
-      $rootScope.currentViewUrl = '/api/events/' + $rootScope.currentView + '/';
-    }
-    else {
-      $rootScope.currentView = 'current';
-      $rootScope.currentViewUrl = '/api/events/' + $rootScope.currentView + '/';
-      getEvents('/api/events/' + $rootScope.currentView + '/');
+      if ($rootScope.currentView) {
+        getEvents('/api/events/' + $rootScope.currentView + '/');
+        $rootScope.currentViewUrl = '/api/events/' + $rootScope.currentView + '/';
+      }
+      else {
+        $rootScope.currentView = 'current';
+        $rootScope.currentViewUrl = '/api/events/' + $rootScope.currentView + '/';
+        getEvents('/api/events/' + $rootScope.currentView + '/');
+      }
     }
   });
 
@@ -95,14 +99,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   // handles tap and hold on mobile and control-click on other devices
   // opens a popup invitation and passess the modal the lat and long
   $scope.$on("leafletDirectiveMap.contextmenu", function(event, args) {
-    leafletData.getMap().then(function(map) {
-      var leafEvent = args.leafletEvent;
-      $('#bofModal').attr('data-coords', [leafEvent.latlng.lat, leafEvent.latlng.lng]);
-      L.popup()
-        .setLatLng(leafEvent.latlng)
-        .setContent(popupLink)
-        .openOn(map);
-    });
+    if($rootScope.loggedin) {
+      leafletData.getMap().then(function(map) {
+        var leafEvent = args.leafletEvent;
+        $('#bofModal').attr('data-coords', [leafEvent.latlng.lat, leafEvent.latlng.lng]);
+        L.popup()
+          .setLatLng(leafEvent.latlng)
+          .setContent(popupLink)
+          .openOn(map);
+      });
+    }
   });
 
   // handles click on "Add Event" button on modal
@@ -320,7 +326,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       $window.location='/text-only.html' + '?currentView=' + $rootScope.currentView;
     }
     else {
-      $window.location='/map.html'  + '?currentView=' + $rootScope.currentView;
+      $window.location='/index.html'  + '?currentView=' + $rootScope.currentView;
     }
   };
 

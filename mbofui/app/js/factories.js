@@ -9,7 +9,12 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           return result;
         },
         function error(result) {
-          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+          if(result.status !==403){
+            $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+          }
+          else {
+            return result;
+          }
         });
     },
     // get intentions for current user
