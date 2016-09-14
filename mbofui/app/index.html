@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css">
 </head>
 
-<body ng-app="ocellus" ng-controller="mapController" ng-cloak>
+<body ng-app="ocellus" ng-controller="mapController" ng-class="loggedin ? '': 'entry'" ng-cloak >
 
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-show="loggedin" ng-cloak >
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -92,7 +92,14 @@
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       {{alert.message}}
     </div>
-
+    <div ng-show="!loggedin">
+      <div class="logo-peacock1"></div>
+      <div class="login-box">
+        <br>
+        <a class="btn btn-lg btn-um" style="font-size:35px" onclick="window.location.href='/accounts/login/'">Login</a>
+      </div>
+    </div>
+  
     <leaflet lf-center="center" controls="controls" layers="layers" markers="markersFiltered" width="100%"></leaflet>
 
     <!-- Create Modal -->

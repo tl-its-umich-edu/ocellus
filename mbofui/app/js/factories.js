@@ -2,6 +2,20 @@
 /* global ocellus, leafletize, _*/
 ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $log, $q, $rootScope) {
   return {
+    LoggedIn: function(url) {
+      return $http.get(url).then(
+        function success(result) {
+          return result;
+        },
+        function error(result) {
+          if(result.status !==403){
+            $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+          }
+          else {
+            return result;
+          }
+        });
+    },
     //get user
     GetUser: function(url) {
       return $http.get(url).then(
@@ -9,7 +23,12 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           return result;
         },
         function error(result) {
-          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+          if(result.status !==403){
+            $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+          }
+          else {
+            return result;
+          }
         });
     },
     // get intentions for current user
