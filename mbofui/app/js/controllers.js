@@ -10,11 +10,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   });
   // setting up init values
   // get user
-  Bof.GetUser('/api/me/').then(function(userResult) {
-    if (userResult.status===403){
+  Bof.LoggedIn('/api/').then(function(loggedInResult) {
+    if (loggedInResult.status===403){
       $rootScope.loggedin=false;
     } else {
       $rootScope.loggedin=true;
+    }
+  });
+
+  if ($rootScope.loggedin) {
+    Bof.GetUser('/api/me/').then(function(userResult) {
       $rootScope.user = userResult;
       // only function inmediately invoked - get current events on page load,
       // it fires after we have a user so that we can determine
@@ -30,8 +35,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         $rootScope.currentViewUrl = '/api/events/' + $rootScope.currentView + '/';
         getEvents('/api/events/' + $rootScope.currentView + '/');
       }
-    }
-  });
+    });
+  }
 
   // this variable will be true if user is in the text only view
   if($('#text_only').length){
