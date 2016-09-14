@@ -86,7 +86,7 @@ class Event(models.Model):
                     1 if vote.vote == Vote.VOTE_PLUS else (
                         -1 if vote.vote == Vote.VOTE_MINUS else 0)),
                 Vote.objects.filter(event=self),
-                [0]
+                0
         )
         return voteTotal
 
@@ -97,7 +97,7 @@ class Event(models.Model):
                     1 if intention.intention == Intention.INTENTION_GOING or
                     intention.intention == Intention.INTENTION_MAYBE else 0),
                 Intention.objects.filter(event=self),
-                [0]
+                0
         )
         return guestTotal
 
@@ -124,7 +124,7 @@ class Vote(models.Model):
     VOTE_NONE = '0'
     event = models.ForeignKey(Event)
     # voter = models.ForeignKey(User, default=currentUserObject, editable=False)
-    voter = models.CharField(max_length=8, editable=False)
+    voter_id = models.CharField(max_length=8, editable=False)
     vote = models.CharField(max_length=2, choices=(
         (VOTE_PLUS, VOTE_PLUS),
         (VOTE_MINUS, VOTE_MINUS),
@@ -132,7 +132,7 @@ class Vote(models.Model):
     ))
 
     class Meta:
-        unique_together = ('event', 'voter',)
+        unique_together = ('event', 'voter_id',)
 
     def __str__(self):
         return str(self.voter) + ' voted ' + str(self.vote) + ' on ' + str(
