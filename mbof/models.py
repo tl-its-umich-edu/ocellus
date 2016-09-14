@@ -86,7 +86,7 @@ class Event(models.Model):
                     1 if vote.vote == Vote.VOTE_PLUS else (
                         -1 if vote.vote == Vote.VOTE_MINUS else 0)),
                 Vote.objects.filter(event=self),
-                0
+                [0]
         )
         return voteTotal
 
@@ -97,7 +97,7 @@ class Event(models.Model):
                     1 if intention.intention == Intention.INTENTION_GOING or
                     intention.intention == Intention.INTENTION_MAYBE else 0),
                 Intention.objects.filter(event=self),
-                0
+                [0]
         )
         return guestTotal
 
