@@ -14,17 +14,17 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='event',
-            name='owner_id',
+            name='owner',
             field=models.CharField(editable=False, max_length=8),
         ),
         migrations.AlterField(
             model_name='intention',
-            name='respondent_id',
+            name='respondent',
             field=models.CharField(editable=False, max_length=8),
         ),
         migrations.AlterField(
             model_name='vote',
-            name='voter_id',
+            name='voter',
             field=models.CharField(editable=False, max_length=8),
         ),
     ]
