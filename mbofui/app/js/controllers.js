@@ -8,35 +8,34 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       $rootScope.currentMapAPI ='openstreet';
     }
   });
-  // setting up init values
-  // get user
+  // find out if user is authenticated - temporary
   Bof.LoggedIn('/api/').then(function(loggedInResult) {
     if (loggedInResult.status===403){
+      // set a variable to lockand hide elements of the UI
       $rootScope.loggedin=false;
     } else {
+      // set a variable to unlock/show elements of the UI
       $rootScope.loggedin=true;
+      // request current user - temporary
+      Bof.GetUser('/api/me/').then(function(userResult) {
+        $rootScope.user = userResult;
+        // it fires after we have a user so that we can determine
+        // which belong to the current user - temporary
+        $rootScope.currentView = $location.search().currentView;
+
+        if ($rootScope.currentView) {
+          getEvents('/api/events/' + $rootScope.currentView + '/');
+          $rootScope.currentViewUrl = '/api/events/' + $rootScope.currentView + '/';
+        }
+        else {
+          $rootScope.currentView = 'current';
+          $rootScope.currentViewUrl = '/api/events/' + $rootScope.currentView + '/';
+          getEvents('/api/events/' + $rootScope.currentView + '/');
+        }
+      });
+
     }
   });
-
-  if ($rootScope.loggedin) {
-    Bof.GetUser('/api/me/').then(function(userResult) {
-      $rootScope.user = userResult;
-      // only function inmediately invoked - get current events on page load,
-      // it fires after we have a user so that we can determine
-      // which belong to the current user
-      $rootScope.currentView = $location.search().currentView;
-
-      if ($rootScope.currentView) {
-        getEvents('/api/events/' + $rootScope.currentView + '/');
-        $rootScope.currentViewUrl = '/api/events/' + $rootScope.currentView + '/';
-      }
-      else {
-        $rootScope.currentView = 'current';
-        $rootScope.currentViewUrl = '/api/events/' + $rootScope.currentView + '/';
-        getEvents('/api/events/' + $rootScope.currentView + '/');
-      }
-    });
-  }
 
   // this variable will be true if user is in the text only view
   if($('#text_only').length){
