@@ -74,7 +74,7 @@ class Event(models.Model):
     postingTime = models.DateTimeField(editable=False, blank=True)
     startTime = models.DateTimeField(blank=True, null=True)
     endTime = models.DateTimeField(blank=True, null=True)
-    owner = models.CharField(max_length=8, editable=False)
+    owner = models.CharField(max_length=8, editable=False, db_column='owner')
     participantCount = models.IntegerField(default=0)
     hashtag = models.CharField(max_length=40, null=True)
 
@@ -122,7 +122,7 @@ class Vote(models.Model):
     VOTE_MINUS = '-1'
     VOTE_NONE = '0'
     event = models.ForeignKey(Event)
-    voter = models.CharField(max_length=8, editable=False)
+    voter = models.CharField(max_length=8, editable=False, db_column='voter')
     vote = models.CharField(max_length=2, choices=(
         (VOTE_PLUS, VOTE_PLUS),
         (VOTE_MINUS, VOTE_MINUS),
@@ -143,7 +143,7 @@ class Intention(models.Model):
     INTENTION_MAYBE = 'maybe'
     INTENTION_DECLINED = 'declined'
     event = models.ForeignKey(Event)
-    respondent = models.CharField(max_length=8, editable=False)
+    respondent = models.CharField(max_length=8, editable=False, db_column='respondent')
     intention = models.CharField(max_length=10, choices=(
         (INTENTION_GOING, INTENTION_GOING),
         (INTENTION_MAYBE, INTENTION_MAYBE),
