@@ -101,7 +101,7 @@ var validate = function(data) {
   _.each(data, function(value, key, list){
     // if the key is in the validate array, check the value
     if(_.indexOf(toValidate, key) !== -1) {
-      if(value ===undefined || value==='Invalid date')  {
+      if(value ===undefined || value==='Invalid date' || value==='')  {
         // add to array with key (that corresponds to the id of the offending element)
         validationFailures.push(key);
       }
