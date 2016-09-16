@@ -106,7 +106,7 @@ body {
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px)  and (orientation : landscape) {
   .logo-peacock {
-    background-position: 20px 0;
+    background-position: 10% 50%;
     text-align: right;
     padding: 100px 20px 0 0
   }
@@ -120,7 +120,7 @@ body {
 
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : landscape) {
   .logo-peacock {
-    background-position: 20px 0;
+    background-position: 10% 50%;
     text-align: right;
     padding: 100px 20px 0 0
   }
