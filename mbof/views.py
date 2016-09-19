@@ -13,6 +13,15 @@ from .serializers import EventSerializer, UserSerializer, VoteSerializer, Intent
 logger = logging.getLogger(__name__)
 
 
+def log_action(request):
+    me = request.user.__str__()
+    method = request.META['REQUEST_METHOD']
+    url = request.META['PATH_INFO']
+    # EXAMPLE - dovek : GET /api/events/current/
+    message = '%s : %s %s' % (me, method, url)
+    logger.info(message)
+    # return me
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Users to be viewed or edited.
@@ -33,13 +42,8 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     def perform_create(self, serializer):
-        me = self.request.user.__str__()
-        method = self.request.META['REQUEST_METHOD']
-        url = self.request.META['PATH_INFO']
-        # EXAMPLE - dovek : POST /api/events/
-        message = '%s : %s %s' % (me, method, url)
-        logger.info(message)
-        serializer.save(owner=me)
+        log_action(self.request)
+        serializer.save(owner=self.request.user.__str__())
 
 
 class EventListViewSet(generics.ListCreateAPIView):
@@ -49,7 +53,7 @@ class EventListViewSet(generics.ListCreateAPIView):
     serializer_class = EventSerializer
 
     def get_queryset(self):
-        me = self.log_action()
+        log_action(self.request)
 
         query_set = self.queryset
         current_time = timezone.now()
@@ -71,21 +75,12 @@ class EventListViewSet(generics.ListCreateAPIView):
         #     return Event.objects.all().order_by('postingTime')
 
         for event in query_set:
-            if event.owner == me:
+            if event.owner == self.request.user.__str__():
                 event.owner = True
             else:
                 event.owner = False
 
         return query_set
-
-    def log_action(self):
-        me = self.request.user.__str__()
-        method = self.request.META['REQUEST_METHOD']
-        url = self.request.META['PATH_INFO']
-        # EXAMPLE - dovek : GET /api/events/current/
-        message = '%s : %s %s' % (me, method, url)
-        logger.info(message)
-        return me
 
 
 class VoteViewSet(viewsets.ModelViewSet):
@@ -104,28 +99,19 @@ class IntentionViewSet(viewsets.ModelViewSet):
     serializer_class = IntentionSerializer
 
     def perform_create(self, serializer):
-        me = self.log_action()
-        serializer.save(respondent=me)
+        log_action(self.request)
+        serializer.save(respondent=self.request.user.__str__())
 
     def filter_queryset(self, queryset):
-        me = self.log_action()
+        log_action(self.request)
         queryset = Intention.objects.all()
         username = self.request.query_params.get('username', None)
         event = self.request.query_params.get('event', None)
         if username is not None:
             if username == 'self':
-                queryset = queryset.filter(respondent=me)
+                queryset = queryset.filter(respondent=self.request.user.__str__())
             else:
                 queryset = queryset.filter(respondent=username)
         if event is not None:
             queryset = queryset.filter(event_id=event)
         return queryset
-
-    def log_action(self):
-        me = self.request.user.__str__()
-        method = self.request.META['REQUEST_METHOD']
-        url = self.request.META['PATH_INFO']
-        # EXAMPLE - dovek : GET /api/events/current/
-        message = '%s : %s %s' % (me, method, url)
-        logger.info(message)
-        return me
