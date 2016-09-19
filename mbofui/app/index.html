@@ -92,14 +92,13 @@
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       {{alert.message}}
     </div>
-    <div ng-show="!loggedin">
-      <div class="logo-peacock1"></div>
-      <div class="login-box">
-        <br>
+
+    <div ng-show="!loggedin" class="logo-login">
+      <div class="logo-peacock">
         <a class="btn btn-lg btn-um" style="font-size:35px" onclick="window.location.href='/accounts/login/'">Login</a>
       </div>
     </div>
-  
+
     <leaflet lf-center="center" controls="controls" layers="layers" markers="markersFiltered" width="100%"></leaflet>
 
     <!-- Create Modal -->

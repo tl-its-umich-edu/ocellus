@@ -20,26 +20,21 @@ body {
   padding-top:50px
 }
 
-.logo-peacock1 {
-  left: 20%;
+.logo-login {
+  display: flex;
+  flex-direction: column;
+ justify-content: center;
+}
+.logo-peacock {
   position: absolute;
-  right: 20%;
-  top: 10%;
+  top: 15%;
+  width:100%;
   z-index: 1;
   background:transparent url(../images/peacock-head2.png) top center no-repeat;
-  text-align:center;height:300px;
-}
-.login-box {
+  height:350px;
+  padding-top:300px;
   text-align:center;
-  left: 20%;
-  position: absolute;
-  right: 20%;
-  top: 375px;
-  z-index: 1;
-  background:transparent;
-  height:200px;
 }
-
 
 .status {
     display: none;
@@ -101,36 +96,32 @@ body {
   display: none !important;
 }
 
-@media (max-width: 480px) {
-  .leaflet-popup-content {width:auto}
-  .logo-peacock1 {
-    left: 20%;
-    width:275px;
-    right: 10%;
-  }
-  .login-box {
-    left: 20%;
-    right: 10%;
+/* Smartphones (portrait and landscape) */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .logo-peacock {
+    top:5%;
+    padding: 200px 0 0 0
   }
 }
-@media screen and (min-device-width: 375px)
-  and (max-device-width: 667px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation:landscape) {
-  .logo-peacock1 {
-    left: 15%;
-    top:50px;
-    width:300px;
-    right: auto;
-    text-align:left
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px)  and (orientation : landscape) {
+  .logo-peacock {
+    background-position: 10% 50%;
+    text-align: right;
+    padding: 100px 20px 0 0
   }
-  .login-box {
-    text-align:right;
-    right: 20%;
-    position: absolute;
-    left: auto;
-    top: 125px;
-    z-index: 1;
-    background:transparent;
-    height:300px;
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait) {
+  .logo-peacock {
+    padding: 300px 0 0 0
   }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : landscape) {
+  .logo-peacock {
+    background-position: 10% 50%;
+    text-align: right;
+    padding: 100px 20px 0 0
+  }
+}
