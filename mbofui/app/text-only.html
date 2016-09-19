@@ -78,13 +78,12 @@
     </div>
     <!-- /.container-fluid -->
   </nav>
-
+  <div class="overlay" ng-hide="online">
+  </div>
+  <div  class="alert alert-danger alertPanel" ng-hide="online" ng-cloak>You are offline</div>
   <div role="main">
     <div id="text_only"></div>
-    <div class="alert alert-danger" ng-hide="online" ng-cloak>You are offline</div>
-    <div class="overlay" ng-hide="online">
-    </div>
-    <div class="alert alert-info" style="margin:10px" ng-show="!textEvents.length" ng-cloak>
+    <div class="alert alert-info" style="margin:10px" ng-show="!textEvents.length" ng-cloak  ng-hide="!online">
       No {{currentView | lowercase}} {{selectedCategory}} events available.
     </div>
     <table class="table" role="presentation">
