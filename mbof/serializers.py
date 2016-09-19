@@ -24,7 +24,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
 class VoteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Vote
-        fields = ('vote', 'voter', 'event',)
+        fields = ('vote', 'voter_id', 'event',)
 
 
 class IntentionSerializer(serializers.HyperlinkedModelSerializer):

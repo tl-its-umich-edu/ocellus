@@ -74,7 +74,8 @@ class Event(models.Model):
     postingTime = models.DateTimeField(editable=False, blank=True)
     startTime = models.DateTimeField(blank=True, null=True)
     endTime = models.DateTimeField(blank=True, null=True)
-    owner = models.ForeignKey(User, default=currentUserLoginName, editable=False)
+    # owner = models.ForeignKey(User, default=currentUserLoginName, editable=False)
+    owner = models.CharField(max_length=8, editable=False)
     participantCount = models.IntegerField(default=0)
     hashtag = models.CharField(max_length=40, null=True)
 
@@ -122,7 +123,8 @@ class Vote(models.Model):
     VOTE_MINUS = '-1'
     VOTE_NONE = '0'
     event = models.ForeignKey(Event)
-    voter = models.ForeignKey(User, default=currentUserObject, editable=False)
+    # voter = models.ForeignKey(User, default=currentUserObject, editable=False)
+    voter_id = models.CharField(max_length=8, editable=False)
     vote = models.CharField(max_length=2, choices=(
         (VOTE_PLUS, VOTE_PLUS),
         (VOTE_MINUS, VOTE_MINUS),
@@ -130,7 +132,7 @@ class Vote(models.Model):
     ))
 
     class Meta:
-        unique_together = ('event', 'voter',)
+        unique_together = ('event', 'voter_id',)
 
     def __str__(self):
         return str(self.voter) + ' voted ' + str(self.vote) + ' on ' + str(
@@ -143,7 +145,9 @@ class Intention(models.Model):
     INTENTION_MAYBE = 'maybe'
     INTENTION_DECLINED = 'declined'
     event = models.ForeignKey(Event)
-    respondent = models.ForeignKey(User, default=currentUserObject, editable=False)
+    # respondent = models.ForeignKey(User, default=currentUserObject, editable=False)
+    respondent = models.CharField(max_length=8, editable=False)
+
     intention = models.CharField(max_length=10, choices=(
         (INTENTION_GOING, INTENTION_GOING),
         (INTENTION_MAYBE, INTENTION_MAYBE),
