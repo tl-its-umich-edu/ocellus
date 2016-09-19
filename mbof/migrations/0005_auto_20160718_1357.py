@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('intention', models.CharField(choices=[('going', 'going'), ('maybe', 'maybe')], max_length=5)),
                 ('event', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mbof.Event')),
-                ('respondent', models.ForeignKey(default=mbof.models.currentUserObject, editable=False, on_delete=django.db.models.deletion.CASCADE, to='mbof.User')),
+                ('respondent', models.CharField(editable=False, max_length=8)),
             ],
         ),
         migrations.AlterUniqueTogether(

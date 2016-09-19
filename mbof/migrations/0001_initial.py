@@ -56,13 +56,13 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('vote', models.CharField(choices=[('+1', '+1'), ('-1', '-1'), ('0', '0')], max_length=2)),
                 ('event', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mbof.Event')),
-                ('voter', models.ForeignKey(default=mbof.models.currentUserObject, editable=False, on_delete=django.db.models.deletion.CASCADE, to='mbof.User')),
+                ('voter', models.CharField(editable=False, max_length=8)),
             ],
         ),
         migrations.AddField(
             model_name='event',
             name='owner',
-            field=models.ForeignKey(default=mbof.models.currentUserLoginName, editable=False, on_delete=django.db.models.deletion.CASCADE, to='mbof.User'),
+            field=models.CharField(editable=False, max_length=8),
         ),
         migrations.AlterUniqueTogether(
             name='vote',
