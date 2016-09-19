@@ -20,7 +20,7 @@ def log_action(request):
     # EXAMPLE - dovek : GET /api/events/current/
     message = '%s : %s %s' % (me, method, url)
     logger.info(message)
-    # return me
+    
 
 class UserViewSet(viewsets.ModelViewSet):
     """
