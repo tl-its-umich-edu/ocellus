@@ -49,6 +49,7 @@ var leafletize = function(data, user){
       startTime: event.startTime,
       hashTag: event.hashtag,
       votes: event.votes,
+      guests:event.guests,
       owner: event.owner,
       url:event.url,
       inTime:inTime

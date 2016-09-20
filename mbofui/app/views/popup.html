@@ -12,6 +12,13 @@
     <small>{{event.address}}</small>
   </div>
   <hr class="popupRule">
+  <p ng-show="event.guests !==0">
+    <span class="badge badge-default">{{event.guests}} </span> have signed up.
+  </p>
+  <p ng-show="event.guests ===0">
+    No one has signed up yet.
+  </p>
+
   <div ng-if="event.owner !=='True' && event.intention">
     <p>
       {{event.intention.intention | capitalize}}. Change?
