@@ -12,7 +12,7 @@
     <small>{{event.address}}</small>
   </div>
   <hr class="popupRule">
-  <div ng-if="!event.mine && event.intention">
+  <div ng-if="event.owner !=='True' && event.intention">
     <p>
       {{event.intention.intention | capitalize}}. Change?
     </p>
@@ -28,10 +28,10 @@
       </a>
     </div>
   </div>
-  <p ng-if="!event.mine && !event.intention && event.inTime">
+  <p ng-if="event.owner !=='True' && !event.intention && event.inTime">
     Going?
   </p>
-  <div class="btn-group btn-group-sm btn-group-justified" ng-if="!event.mine && !event.intention && event.inTime">
+  <div class="btn-group btn-group-sm btn-group-justified" ng-if="event.owner !=='True' && !event.intention && event.inTime">
     <a href="" class="btn btn-primary declareIntentPost" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-method="POST">
       <i class="glyphicon glyphicon-ok"></i>  Going
     </a>
@@ -39,7 +39,7 @@
       <i class="glyphicon glyphicon-question-sign"></i> Maybe
     </a>
   </div>
-  <div class="btn-group btn-group-sm btn-group-justified" ng-show="event.mine && event.inTime">
+  <div class="btn-group btn-group-sm btn-group-justified" ng-show="event.owner ==='True' && event.inTime">
     <a data-toggle="modal" data-backdrop="static" data-target="#bofModalEdit" data-event="{{event}}" role="button" href="" class="btn btn-primary editEvent" style="color:#fff" >
       Edit
     </a>
