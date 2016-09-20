@@ -42,7 +42,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.configurl};
         });
     },
-    // edt a declared intention
+    // declare an intention
     IntendPost: function(url, data) {
       return $http.post(url, data).then(
         function success(result) {
@@ -52,7 +52,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
       });
     },
-    // declare an intention
+    // edt a declared intention
     IntendPut: function(url, data) {
       return $http.put(url, data).then(
         function success(result) {

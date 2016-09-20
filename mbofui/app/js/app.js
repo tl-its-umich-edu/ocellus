@@ -12,7 +12,7 @@ ocellus.config(['$locationProvider', '$httpProvider', function($locationProvider
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }]);
 
-ocellus.run(function($rootScope) {
+ocellus.run(function($rootScope, $window) {
     $rootScope.server = '';
     $rootScope.currentView="Current";
     $rootScope.user = {};
@@ -22,6 +22,21 @@ ocellus.run(function($rootScope) {
     $rootScope.urls = {
       'intentions':'/api/intentions/'
     };
+
+    $rootScope.online = navigator.onLine;
+      $window.addEventListener("offline", function() {
+        $rootScope.$apply(function() {
+          $rootScope.online = false;
+        });
+      }, false);
+
+      $window.addEventListener("online", function() {
+        $rootScope.$apply(function() {
+          $rootScope.online = true;
+        });
+      }, false);
+
+
     $rootScope.time_format = 'YYYY-MM-DDTHH:mm:ssZ';
     $rootScope.time_format_polyfill= 'YYYY-MM-DDTHH:mm';
     $rootScope.baselayers = {

@@ -696,4 +696,13 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
+//watch for connections and disconnections (rest of this runs in app.js)
+$scope.$watch('online', function(newStatus) {
+  if (newStatus ===true && $rootScope.prevOnlineStatus !==undefined){
+    $log.info('could reload the app on reconnected status');
+  }
+  $rootScope.prevOnlineStatus = newStatus;
+});
+
+
 }]);

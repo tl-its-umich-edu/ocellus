@@ -87,7 +87,9 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
-
+    <div class="overlay" ng-hide="online">
+    </div>
+    <div  class="alert alert-danger alertPanel" ng-hide="online" ng-cloak>You are offline</div>
     <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       {{alert.message}}
