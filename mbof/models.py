@@ -100,6 +100,26 @@ class Event(models.Model):
         )
         return guestTotal
 
+    @property
+    def definitely(self):
+        guestTotal = reduce(
+                lambda sum, intention: sum + (
+                    1 if intention.intention == Intention.INTENTION_GOING else 0),
+                Intention.objects.filter(event=self),
+                0
+        )
+        return guestTotal
+
+    @property
+    def maybe(self):
+        guestTotal = reduce(
+                lambda sum, intention: sum + (
+                    1 if intention.intention == Intention.INTENTION_MAYBE else 0),
+                Intention.objects.filter(event=self),
+                0
+        )
+        return guestTotal
+
     def __str__(self):
         return str(self.eventText) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
 
