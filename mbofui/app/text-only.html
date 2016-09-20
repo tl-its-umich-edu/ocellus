@@ -99,6 +99,10 @@
           <p class="list-group-item-text">
             <small>{{event.dateBlob}}</small>
           </p>
+          <p>
+            <span  ng-show="event.guests !==0"><span class="badge badge-default">{{event.guests}} </span> have signed up.</span>
+            <span ng-show="event.guests ===0">No one has signed up yet.</span>
+          </p>
           <br>
           <p ng-show="event.intention">
             Intention: {{event.intention.intention | capitalize}}
