@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth.views import logout
 from django.views.static import serve
 from rest_framework import routers
 from django.conf import settings
@@ -48,8 +49,9 @@ urlpatterns = [
 ]
 
 if 'djangosaml2' in settings.INSTALLED_APPS:
-     urlpatterns += [
+    urlpatterns += [
          url(r'^accounts/', include('djangosaml2.urls')),
+         url(r'^user/logout/', 'django.contrib.auth.views.logout', {'next_page': '/'}),
          url(r'^test/', 'djangosaml2.views.echo_attributes'),
      ]
 elif 'registration' in settings.INSTALLED_APPS:
