@@ -560,8 +560,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   };
   $scope.lookUpNewCoords = function(mode, origin){
     if(origin ==='create') {
+      $scope.origin= 'create';
       $scope.coordsLookUp = $scope.newEventAddress;
     } else {
+      $scope.origin= 'edit';
       $scope.coordsLookUp = $scope.editEvent.address;
     }
    $scope.lookUpCoords(mode, origin);
@@ -596,12 +598,12 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           if (result.data.results.length === 1){
             $scope.newEventLoc =result.data.results[0].geometry.location;
             // pass the object to the create event dialog
-            if(origin ==='create' || origin ==='specifiedAddress'){
+            if(origin ==='create' && origin ==='specifiedAddress' && $scope.origin=== 'create'){
               $('#bofModal').attr('data-coords', [result.data.results[0].geometry.location.lat, result.data.results[0].geometry.location.lng]);
               $scope.newEventAddress = result.data.results[0].formatted_address;
               $('#coordsLookUpModal').modal('hide');
               $('#bofModal').modal('show');
-            } else if (origin ==='edit') {
+            } else if ($scope.origin=== 'edit') {
               $scope.editEvent.lat = result.data.results[0].geometry.location.lat;
               $scope.editEvent.lng = result.data.results[0].geometry.location.lng;
               $scope.editEvent.address = result.data.results[0].formatted_address;
