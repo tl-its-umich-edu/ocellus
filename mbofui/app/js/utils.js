@@ -50,6 +50,8 @@ var leafletize = function(data, user){
       hashTag: event.hashtag,
       votes: event.votes,
       guests:event.guests,
+      definitely:event.definitely,
+      maybe:event.maybe,
       owner: event.owner,
       url:event.url,
       inTime:inTime
