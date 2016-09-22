@@ -524,7 +524,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     } else {
       // there were validation failures, add an 'has-error' class to
       // the offending element's parent
-
+      $scope.validationFailuresEdit = true;
       _.each(validationFailures, function(failure){
          $('.' + failure).addClass('has-error').show();
       });
