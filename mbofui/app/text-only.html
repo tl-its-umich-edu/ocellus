@@ -31,29 +31,27 @@
       <div class="collapse navbar-collapse" id="ocellusNav">
         <ul class="nav navbar-nav">
           <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Input Address" class="plainLink">Create event</a></li>
+          <li><a href="" title="Map view" ng-click="switchModes('map')" class="plainLink">Map</a></li>
         </ul>
-
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter by category <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{category || 'All Events'}}
+              <span ng-show="category && category !=='All Events'"> Events</span>
+              <span class="caret"></span></a>
             <ul class="dropdown-menu" id="categories">
               <li ng-repeat="category in event_categories"><a href="#" ng-click="filter_category(category)">{{category}}</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#" ng-click="filter_category('all')">All categories</a></li>
+              <li><a href="#" ng-click="filter_category('All Events')">All Events</a></li>
             </ul>
           </li>
-        </ul>
-        <form class="navbar-form navbar-left" role="search">
-          <div class="form-group">
-            <label for="searchText" class="sr-only">Search events</label>
-            <input  id="searchText" type="text" class="form-control" placeholder="Search" value="" ng-model="textEventsFilter">
-          </div>
-        </form>
-
-
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="" ng-click="switchModes('map')" class="plainLink">Map</a></li>
-          <li><a href="#"  ng-click="logout()" class="plainLink">Logout</a></li>
+          <li>
+            <form class="navbar-form navbar-left" role="search">
+              <div class="form-group">
+                <label for="searchText" class="sr-only">Search events</label>
+                <input  id="searchText" type="text" class="form-control" placeholder="Search" value="" ng-model="textEventsFilter">
+              </div>
+            </form>
+          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Showing {{currentView}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -73,6 +71,14 @@
               -->
             </ul>
           </li>
+          <li class="visible-xs-block"><a class="plainLink" href="#"  ng-click="logout()">Logout</a></li>
+          <li class="dropdown hidden-xs" >
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#"  ng-click="logout()">Logout</a></li>
+            </ul>
+          </li>
+
         </ul>
       </div>
       <!-- /.navbar-collapse -->

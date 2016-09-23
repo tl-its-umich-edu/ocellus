@@ -37,34 +37,38 @@
         <ul class="nav navbar-nav">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Create Event <span class="caret"></span></a>
-            <ul class="dropdown-menu" id="categories">
+            <ul class="dropdown-menu">
               <li> <a href="" ng-click="createEventCurrentlocation()" title="Create event at current location">Create event at current location</a></li>
               <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Create event at specified address">Create event at specified address</a></li>
             </ul>
           </li>
+          <li><a href="" title="Text only view" ng-click="switchModes('text')" class="plainLink"><span class="glyphicon glyphicon-th-list hidden-xs"></span><span class="visible-xs-inline">Text only view</span><span class="sr-only">Text only view</span></a></li>
         </ul>
 
         <ul class="nav navbar-nav">
+
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter by category <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{category || 'All Events'}}
+              <span ng-show="category && category !=='All Events'"> Events</span>
+              <span class="caret"></span></a>
             <ul class="dropdown-menu" id="categories">
               <li ng-repeat="category in event_categories"><a href="#" ng-click="filter_category(category)">{{category}}</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#" ng-click="filter_category('all')">All categories</a></li>
+              <li><a href="#" ng-click="filter_category('All Events')">All Events</a></li>
             </ul>
           </li>
-          <li ng-show="category" class="visible-lg-inline visible-md-inline"><p class="navbar-text plainLink">Showing: {{category}}</p></li>
-        </ul>
-        <form class="navbar-form navbar-left" role="search">
-          <div class="form-group">
-            <label for="searchText" class="sr-only">Search events</label>
-            <input type="text" id="searchText" class="form-control" placeholder="Search" value="" ng-model="markerFilter">
-          </div>
-        </form>
-
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="" ng-click="switchModes('text')" class="plainLink">Text only</a></li>
-          <li><a href="#"  ng-click="logout()" class="plainLink">Logout</a></li>
+          <li>
+            <form class="navbar-form navbar-left" role="search">
+              <div class="form-group">
+                <label for="searchText" class="sr-only">Search events</label>
+                <input type="text" id="searchText" class="form-control" placeholder="Search" value="" ng-model="markerFilter">
+              </div>
+            </form>
+          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Showing {{currentView}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -82,6 +86,13 @@
               <li><a>Cat Filtered Markers: <strong>{{markers.length}}</strong></a></li>
               <li><a>Search Filtered Markers: <strong>{{markersFiltered.length}}</strong></a></li>
             -->
+            </ul>
+          </li>
+          <li class="visible-xs-block"><a class="plainLink" href="#"  ng-click="logout()">Logout</a></li>
+          <li class="dropdown hidden-xs">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#"  ng-click="logout()">Logout</a></li>
             </ul>
           </li>
         </ul>
