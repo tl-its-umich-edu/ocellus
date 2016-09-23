@@ -52,8 +52,7 @@ urlpatterns = [
 if 'djangosaml2' in settings.INSTALLED_APPS:
     urlpatterns += [
         url(r'^accounts/', include('djangosaml2.urls')),
-        url(r'^user/logout/', 'django.contrib.auth.views.logout', {'next_page': getenv('SHIB_LOGOUT',
-            'https://weblogin-test.itcs.umich.edu/cgi-bin/logout?https://dev.ocellus.openshift.dsc.umich.edu/')}),
+        url(r'^user/logout/', views.logout),
         url(r'^test/', 'djangosaml2.views.echo_attributes'),
     ]
 elif 'registration' in settings.INSTALLED_APPS:

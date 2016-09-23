@@ -6,11 +6,19 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from rest_framework import generics, viewsets
-
+from django.shortcuts import redirect
+from django.contrib import auth
 from .models import Event, User, Vote, Intention
 from .serializers import EventSerializer, UserSerializer, VoteSerializer, IntentionSerializer
 
 logger = logging.getLogger(__name__)
+
+
+def logout(request):
+    logger.info('User %s logging out.' % request.user.username)
+    auth.logout(request)
+    return redirect(os.getenv('SHIB_LOGOUT',
+            'https://weblogin-test.itcs.umich.edu/cgi-bin/logout?https://dev.ocellus.openshift.dsc.umich.edu/'))
 
 
 def log_action(request):
