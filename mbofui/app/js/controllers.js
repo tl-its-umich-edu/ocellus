@@ -182,7 +182,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   };
 
   $scope.filter_category = function(key){
-    if (key === 'All Categories') {
+    if (key === 'All Events') {
       // set marker to unfiltered list
       $scope.markers = $scope.markersAll;
       // note: on text only

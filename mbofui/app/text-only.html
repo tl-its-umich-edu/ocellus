@@ -45,11 +45,11 @@
             </div>
           </form>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{category || 'All Categories'}}<span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{category || 'All Events'}}<span class="caret"></span></a>
             <ul class="dropdown-menu" id="categories">
               <li ng-repeat="category in event_categories"><a href="#" ng-click="filter_category(category)">{{category}}</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#" ng-click="filter_category('All Categories')">All Categories</a></li>
+              <li><a href="#" ng-click="filter_category('All Events')">All Events</a></li>
             </ul>
           </li>
           <li class="dropdown">

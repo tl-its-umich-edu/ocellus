@@ -37,7 +37,7 @@
         <ul class="nav navbar-nav">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Create Event <span class="caret"></span></a>
-            <ul class="dropdown-menu" id="categories">
+            <ul class="dropdown-menu">
               <li> <a href="" ng-click="createEventCurrentlocation()" title="Create event at current location">Create event at current location</a></li>
               <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Create event at specified address">Create event at specified address</a></li>
             </ul>
@@ -59,12 +59,12 @@
 
 
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{category || 'All Categories'}}
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{category || 'All Events'}}
               <span class="caret"></span></a>
             <ul class="dropdown-menu" id="categories">
               <li ng-repeat="category in event_categories"><a href="#" ng-click="filter_category(category)">{{category}}</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#" ng-click="filter_category('All Categories')">All Categories</a></li>
+              <li><a href="#" ng-click="filter_category('All Events')">All Events</a></li>
             </ul>
           </li>
 
