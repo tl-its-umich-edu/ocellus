@@ -119,7 +119,7 @@
           </p>
         </td>
         <td class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right">
-          <div ng-show="!event.mine && event.inTime && event.intention">
+          <div ng-show="event.owner==='False' && event.inTime && event.intention">
             <div class="btn-group btn-group-sm">
               <a href="" ng-if="(event.intention.intention !=='going' || event.intention.intention==='declined') && event.inTime" class="btn btn-primary declareIntentPut" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
                 Going
@@ -132,7 +132,7 @@
               </a>
             </div>
           </div>
-          <div class="btn-group btn-group-sm" ng-show="!event.mine && !event.intention && event.inTime"  style="text-align:right">
+          <div class="btn-group btn-group-sm" ng-show="event.owner==='False'  && !event.intention && event.inTime"  style="text-align:right">
             <a href="" class="btn btn-primary declareIntentPost" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-method="POST">
               Going
             </a>
@@ -140,7 +140,7 @@
               Maybe
             </a>
           </div>
-          <div class="btn-group btn-group-sm" ng-show="event.mine && event.inTime">
+          <div class="btn-group btn-group-sm" ng-show="event.owner==='True' && event.inTime">
             <a data-toggle="modal" data-target="#bofModalEdit" data-event="{{event}}" role="button" href="" class="btn btn-primary editEvent" style="color:#fff" >
               Edit
             </a>
