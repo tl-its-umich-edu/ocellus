@@ -14,10 +14,10 @@
   <hr class="popupRule">
   <p ng-show="event.guests !==0">
     <span class="badge badge-default">{{event.guests}} </span> have signed up.
-    <span ng-show="event.definitely !==0">
-      {{event.definitely}} definitely,
+    <span ng-show="event.definitely !==0 && event.definitely">
+      {{event.definitely}} definitely.
     </span>
-    <span ng-show="event.maybe !==0">
+    <span ng-show="event.maybe !==0 && event.maybe">
       {{event.maybe}} tentatively.
     </span>
   </p>
