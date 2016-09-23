@@ -31,7 +31,7 @@
       <div class="collapse navbar-collapse" id="ocellusNav">
         <ul class="nav navbar-nav">
           <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Input Address" class="plainLink">Create event</a></li>
-          <li><a href="" ng-click="switchModes('map')" class="plainLink">Map</a></li>
+          <li><a href="" title="Map view" ng-click="switchModes('map')" class="plainLink">Map</a></li>
         </ul>
 
 
@@ -45,11 +45,11 @@
             </div>
           </form>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter by category <span ng-show="category"  class="visible-lg-inline">({{category}})</span> <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{category || 'All Categories'}}<span class="caret"></span></a>
             <ul class="dropdown-menu" id="categories">
               <li ng-repeat="category in event_categories"><a href="#" ng-click="filter_category(category)">{{category}}</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#" ng-click="filter_category('all')">All categories</a></li>
+              <li><a href="#" ng-click="filter_category('All Categories')">All Categories</a></li>
             </ul>
           </li>
           <li class="dropdown">
@@ -71,7 +71,8 @@
               -->
             </ul>
           </li>
-          <li class="dropdown">
+          <li class="visible-xs-block"><a class="plainLink" href="#"  ng-click="logout()">Logout</a></li>
+          <li class="dropdown hidden-xs" >
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#"  ng-click="logout()">Logout</a></li>

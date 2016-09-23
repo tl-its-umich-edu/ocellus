@@ -42,7 +42,7 @@
               <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Create event at specified address">Create event at specified address</a></li>
             </ul>
           </li>
-          <li><a href="" ng-click="switchModes('text')" class="plainLink"><span class="glyphicon glyphicon-list"></span><span class="sr-only">Text only</span></a></li>
+          <li><a href="" title="Text only view" ng-click="switchModes('text')" class="plainLink"><span class="glyphicon glyphicon-th-list hidden-xs"></span><span class="visible-xs-inline">Text only view</span><span class="sr-only">Text only view</span></a></li>
         </ul>
 
         <ul class="nav navbar-nav">
@@ -59,13 +59,12 @@
 
 
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter by category
-              <span ng-show="category"  class="visible-lg-inline">({{category}})</span>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{category || 'All Categories'}}
               <span class="caret"></span></a>
             <ul class="dropdown-menu" id="categories">
               <li ng-repeat="category in event_categories"><a href="#" ng-click="filter_category(category)">{{category}}</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#" ng-click="filter_category('all')">All categories</a></li>
+              <li><a href="#" ng-click="filter_category('All Categories')">All Categories</a></li>
             </ul>
           </li>
 
@@ -88,7 +87,8 @@
             -->
             </ul>
           </li>
-          <li class="dropdown">
+          <li class="visible-xs-block"><a class="plainLink" href="#"  ng-click="logout()">Logout</a></li>
+          <li class="dropdown hidden-xs">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#"  ng-click="logout()">Logout</a></li>
