@@ -20,6 +20,7 @@ from django.contrib.auth.views import logout
 from django.views.static import serve
 from rest_framework import routers
 from django.conf import settings
+from os import getenv
 import logging
 
 import mbof.urls
@@ -50,14 +51,15 @@ urlpatterns = [
 
 if 'djangosaml2' in settings.INSTALLED_APPS:
     urlpatterns += [
-         url(r'^accounts/', include('djangosaml2.urls')),
-         url(r'^user/logout/', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-         url(r'^test/', 'djangosaml2.views.echo_attributes'),
-     ]
+        url(r'^accounts/', include('djangosaml2.urls')),
+        url(r'^user/logout/', 'django.contrib.auth.views.logout', {'next_page': getenv('SHIB_LOGOUT',
+            'https://weblogin-test.itcs.umich.edu/cgi-bin/logout?https://dev.ocellus.openshift.dsc.umich.edu/')}),
+        url(r'^test/', 'djangosaml2.views.echo_attributes'),
+    ]
 elif 'registration' in settings.INSTALLED_APPS:
-     urlpatterns += [
-         url(r'^accounts/', include('registration.backends.default.urls')),
-]
+    urlpatterns += [
+        url(r'^accounts/', include('registration.backends.default.urls')),
+    ]
 
 urlpatterns += [
     url(r'^(?P<path>.*)$', serve, {
