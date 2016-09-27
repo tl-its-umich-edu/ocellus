@@ -7,7 +7,8 @@
 <div class="form-group eventText">
   <label for="eventText">Description</label>
   <span class="req-text">(required)</span>
-  <textarea ng-model="$parent.newEventText" class="form-control" id="eventText" rows="3" required></textarea>
+  <textarea ng-model="$parent.newEventText" class="form-control" id="eventText" rows="3" required ng-trim="false" maxlength="400"></textarea>
+  <small ng-class="400 - $parent.newEventText.length ===0 ? 'danger' : ''">{{400 - $parent.newEventText.length}} characters left</small>
 </div>
 <div class="form-group">
   <label for="categoryCreate">Categories</label>

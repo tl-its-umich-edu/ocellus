@@ -7,7 +7,8 @@
 <div class="form-group eventText">
   <label for="eventTextEdit">Edit Event</label>
   <span class="req-text">(required)</span>
-  <textarea class="form-control" id="eventTextEdit" rows="3" required ng-model="$parent.editEvent.message"></textarea>
+  <textarea class="form-control" id="eventTextEdit" rows="3" required ng-model="$parent.editEvent.message" ng-trim="false" maxlength="400"></textarea>
+  <small ng-class="400 - $parent.editEvent.message.length ===0 ? 'danger' : ''">{{400 - $parent.editEvent.message.length}} characters left</small>
 </div>
 <div class="form-group">
   <label for="categoryEdit">Categories</label>
