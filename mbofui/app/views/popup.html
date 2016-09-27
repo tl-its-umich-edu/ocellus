@@ -9,11 +9,21 @@
     <small>{{event.dateBlob}}</small>
   </div>
   <div ng-show="event.address !=='Undefined'">
-    <small>{{event.address}}</small>
+    <small>{{event.address}}</small> <a href="#">(directions)</a>
+  </div>
+  <hr class="popupRule">
+  <div class="popupMessage" ng-show="!revealInfo">
+    {{event.message |  limitTo: 50}} <a href="#" ng-click="revealInfo=!revealInfo"> ... more?</a>
+  </div>
+  <div class="popupMessage" ng-show="revealInfo">
+    {{event.message}} <a href="#" ng-click="revealInfo=!revealInfo">... less?</a>
+  </div>
+  <div>
+    <strong class="muted">{{event.hashTag}}</strong>
   </div>
   <hr class="popupRule">
   <p ng-show="event.guests !==0">
-    <span class="badge badge-default">{{event.guests}} </span> have signed up.
+    <span class="badge badge-default">{{event.guests}} </span> <span ng-show="event.guests === 1">has </span> <span ng-show="event.guests > 1">have</span> signed up.
     <span ng-show="event.definitely !==0 && event.definitely">
       {{event.definitely}} definitely.
     </span>
@@ -57,14 +67,6 @@
       Edit
     </a>
   </div>
-  <div class="popupMessage" ng-show="revealInfo">
-    {{event.message}}
-    <br>
-    <strong>{{event.hashTag}}</strong>
-  </div>
-  <div class="popupMessageToggle">
-    <a href="#" ng-show="!revealInfo" ng-click="revealInfo=!revealInfo">More information?</a>
-    <a href="#" ng-show="revealInfo" ng-click="revealInfo=!revealInfo">Less information?</a>
-  </div>
+
 
 </div>

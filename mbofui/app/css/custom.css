@@ -80,7 +80,13 @@ nav.navbar {
 .has-error span.req-text, .has-error label {
   color:#c00;
 }
-
+.danger {
+  color: red;
+  font-weight: bold;
+}
+.muted {
+  color:#777
+}
 .alert-inline {
   color:#a94442;
   display: inline-block;
