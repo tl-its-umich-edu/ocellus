@@ -594,7 +594,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       }
 
       Bof.GetAddress(coordsUrl).then(function(result) {
-        $log.info(mode + ' ' + origin + ' ' + $scope.origin);
         if (mode==="google") {
           if (result.data.results.length === 1){
             $scope.newEventLoc =result.data.results[0].geometry.location;
