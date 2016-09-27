@@ -10,6 +10,7 @@ from django.shortcuts import redirect
 from django.contrib import auth
 from .models import Event, User, Vote, Intention
 from .serializers import EventSerializer, UserSerializer, VoteSerializer, IntentionSerializer
+from rest_framework import viewsets, mixins
 
 logger = logging.getLogger(__name__)
 
@@ -28,9 +29,24 @@ def log_action(request):
     # EXAMPLE - dovek : GET /api/events/current/
     message = '%s : %s %s' % (me, method, url)
     logger.info(message)
-    
 
-class UserViewSet(viewsets.ModelViewSet):
+
+class OcellusViewSet(mixins.CreateModelMixin,
+                       mixins.RetrieveModelMixin,
+                       mixins.UpdateModelMixin,
+                       # mixins.DestroyModelMixin,
+                       mixins.ListModelMixin,
+                       viewsets.GenericViewSet):
+
+
+    """
+    A viewset that provides default `create()`, `retrieve()`, `update()`,
+    `partial_update()`, `destroy()` and `list()` actions.
+    """
+    pass
+
+
+class UserViewSet(OcellusViewSet):
     """
     API endpoint that allows Users to be viewed or edited.
     """
@@ -42,7 +58,7 @@ class CurrentUserViewSet(UserViewSet):
     queryset = User.objects.filter(loginName=os.getenv('REMOTE_USER')).order_by('surname')
 
 
-class EventViewSet(viewsets.ModelViewSet):
+class EventViewSet(OcellusViewSet):
     """
     API endpoint that allows Events to be viewed or edited.
     """
@@ -54,7 +70,7 @@ class EventViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user.__str__())
 
 
-class EventListViewSet(generics.ListCreateAPIView):
+class EventListViewSet(generics.ListAPIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -91,7 +107,7 @@ class EventListViewSet(generics.ListCreateAPIView):
         return query_set
 
 
-class VoteViewSet(viewsets.ModelViewSet):
+class VoteViewSet(OcellusViewSet):
     """
     API endpoint that allows Votes to be viewed or edited.
     """
@@ -99,7 +115,7 @@ class VoteViewSet(viewsets.ModelViewSet):
     serializer_class = VoteSerializer
 
 
-class IntentionViewSet(viewsets.ModelViewSet):
+class IntentionViewSet(OcellusViewSet):
     """
     API endpoint that allows Intentions to be viewed or edited.
     """
