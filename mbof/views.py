@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
+from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.contrib import auth
 from .models import Event, User, Vote, Intention
@@ -34,15 +35,15 @@ def log_action(request):
 
 
 class OcellusViewSet(mixins.CreateModelMixin,
-                       mixins.RetrieveModelMixin,
-                       mixins.UpdateModelMixin,
-                       mixins.ListModelMixin,
-                       viewsets.GenericViewSet):
-
+                     mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.ListModelMixin,
+                     viewsets.GenericViewSet):
 
     """
     A viewset that provides default `create()`, `retrieve()`, `update()`,
     `partial_update()`, and `list()` actions.
+
     Removed destroy() so that DELETE api calls would be excluded.
     """
     pass
@@ -84,17 +85,19 @@ class EventViewSet(OcellusViewSet):
 
     def perform_update(self, serializer):
         log_action(self.request)
+        queryset = Event.objects.filter(owner=self.request.user, id=self.kwargs['pk'])
+        if not queryset.exists():
+            raise PermissionDenied("You do not have permission to edit")
         serializer.save()
 
     def get_queryset(self):
         log_action(self.request)
-        query_set = self.queryset
+        query_set = Event.objects.all().order_by('postingTime')
         for event in query_set:
             if event.owner == self.request.user.username:
                 event.owner = True
             else:
                 event.owner = False
-
         return query_set
 
 
@@ -106,20 +109,16 @@ class EventListViewSet(generics.ListAPIView):
 
     def get_queryset(self):
         log_action(self.request)
-
         query_set = self.queryset
         current_time = timezone.now()
         if self.kwargs['type'] is None:
-            logger.debug('Type is None')
             query_set = Event.objects.all().order_by('postingTime')
         query_type = self.kwargs['type']
         query_type = query_type.replace('/', '')
         if query_type == 'current':
-            logger.debug('Type is current')
             query_set = Event.objects.filter(startTime__lte=current_time, endTime__gte=current_time,
                                              status=Event.STATUS_ACTIVE).order_by('postingTime')
         if query_type == 'upcoming':
-            logger.debug('Type is upcoming')
             one_week_out = current_time + datetime.timedelta(days=7)
             query_set = Event.objects.filter(startTime__range=[current_time, one_week_out],
                                              status=Event.STATUS_ACTIVE).order_by('postingTime')
@@ -164,6 +163,23 @@ class IntentionViewSet(OcellusViewSet):
     def perform_create(self, serializer):
         log_action(self.request)
         serializer.save(respondent=self.request.user.username)
+
+    def perform_update(self, serializer):
+        log_action(self.request)
+        queryset = Intention.objects.filter(respondent=self.request.user, id=self.kwargs['pk'])
+        if not queryset.exists():
+            raise PermissionDenied("You do not have permission to edit")
+        serializer.save()
+
+    def get_queryset(self):
+        log_action(self.request)
+        query_set = Intention.objects.all()
+        for intention in query_set:
+            if intention.respondent == self.request.user.username:
+                intention.respondent = True
+            else:
+                intention.respondent = False
+        return query_set
 
     def filter_queryset(self, queryset):
         log_action(self.request)
