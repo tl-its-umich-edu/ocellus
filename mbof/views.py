@@ -34,14 +34,15 @@ def log_action(request):
 class OcellusViewSet(mixins.CreateModelMixin,
                        mixins.RetrieveModelMixin,
                        mixins.UpdateModelMixin,
-                       # mixins.DestroyModelMixin,
                        mixins.ListModelMixin,
                        viewsets.GenericViewSet):
 
 
     """
     A viewset that provides default `create()`, `retrieve()`, `update()`,
-    `partial_update()`, `destroy()` and `list()` actions.
+    `partial_update()`, and `list()` actions.
+
+    Removed destroy() so that DELETE api calls would be excluded.
     """
     pass
 
