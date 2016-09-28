@@ -87,6 +87,9 @@ nav.navbar {
 .muted {
   color:#777
 }
+.list-group-metadata {
+  margin:5px 0;
+}
 .alert-inline {
   color:#a94442;
   display: inline-block;

@@ -100,22 +100,32 @@
         </td>
         <td class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="padding:10px">
           <h4 class="list-group-item-heading">{{event.title}}</h4>
-          <p class="list-group-item-text">
+          <p class="list-group-metadata">
             {{event.category}}
           </p>
-          <p class="list-group-item-text">
+          <p>
             <small>{{event.dateBlob}}</small>
           </p>
           <p>
-            <span  ng-show="event.guests !==0"><span class="badge badge-default">{{event.guests}} </span> have signed up.</span>
-            <span ng-show="event.guests ===0">No one has signed up yet.</span>
-          </p>
-          <br>
-          <p ng-show="event.intention">
-            Intention: {{event.intention.intention | capitalize}}
-          </p>
-          <p class="list-group-item-text">
             {{event.message}}
+          </p>
+          <p ng-show="event.hashTag">
+            <strong class="muted">{{event.hashTag}}</strong>
+          </p>
+          <p ng-show="event.guests !==0" class="list-group-item-text">
+            <span class="badge badge-default">{{event.guests}} </span> <span ng-show="event.guests === 1">has </span> <span ng-show="event.guests > 1">have</span> signed up.
+            <span ng-show="event.definitely !==0 && event.definitely">
+              {{event.definitely}} definitely.
+            </span>
+            <span ng-show="event.maybe !==0 && event.maybe">
+              {{event.maybe}} tentatively.
+            </span>
+          </p>
+          <p ng-show="event.guests ===0" class="list-group-item-text">
+            No one has signed up yet.
+          </p>
+          <p ng-show="event.intention"  class="list-group-metadata">
+            Your intention: {{event.intention.intention | capitalize}}
           </p>
         </td>
         <td class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right">
