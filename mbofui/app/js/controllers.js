@@ -248,7 +248,6 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           title: eventsList[i].title,
           messageSearch: eventsList[i].category + ' ' + eventsList[i].message + ' ' +eventsList[i].title,
           message: "<popup event='events[" + i + "]'></popup>",
-          //message:dateDisplayD,
           layer: 'events',
           icon: Bof.resolveIcon(eventsList[i].category)
         };
@@ -374,6 +373,22 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       leafletData.getMap().then(function(map) {
         map.closePopup();
       });
+
+      Bof.GetBof(data.event).then(function(result) {
+        var listToUpdate ='';
+        var eventPos;
+        if($scope.textOnly){
+          eventPos = _.findIndex($scope.textEventsAll , {url: data.event});
+          listToUpdate = $scope.textEventsAll;
+        }
+        else {
+          eventPos= _.findIndex($rootScope.events, {url: data.event});
+          listToUpdate = $rootScope.events;
+        }
+        listToUpdate[eventPos].maybe=result.data.maybe;
+        listToUpdate[eventPos].definitely=result.data.definitely;
+        listToUpdate[eventPos].guests=result.data.guests;
+      });
       //reload intentions
       Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
         $scope.intentions=intentionsList.data.results;
@@ -389,12 +404,13 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   // POST an intention
   $scope.intendPost = function (intent, eventUrl) {
-    var eventId = _.last(_.compact(eventUrl.split('/')));
     //data to send to endpoint
     data = {
         'intention': intent,
         'event':eventUrl
     };
+
+    var thisEventPos = _.findIndex($rootScope.events, {url: eventUrl});
     var intentionsUrl = $rootScope.urls.intentions;
     // use a factory to post new intent
     Bof.IntendPost(intentionsUrl, data).then(function(result) {
@@ -402,7 +418,24 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       leafletData.getMap().then(function(map) {
         map.closePopup();
       });
-      // use factory to handle POST
+      // get the event again - and change the values of the event in $rootScope.events[thisEventPos]
+      // or $scope.textEventsAll to update the counts
+      Bof.GetBof(eventUrl).then(function(result) {
+        var listToUpdate ='';
+        var eventPos;
+        if($scope.textOnly){
+          eventPos = _.findIndex($scope.textEventsAll , {url: eventUrl});
+          listToUpdate = $scope.textEventsAll;
+        }
+        else {
+          eventPos= _.findIndex($rootScope.events, {url: eventUrl});
+          listToUpdate = $rootScope.events;
+        }
+        listToUpdate[eventPos].maybe=result.data.maybe;
+        listToUpdate[eventPos].definitely=result.data.definitely;
+        listToUpdate[eventPos].guests=result.data.guests;
+      });
+      // update the intention list for this user
       Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
         $scope.intentions=intentionsList.data.results;
         if($scope.textOnly){
@@ -413,6 +446,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         }
       });
     });
+
   };
 
   $(document).on('click','.editEvent',function(e) {

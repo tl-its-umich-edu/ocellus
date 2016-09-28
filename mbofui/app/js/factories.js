@@ -124,6 +124,16 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
       getNext(url);
       return deferred.promise;
     },
+    GetBof: function(url) {
+      // at some point this will need to be paged
+      return $http.get(url).then(
+        function success(result) {
+          return result;
+        },
+        function error(result) {
+          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.configurl};
+        });
+    },
     resolveIcon: function(key){
       return ( {
         'Study/Discussion': {
