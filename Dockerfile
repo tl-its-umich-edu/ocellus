@@ -1,11 +1,11 @@
 FROM ubuntu:16:04
-MAINTAINER Chris Kretler <ckretler@umich.edu>
+MAINTAINER Kyle Dove <dovek@umich.edu>
 
 # execute this separate to allow caching
 RUN apt-get update
 
 # install dependencies and link node to nodejs, as ubuntu doesn't do this by default.
-RUN apt-get install -y nodejs curl libmysqlclient-dev gunicorn python-pip django-filter python-ldap npm git xmlsec1 && \
+RUN apt-get install -y nodejs curl libmysqlclient-dev gunicorn python-pip django-filter python-ldap npm git libldap2-dev libsasl2-dev libssl-dev xmlsec1 && \
 	ln -s /usr/bin/nodejs /usr/bin/node
 
 # install depedendent python packages that aren't available as pre-built libraries
