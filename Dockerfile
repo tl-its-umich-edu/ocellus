@@ -10,7 +10,7 @@ RUN apt-get install -y nodejs curl libmysqlclient-dev python-dev gunicorn python
 
 # install depedendent python packages that aren't available as pre-built libraries
 RUN pip install --upgrade pip && \
-	pip install Django==1.9 mysql-python djangorestframework django-crispy-forms whitenoise requests coverage
+	pip install Django==1.9 mysql-python djangorestframework django-crispy-forms whitenoise requests djangosaml2 coverage
 
 # install node packages that aren't available as pre-built libraries
 RUN npm install -g bower grunt grunt-cli
