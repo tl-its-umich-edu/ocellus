@@ -5,8 +5,7 @@ MAINTAINER Kyle Dove <dovek@umich.edu>
 RUN apt-get update
 
 # install dependencies and link node to nodejs, as ubuntu doesn't do this by default.
-RUN apt-get install -y nodejs curl libmysqlclient-dev python-dev gunicorn python-pip django-filter python-ldap npm && \
-    git libssl-dev libffi-dev xmlsec1 && \
+RUN apt-get install -y nodejs curl libmysqlclient-dev python-dev gunicorn python-pip django-filter python-ldap npm git libssl-dev libffi-dev xmlsec1 && \
 	ln -s /usr/bin/nodejs /usr/bin/node
 
 # install depedendent python packages that aren't available as pre-built libraries
