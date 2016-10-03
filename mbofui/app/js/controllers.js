@@ -257,6 +257,18 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
+  // watch for alerts produced by XHR errors and close any modal that may be open
+  $scope.$watch("alert", function(text) {
+    $timeout(function() {
+      if($rootScope.alert){
+        $('#bofModal').modal('hide');
+        $('#bofModalEdit').modal('hide');
+        $('#coordsLookUpModal').modal('hide');
+      }
+    });
+  });
+
+
   // watch on changes to marker (event) collection and text input so that only events with
   // the searched for text appear
   $scope.$watch("markers", function() {
