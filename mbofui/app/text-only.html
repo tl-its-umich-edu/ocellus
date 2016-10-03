@@ -30,7 +30,13 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="ocellusNav">
         <ul class="nav navbar-nav">
-          <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Input Address" class="plainLink">Create event</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Create Event <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li> <a href="" ng-click="createEventCurrentlocation('text')" title="Create event at current location">Create event at current location</a></li>
+              <li><a href="" data-toggle="modal" data-target="#coordsLookUpModal" title="Create event at specified address">Create event at specified address</a></li>
+            </ul>
+          </li>
           <li><a href="" title="Map view" ng-click="switchModes('map')" class="plainLink">Map</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -103,6 +109,10 @@
           <p class="list-group-metadata">
             {{event.category}}
           </p>
+          <p class="list-group-metadata">
+            {{event.address}}
+          </p>
+
           <p>
             <small>{{event.dateBlob}}</small>
           </p>

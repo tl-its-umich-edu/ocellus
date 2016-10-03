@@ -81,23 +81,31 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   // displays a popup invitation on current location regardless of where the map viewport is at
   // viewport will shift to center on user current location and open a popup invitation
-  $scope.createEventCurrentlocation = function() {
-    leafletData.getMap().then(function(map) {
-      map.locate({
-        setView: true,
-        maxZoom: 16
+  $scope.createEventCurrentlocation = function(origin) {
+    if(origin ==='text'){
+      navigator.geolocation.getCurrentPosition(function(position) {
+        $('#bofModal').attr('data-coords', [position.coords.latitude, position.coords.longitude]);
+        $('#bofModal').modal('show');
       });
+    }
+    else {
+      leafletData.getMap().then(function(map) {
+        map.locate({
+          setView: true,
+          maxZoom: 16
+        });
 
-      function onLocationFound(e) {
-        var radius = e.accuracy / 2;
-        $('#bofModal').attr('data-coords', [e.latlng.lat, e.latlng.lng]);
-        L.popup()
-          .setLatLng(e.latlng)
-          .setContent(popupLink)
-          .openOn(map);
-      }
-      map.on('locationfound', onLocationFound);
-    });
+        function onLocationFound(e) {
+          var radius = e.accuracy / 2;
+          $('#bofModal').attr('data-coords', [e.latlng.lat, e.latlng.lng]);
+          L.popup()
+            .setLatLng(e.latlng)
+            .setContent(popupLink)
+            .openOn(map);
+        }
+        map.on('locationfound', onLocationFound);
+      });
+    }
   };
 
   // handles tap and hold on mobile and control-click on other devices
