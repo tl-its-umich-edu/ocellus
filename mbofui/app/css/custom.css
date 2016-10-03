@@ -20,7 +20,9 @@ body {
   padding-top:50px
 }
 
-
+.leaflet-control-layers-separator, .leaflet-control-layers-overlays {
+  display:none;
+}
 nav.navbar {
   background:#00274c
 }
