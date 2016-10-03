@@ -1,3 +1,4 @@
+cryptography==1.5.1
 Django==1.9
 mysql-python
 djangorestframework
