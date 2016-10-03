@@ -9,7 +9,7 @@
     <small>{{event.dateBlob}}</small>
   </div>
   <div ng-show="event.address !=='Undefined'">
-    <small>{{event.address}}</small> <a href="https://www.google.com/maps/dir//{{event.address}}" target="_blank">(directions)</a>
+    <small>{{event.address}}</small> <a href="https://www.google.com/maps/dir/Current+Location/{{event.address}}" target="_blank">(directions)</a>
   </div>
   <hr class="popupRule">
   <div class="popupMessage" ng-show="!revealInfo">
