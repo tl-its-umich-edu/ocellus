@@ -9,11 +9,12 @@
     <small>{{event.dateBlob}}</small>
   </div>
   <div ng-show="event.address !=='Undefined'">
-    <small>{{event.address}}</small> <a href="https://www.google.com/maps/place/{{event.address}}" target="_blank">(directions)</a>
+    <small>{{event.address}}</small> <a href="https://www.google.com/maps/dir//{{event.address}}" target="_blank">(directions)</a>
   </div>
   <hr class="popupRule">
   <div class="popupMessage" ng-show="!revealInfo">
-    {{event.message |  limitTo: 50}} <a href="#" ng-click="revealInfo=!revealInfo"> ... more?</a>
+    <span ng-show="event.message.length > 200">{{event.message |  limitTo: 200}} <a href="#" ng-click="revealInfo=!revealInfo"> ... more?</a></span>
+    <span  ng-show="event.message.length < 200">{{event.message}}</span>
   </div>
   <div class="popupMessage" ng-show="revealInfo">
     {{event.message}} <a href="#" ng-click="revealInfo=!revealInfo">... less?</a>
