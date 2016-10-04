@@ -1,39 +1,34 @@
-FROM ubuntu:14.04
-
+FROM ubuntu:16:04
 MAINTAINER Kyle Dove <dovek@umich.edu>
 
-# Fix sh to allow running of bash instead of sh
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+# execute this separate to allow caching
+RUN apt-get update
 
-# Install dependencies
-RUN apt-get update && \
-apt-get dist-upgrade -y && \
-apt-get install -y libmysqlclient-dev git python-pip python-dev apache2 apache2-utils libldap2-dev libsasl2-dev nodejs curl libssl-dev libffi-dev xmlsec1
+# install dependencies and link node to nodejs, as ubuntu doesn't do this by default.
+RUN apt-get install -y nodejs curl libmysqlclient-dev python-dev gunicorn python-pip django-filter python-ldap npm git libssl-dev libffi-dev xmlsec1 && \
+	ln -s /usr/bin/nodejs /usr/bin/node
 
-# TODO: Take out the work directory change here. Suggested directory: /usr/apps/Ocellus/
-# Install Ocellus
-WORKDIR /tmp/
+# install dependent python packages that aren't available as pre-built libraries
+RUN pip install --upgrade pip && \
+	pip install Django==1.9 cryptography==1.5.1 mysql-python djangorestframework django-crispy-forms whitenoise requests djangosaml2 coverage
 
-COPY . /tmp/
+# install node packages that aren't available as pre-built libraries
+RUN npm install -g bower grunt grunt-cli
 
-# Install python components based on ocellus requirements file
-RUN pip install coverage gunicorn
-RUN pip install -r requirements.txt
-
-#Node.js stuff
-RUN curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -
-RUN apt-get install --yes nodejs
-RUN npm install --global npm@latest
-RUN npm install --global bower
-
-# grunt stuff
-RUN npm install -g grunt-cli
-RUN npm install --global grunt
-
-RUN echo '{ "allow_root": true }' > /root/.bowerrc
-RUN cd mbofui && bower install && npm install && grunt docker
-
+# expose port, do this before source code install to minimize layering
 EXPOSE 8000
 
+# create place for app to run from
+WORKDIR /app/
+COPY . /app/
+
+RUN echo '{ "allow_root": true }' > /root/.bowerrc
+
+# Install Ocellus
+RUN cd mbofui && \
+	bower install && \
+	npm install && \
+	grunt docker
+
 # copy settings file and launch django
-CMD python manage.py migrate; REMOTE_USER=bjensen gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
+CMD python manage.py migrate; gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
