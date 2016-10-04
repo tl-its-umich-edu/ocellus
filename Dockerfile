@@ -31,4 +31,4 @@ RUN cd mbofui && \
 	grunt docker
 
 # copy settings file and launch django
-CMD python manage.py migrate; gunicorn --workers=1 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
+CMD python manage.py migrate; gunicorn --workers=4 --bind=0.0.0.0:8000 hacks_mbof.wsgi:application
