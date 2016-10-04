@@ -53,11 +53,6 @@ ocellus.run(function($rootScope, $window) {
         layerType: 'HYBRID',
         type: 'google'
       },
-      googleTerrain: {
-        name: 'Google Terrain',
-        layerType: 'TERRAIN',
-        type: 'google'
-      },
       osm: {
         name: 'OpenStreetMap',
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
