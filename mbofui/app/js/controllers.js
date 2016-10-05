@@ -3,7 +3,7 @@
 
 ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', '$location', '$window', 'leafletData', 'Bof', function($compile, $scope, $rootScope, $filter, $timeout, $log, $location, $window, leafletData, Bof) {
   // ping Google geolocation, if over quota fall back to openstreet
-  $scope.category = 'All Events';
+
   Bof.GetAddress('https://maps.googleapis.com/maps/api/geocode/json?latlng=42.2698111,-83.74706599999999').then(function(result) {
     if(result.status ==='OVER_QUERY_LIMIT'){
       $rootScope.currentMapAPI ='openstreet';
@@ -222,6 +222,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   // get events
   var getEvents = function(url) {
+
     $scope.markersAll = [];
     $scope.markers = [];
     // note: only text only
@@ -355,6 +356,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   };
 
   $scope.switchViews = function (url, title, hash) {
+    $scope.category = 'All Events';
     $rootScope.currentView= title;
     $rootScope.currentViewUrl = url;
     $location.search({'currentView':$rootScope.currentView});
