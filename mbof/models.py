@@ -11,16 +11,6 @@ from django.utils.encoding import python_2_unicode_compatible
 logger = logging.getLogger(__name__)
 
 
-def currentUserLoginName():
-    # FIXME: Would like to do this in save() method, but that causes errors
-    return os.getenv('REMOTE_USER')
-
-
-def currentUserObject():
-    # FIXME: Would like to do this in save() method, but that causes errors
-    return User.objects.get(loginName=os.getenv('REMOTE_USER'))
-
-
 @python_2_unicode_compatible
 class Role(models.Model):
     code = models.CharField(max_length=8)
@@ -28,32 +18,6 @@ class Role(models.Model):
 
     def __str__(self):
         return str(self.description) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
-
-
-@python_2_unicode_compatible
-class User(models.Model):
-    loginName = models.CharField(max_length=80, primary_key=True)
-    displayName = models.CharField(max_length=120)
-    surname = models.CharField(max_length=50)
-    givenName = models.CharField(max_length=50)
-    aboutMe = models.CharField(max_length=2000, null=True)
-    roles = models.ForeignKey(Role, null=True)
-
-    @property
-    def reputation(self):
-        rep = 0
-        events = Event.objects.filter(owner=self)
-        for e in events:
-            votes = Vote.objects.filter(event=e)
-            for vote in votes:
-                if vote.vote == '+1':
-                    rep += 1
-                if vote.vote == '-1':
-                    rep -= 1
-        return rep
-
-    def __str__(self):
-        return str(self.loginName) + ' (' + self.__class__.__name__ + ': ' + str(self.loginName) + ')'
 
 
 @python_2_unicode_compatible

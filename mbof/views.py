@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.contrib import auth
-from .models import Event, User, Vote, Intention
-from .serializers import EventSerializer, UserSerializer, VoteSerializer, IntentionSerializer
+from .models import Event, Vote, Intention
+from .serializers import EventSerializer, VoteSerializer, IntentionSerializer
 from rest_framework import viewsets, mixins
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ def log_action(request):
     method = request.META['REQUEST_METHOD']
     url = request.META['PATH_INFO']
     # EXAMPLE - dovek : GET /api/events/current/
-    message = '%s - %s - %s %s' % (current_time, me, method, url)
+    message = '%s - %s - %s' % (me, method, url)
     logger.info(message)
 
 
@@ -47,18 +47,6 @@ class OcellusViewSet(mixins.CreateModelMixin,
     Removed destroy() so that DELETE api calls would be excluded.
     """
     pass
-
-
-class UserViewSet(OcellusViewSet):
-    """
-    API endpoint that allows Users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('surname')
-    serializer_class = UserSerializer
-
-
-class CurrentUserViewSet(UserViewSet):
-    queryset = User.objects.filter(loginName=os.getenv('REMOTE_USER')).order_by('surname')
 
 
 class EventViewSet(OcellusViewSet):
