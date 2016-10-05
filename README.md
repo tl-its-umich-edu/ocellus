@@ -19,7 +19,7 @@ Use terminal, iTerm, etc. Not XTerm.
    - `grunt dev` to lint and concatenate js or `grunt js-dev` to do the same plus Watch (which concatenates and lints on changes to js)
 
 0. Prepare the application configuration
-    - `cd /vagrant/hacks_mbof`
+    - `cd /vagrant/hacks_mbof` 
     - `cp settings.py.template settings.py`
     - Edit `settings.py` to set various values:
         - `SECRET_KEY` A secret key can be generated at http://www.miniwebtool.com/django-secret-key-generator/
