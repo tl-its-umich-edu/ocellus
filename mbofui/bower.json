@@ -2,7 +2,7 @@
   "name": "mbofui",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "^1.4.7",
+    "angular": "1.5.5",
     "bootstrap": "3.3.4",
     "angular-animate": "^1.4.7",
     "angular-resource": "^1.4.7",
@@ -18,7 +18,7 @@
     "bower-package": "*",
     "underscore": "^1.8.3",
     "leaflet-plugins": "^1.6.0",
-    "ui-leaflet": "https://github.com/angular-ui/ui-leaflet.git",
+    "ui-leaflet": "1.0.0",
     "bootstrap-toggle": "^2.2.2",
     "webshim": "^1.15.10"
   },
