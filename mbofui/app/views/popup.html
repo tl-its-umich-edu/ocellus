@@ -13,8 +13,10 @@
   </div>
   <hr class="popupRule">
   <div class="popupMessage" ng-show="!revealInfo">
-    <span ng-show="event.message.length > 200">{{event.message |  limitTo: 200}} <a href="#" ng-click="revealInfo=!revealInfo"> ... more?</a></span>
-    <span  ng-show="event.message.length < 200">{{event.message}}</span>
+    <span ng-show="event.message.length > 200">{{event.message |  limitTo: 200}} 
+      <a href="#" ng-click="revealInfo=!revealInfo"> ... more?</a>
+    </span>
+    <span  ng-show="event.message.length <= 200">{{event.message}}</span>
   </div>
   <div class="popupMessage" ng-show="revealInfo">
     {{event.message}} <a href="#" ng-click="revealInfo=!revealInfo">... less?</a>
