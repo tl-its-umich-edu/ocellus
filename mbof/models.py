@@ -11,16 +11,14 @@ from django.utils.encoding import python_2_unicode_compatible
 logger = logging.getLogger(__name__)
 
 
-@python_2_unicode_compatible
 class Role(models.Model):
     code = models.CharField(max_length=8)
     description = models.CharField(max_length=20)
 
-    def __str__(self):
-        return str(self.description) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+    def __unicode__(self):
+        return '%s %s %s' % (self.description, self.__class__.__name__, self.id)
 
 
-@python_2_unicode_compatible
 class Event(models.Model):
     STATUS_ACTIVE = 'active'
     STATUS_CANCELED = 'canceled'
@@ -84,8 +82,8 @@ class Event(models.Model):
         )
         return guestTotal
 
-    def __str__(self):
-        return str(self.eventText) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+    def __unicode__(self):
+        return '%s %s %s' % (self.eventText, self.__class__.__name__, self.id)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -100,7 +98,6 @@ class Event(models.Model):
         return super(Event, self).save(force_insert, force_update, using, update_fields)
 
 
-@python_2_unicode_compatible
 class Vote(models.Model):
     VOTE_PLUS = '+1'
     VOTE_MINUS = '-1'
@@ -116,12 +113,10 @@ class Vote(models.Model):
     class Meta:
         unique_together = ('event', 'voter',)
 
-    def __str__(self):
-        return str(self.voter) + ' voted ' + str(self.vote) + ' on ' + str(
-                self.event) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+        def __unicode__(self):
+            return '%s voted %s on %s %s %s' % (self.voter, self.vote, self.event, self.__class__.__name__, self.id)
 
 
-@python_2_unicode_compatible
 class Intention(models.Model):
     INTENTION_GOING = 'going'
     INTENTION_MAYBE = 'maybe'
@@ -137,9 +132,8 @@ class Intention(models.Model):
     class Meta:
         unique_together = ('event', 'respondent',)
 
-    def __str__(self):
-        return str(self.respondent) + ' responded ' + str(self.intention) + ' on ' + str(
-                self.event) + ' (' + self.__class__.__name__ + ': ' + str(self.id) + ')'
+    def __unicode__(self):
+        return '%s responded %s on %s %s %s' % (self.respondent, self.intention, self.event, self.__class__.__name__, self.id)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
