@@ -1,7 +1,10 @@
-body,
-html {
-    height: 100%;
-    width: 100%;
+body {
+    padding: 0;
+    margin: 0;
+}
+html, body {
+    height: 100vh;
+    width: 100vw;
 }
 body.entry {
   padding-top:0
@@ -89,6 +92,7 @@ nav.navbar {
 .muted {
   color:#777
 }
+
 .list-group-metadata {
   margin:5px 0;
 }
@@ -139,9 +143,6 @@ nav.navbar {
   color:#fff !important;
 }
 
-
-.leaflet-popup-content {max-width:100%;width:400px}
-
 .alertPanel {
   position:absolute;
   top:80px;
@@ -159,6 +160,9 @@ nav.navbar {
   .logo-peacock {
     top:5%;
     padding: 200px 0 0 0
+  }
+  .leaflet-popup {
+    max-width:400px !important;
   }
 }
 

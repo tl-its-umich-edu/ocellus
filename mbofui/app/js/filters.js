@@ -10,7 +10,7 @@ angular.module('ocellusFilters', []).filter('textOnlyCategory', function($filter
       },
       'Course/Class': {
         icon: 'heart',
-        background: 'firebrick'
+        background: 'red'
       },
       'Practice/Rehearsal': {
         icon: 'music',
@@ -18,7 +18,7 @@ angular.module('ocellusFilters', []).filter('textOnlyCategory', function($filter
       },
       'Social Gathering': {
         icon: 'ice-lolly-tasted',
-        background: 'firebrick'
+        background: 'yellow'
       },
       'Business/Networking': {
         icon: 'euro',
@@ -30,14 +30,13 @@ angular.module('ocellusFilters', []).filter('textOnlyCategory', function($filter
       },
       'Family': {
         icon: 'gift',
-        background: 'plum'
+        background: 'purple'
       },
       'Sports': {
         icon: 'flash',
         background: 'rebeccapurple'
       },
       'Political/Rally': {
-
         icon: 'bullhorn',
         background: 'cadetblue'
       }
