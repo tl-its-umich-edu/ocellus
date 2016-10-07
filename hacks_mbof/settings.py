@@ -187,7 +187,6 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            # 'handlers': ['console'],
             'handlers': ['ocellus_handler'],
             'level': getenv('DJANGO_LOGGING_LEVEL', 'DEBUG'),
         },
