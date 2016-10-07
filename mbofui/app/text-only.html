@@ -103,12 +103,12 @@
     <div class="container-fluid" style="outline:1px solid red;margin:0;">
       <div ng-repeat="event in textEvents  | orderBy:'startTime'">
         <div class="row" style="border-top:1px solid #ccc">
-          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
             <div style="position:relative;margin-top:5px" class="awesome-marker-icon-{{(event.category | textOnlyCategory).background}} awesome-marker leaflet-zoom-animated leaflet-clickable">
               <i class="glyphicon glyphicon-{{(event.category | textOnlyCategory).icon}} icon-white"></i>
             </div>
           </div>
-          <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="padding:10px">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:10px">
             <h4 class="list-group-item-heading">{{event.title}}</h4>
             <p class="list-group-metadata">
               {{event.category}}
@@ -169,9 +169,9 @@
           </div>
         </div>
         <div class="row" style="padding-bottom:15px">
-          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
           </div>
-          <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11" style="overflow:hidden">
+          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="overflow:hidden">
             {{event.message}}
           </div>
 
