@@ -171,16 +171,23 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s %(name)s %(message)s'
         },
+        'ocellus_formatter': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(message)s',
+        },
     },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
+        'ocellus_handler': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'ocellus_formatter',
+        },
     },
     'loggers': {
         '': {
-            'handlers': ['console'],
+            'handlers': ['ocellus_handler'],
             'level': getenv('DJANGO_LOGGING_LEVEL', 'DEBUG'),
         },
         'django.db.backends': {
