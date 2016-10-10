@@ -102,44 +102,19 @@
     </div>
     <div class="container-fluid" style="margin:0;">
       <div ng-repeat="event in textEvents  | orderBy:'startTime'">
-        <div class="row" style="border-top:1px solid #ccc">
+        <div class="row" style="border-top:1px solid #ccc;padding-top:10px">
           <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
             <div style="position:relative;margin-top:5px" class="awesome-marker-icon-{{(event.category | textOnlyCategory).background}} awesome-marker leaflet-zoom-animated leaflet-clickable">
               <i class="glyphicon glyphicon-{{(event.category | textOnlyCategory).icon}} icon-white"></i>
             </div>
           </div> -->
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:10px">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="">
             <h4 class="list-group-item-heading">{{event.title}}</h4>
             <p class="list-group-metadata">
               {{event.category}}
               <!-- <div style="position:relative;margin-top:5px" class="awesome-marker-icon-{{(event.category | textOnlyCategory).background}} awesome-marker leaflet-zoom-animated leaflet-clickable">
                 <i class="glyphicon glyphicon-{{(event.category | textOnlyCategory).icon}} icon-white"></i>
               </div> -->
-            </p>
-            <p class="list-group-metadata">
-              {{event.address}}
-            </p>
-
-            <p>
-              <small>{{event.dateBlob}}</small>
-            </p>
-            <p ng-show="event.hashTag">
-              <strong class="muted">{{event.hashTag}}</strong>
-            </p>
-            <p ng-show="event.guests !==0" class="list-group-item-text">
-              <span class="badge badge-default">{{event.guests}} </span> <span ng-show="event.guests === 1">has </span> <span ng-show="event.guests > 1">have</span> signed up.
-              <span ng-show="event.definitely !==0 && event.definitely">
-                {{event.definitely}} definitely.
-              </span>
-              <span ng-show="event.maybe !==0 && event.maybe">
-                {{event.maybe}} tentatively.
-              </span>
-            </p>
-            <p ng-show="event.guests ===0" class="list-group-item-text">
-              No one has signed up yet.
-            </p>
-            <p ng-show="event.intention"  class="list-group-metadata">
-              Your intention: {{event.intention.intention | capitalize}}
             </p>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;padding:10px">
@@ -171,11 +146,41 @@
             </div>
           </div>
         </div>
-        <div class="row" style="padding-bottom:15px">
+        <div class="row" style="padding-bottom:15px;">
           <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
           </div> -->
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="overflow:hidden">
-            {{event.message}}
+            <div class="list-group-metadata">
+              {{event.address}}
+            </div>
+
+            <p>
+              <small>{{event.dateBlob}}</small>
+            </p>
+            <p ng-show="event.hashTag">
+              <strong class="muted">{{event.hashTag}}</strong>
+            </p>
+            <p ng-show="event.guests !==0" class="list-group-item-text">
+              <span class="badge badge-default">{{event.guests}} </span> <span ng-show="event.guests === 1">has </span> <span ng-show="event.guests > 1">have</span> signed up.
+              <span ng-show="event.definitely !==0 && event.definitely">
+                {{event.definitely}} definitely.
+              </span>
+              <span ng-show="event.maybe !==0 && event.maybe">
+                {{event.maybe}} tentatively.
+              </span>
+            </p>
+            <p ng-show="event.guests ===0" class="list-group-item-text">
+              No one has signed up yet.
+            </p>
+            <p ng-show="event.intention"  class="list-group-metadata">
+              Your intention: {{event.intention.intention | capitalize}}
+            </p>
+            <br>
+            <div class="panel panel-default">
+              <div class="panel-body" style="overflow:hidden">
+                {{event.message}}
+              </div>
+            </div>
           </div>
 
         </div>
