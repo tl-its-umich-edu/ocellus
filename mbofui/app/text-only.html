@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/custom.css" media="screen" title="no title">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen">
+  <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css">
 </head>
 <body ng-controller="mapController" ng-cloak>
 
@@ -99,75 +100,92 @@
     <div class="alert alert-info" style="margin:10px" ng-show="!textEvents.length" ng-cloak  ng-hide="!online">
       No {{currentView | lowercase}} {{selectedCategory}} events available.
     </div>
-    <table class="table" role="presentation">
-      <tr ng-repeat="event in textEvents  | orderBy:'startTime'" class="row">
-        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:center;vertical-align:middle;background:{{(event.category | textOnlyCategory).background}}">
-          <i style="color: #fff;font-size:25px" class="glyphicon glyphicon-{{(event.category | textOnlyCategory).icon}}"></i><br>
-        </td>
-        <td class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="padding:10px">
-          <h4 class="list-group-item-heading">{{event.title}}</h4>
-          <p class="list-group-metadata">
-            {{event.category}}
-          </p>
-          <p class="list-group-metadata">
-            {{event.address}}
-          </p>
-
-          <p>
-            <small>{{event.dateBlob}}</small>
-          </p>
-          <p>
-            {{event.message}}
-          </p>
-          <p ng-show="event.hashTag">
-            <strong class="muted">{{event.hashTag}}</strong>
-          </p>
-          <p ng-show="event.guests !==0" class="list-group-item-text">
-            <span class="badge badge-default">{{event.guests}} </span> <span ng-show="event.guests === 1">has </span> <span ng-show="event.guests > 1">have</span> signed up.
-            <span ng-show="event.definitely !==0 && event.definitely">
-              {{event.definitely}} definitely.
-            </span>
-            <span ng-show="event.maybe !==0 && event.maybe">
-              {{event.maybe}} tentatively.
-            </span>
-          </p>
-          <p ng-show="event.guests ===0" class="list-group-item-text">
-            No one has signed up yet.
-          </p>
-          <p ng-show="event.intention"  class="list-group-metadata">
-            Your intention: {{event.intention.intention | capitalize}}
-          </p>
-        </td>
-        <td class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right">
-          <div ng-show="event.owner==='False' && event.inTime && event.intention">
-            <div class="btn-group btn-group-sm">
-              <a href="" ng-if="(event.intention.intention !=='going' || event.intention.intention==='declined') && event.inTime" class="btn btn-primary declareIntentPut" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+    <div class="container-fluid" style="margin:0;">
+      <div ng-repeat="event in textEvents  | orderBy:'startTime'">
+        <div class="row" style="border-top:1px solid #ccc;padding-top:10px">
+          <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div style="position:relative;margin-top:5px" class="awesome-marker-icon-{{(event.category | textOnlyCategory).background}} awesome-marker leaflet-zoom-animated leaflet-clickable">
+              <i class="glyphicon glyphicon-{{(event.category | textOnlyCategory).icon}} icon-white"></i>
+            </div>
+          </div> -->
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="">
+            <h4 class="list-group-item-heading">{{event.title}}</h4>
+            <p class="list-group-metadata">
+              {{event.category}}
+              <!-- <div style="position:relative;margin-top:5px" class="awesome-marker-icon-{{(event.category | textOnlyCategory).background}} awesome-marker leaflet-zoom-animated leaflet-clickable">
+                <i class="glyphicon glyphicon-{{(event.category | textOnlyCategory).icon}} icon-white"></i>
+              </div> -->
+            </p>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;padding:10px">
+            <div ng-show="event.owner==='False' && event.inTime && event.intention">
+              <div class="btn-group btn-group-sm">
+                <a href="" ng-if="(event.intention.intention !=='going' || event.intention.intention==='declined') && event.inTime" class="btn btn-primary declareIntentPut" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+                  Going
+                </a>
+                <a href="" ng-if="(event.intention.intention==='going'  || event.intention.intention==='declined') && event.inTime" class="btn btn-default declareIntentPut" data-intention="maybe" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+                  Maybe
+                </a>
+                <a href="" ng-if="(event.intention.intention==='going' || event.intention.intention==='maybe') && event.inTime" class="btn btn-danger declareIntentPut" data-intention="declined" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+                  Not
+                </a>
+              </div>
+            </div>
+            <div class="btn-group btn-group-sm" ng-show="event.owner==='False'  && !event.intention && event.inTime"  style="text-align:right">
+              <a href="" class="btn btn-primary declareIntentPost" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-method="POST">
                 Going
               </a>
-              <a href="" ng-if="(event.intention.intention==='going'  || event.intention.intention==='declined') && event.inTime" class="btn btn-default declareIntentPut" data-intention="maybe" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+              <a href="" class="btn btn-default declareIntentPost" data-intention="maybe" data-event="{{event.url}}">
                 Maybe
               </a>
-              <a href="" ng-if="(event.intention.intention==='going' || event.intention.intention==='maybe') && event.inTime" class="btn btn-danger declareIntentPut" data-intention="declined" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
-                Not
+            </div>
+            <div class="btn-group btn-group-sm" ng-show="event.owner==='True' && event.inTime">
+              <a data-toggle="modal" data-target="#bofModalEdit" data-event="{{event}}" role="button" href="" class="btn btn-primary editEvent" style="color:#fff" >
+                Edit
               </a>
             </div>
           </div>
-          <div class="btn-group btn-group-sm" ng-show="event.owner==='False'  && !event.intention && event.inTime"  style="text-align:right">
-            <a href="" class="btn btn-primary declareIntentPost" style="color:#fff"  data-intention="going" data-event="{{event.url}}" data-method="POST">
-              Going
-            </a>
-            <a href="" class="btn btn-default declareIntentPost" data-intention="maybe" data-event="{{event.url}}">
-              Maybe
-            </a>
+        </div>
+        <div class="row" style="padding-bottom:15px;">
+          <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          </div> -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="overflow:hidden">
+            <div class="list-group-metadata">
+              {{event.address}}
+            </div>
+
+            <p>
+              <small>{{event.dateBlob}}</small>
+            </p>
+            <p ng-show="event.hashTag">
+              <strong class="muted">{{event.hashTag}}</strong>
+            </p>
+            <p ng-show="event.guests !==0" class="list-group-item-text">
+              <span class="badge badge-default">{{event.guests}} </span> <span ng-show="event.guests === 1">has </span> <span ng-show="event.guests > 1">have</span> signed up.
+              <span ng-show="event.definitely !==0 && event.definitely">
+                {{event.definitely}} definitely.
+              </span>
+              <span ng-show="event.maybe !==0 && event.maybe">
+                {{event.maybe}} tentatively.
+              </span>
+            </p>
+            <p ng-show="event.guests ===0" class="list-group-item-text">
+              No one has signed up yet.
+            </p>
+            <p ng-show="event.intention"  class="list-group-metadata">
+              Your intention: {{event.intention.intention | capitalize}}
+            </p>
+            <br>
+            <div class="panel panel-default">
+              <div class="panel-body" style="overflow:hidden">
+                {{event.message}}
+              </div>
+            </div>
           </div>
-          <div class="btn-group btn-group-sm" ng-show="event.owner==='True' && event.inTime">
-            <a data-toggle="modal" data-target="#bofModalEdit" data-event="{{event}}" role="button" href="" class="btn btn-primary editEvent" style="color:#fff" >
-              Edit
-            </a>
-          </div>
-        </td>
-      </tr>
-    </table>
+
+        </div>
+      </div>
+    </div>
   </div>
 
     <!-- Create Modal -->

@@ -12,8 +12,8 @@
     <small>{{event.address}}</small> <a href="https://www.google.com/maps/dir/Current+Location/{{event.address}}" target="_blank">(directions)</a>
   </div>
   <hr class="popupRule">
-  <div class="popupMessage" ng-show="!revealInfo">
-    <span ng-show="event.message.length > 200">{{event.message |  limitTo: 200}} 
+  <div class="popupMessage" ng-show="!revealInfo" style="overflow:hidden">
+    <span ng-show="event.message.length > 200">{{event.message |  limitTo: 200}}
       <a href="#" ng-click="revealInfo=!revealInfo"> ... more?</a>
     </span>
     <span  ng-show="event.message.length <= 200">{{event.message}}</span>
