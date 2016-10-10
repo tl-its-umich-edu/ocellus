@@ -147,9 +147,12 @@
               <a href="" ng-if="(event.intention.intention==='going'  || event.intention.intention==='declined') && event.inTime" class="btn btn-default declareIntentPut" data-intention="maybe" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
                 Maybe
               </a>
-              <a href="" ng-if="(event.intention.intention==='going' || event.intention.intention==='maybe') && event.inTime" class="btn btn-danger declareIntentPut" data-intention="declined" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+              <a href="" ng-if="(event.intention.intention==='going' || event.intention.intention==='maybe') && event.inTime && !confirmDeclined" class="btn btn-danger declareIntentPut" data-intention="declinedConfirm" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
                 Not
               </a>
+              <a href="" class="btn btn-danger declareIntentPut"  ng-if="(event.intention.intention==='going' || event.intention.intention==='maybe') && event.inTime && confirmDeclined" class="btn btn-danger declareIntentPut" data-intention="declined" data-event="{{event.url}}" data-respondent="{{event.intention.respondent}}" data-intention-url="{{event.intention.url}}">
+               Confirm
+             </a>
             </div>
           </div>
           <div class="btn-group btn-group-sm" ng-show="event.owner==='False'  && !event.intention && event.inTime"  style="text-align:right">

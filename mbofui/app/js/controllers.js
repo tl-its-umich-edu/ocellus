@@ -358,7 +358,13 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   //DOM event listener for editing an intention. Launches an Angular function
   $(document).on('click','.declareIntentPut', function(e){
-    $scope.intendPut($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent'), $(this).attr('data-intention-url')  );
+    if($(this).attr('data-intention')==='declinedConfirm') {
+      $timeout(function () { $rootScope.confirmDeclined = true;}, 0);
+    } else {
+      $timeout(function () { $rootScope.confirmDeclined = false;}, 0);
+      $scope.intendPut($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent'), $(this).attr('data-intention-url')  );
+    }
+
   });
   //DOM event listener for creating an intention. Launches an Angular function
   $(document).on('click','.declareIntentPost', function(e){
@@ -373,13 +379,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       'event': targetEvent,
       'respondent': respondent
     };
-    if(data.intention === 'declined'){
-      if (window.confirm("Are you sure you do not want to go?")) {
-        $scope.putIntention(intentionUrl, data);
-      }
-    } else {
-      $scope.putIntention(intentionUrl, data);
-    }
+    $scope.putIntention(intentionUrl, data);
   };
 
   $scope.putIntention  = function(intentionUrl, data){
