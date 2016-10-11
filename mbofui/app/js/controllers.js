@@ -358,10 +358,11 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   //DOM event listener for editing an intention. Launches an Angular function
   $(document).on('click','.declareIntentPut', function(e){
+    var thisEvent  =  _.findWhere($scope.textEventsAll, {url: $(this).attr('data-event')});
     if($(this).attr('data-intention')==='declinedConfirm') {
-      $timeout(function () { $rootScope.confirmDeclined = true;}, 0);
+      $timeout(function () { thisEvent.confirmDeclined = true;}, 0);
     } else {
-      $timeout(function () { $rootScope.confirmDeclined = false;}, 0);
+      $timeout(function () { thisEvent.confirmDeclined = false;}, 0);
       $scope.intendPut($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent'), $(this).attr('data-intention-url')  );
     }
 
