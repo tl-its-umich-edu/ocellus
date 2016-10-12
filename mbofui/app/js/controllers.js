@@ -362,7 +362,9 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     if($(this).attr('data-intention')==='declinedConfirm') {
       $timeout(function () { thisEvent.confirmDeclined = true;}, 0);
     } else {
-     $timeout(function () { thisEvent.confirmDeclined = false;}, 0);
+    if($scope.textOnly) {
+      $timeout(function () { thisEvent.confirmDeclined = false;}, 0);
+    }
      $scope.intendPut($(this).attr('data-intention'), $(this).attr('data-event'),$(this).attr('data-respondent'), $(this).attr('data-intention-url')  );
     }
   });
