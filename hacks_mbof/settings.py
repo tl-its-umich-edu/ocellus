@@ -112,11 +112,15 @@ DATABASES = {
         'PASSWORD': getenv('DJANGO_DB_PASSWORD', ''),
         'HOST': getenv('DJANGO_DB_HOST', ''),
         'PORT': getenv('DJANGO_DB_PORT', ''),
-        'OPTIONS': {
-            'charset': getenv('DJANGO_DB_CHARSET', None),
-        },
     }
 }
+
+if DATABASES['default']['ENGINE'] == 'django.db.backends.mysql':
+    charset = {'charset': 'utf8mb4'}
+    DATABASES['default']['OPTIONS'] = charset
+    print DATABASES['default']['ENGINE']
+else:
+    print DATABASES['default']['ENGINE']
 
 
 # Password validation
