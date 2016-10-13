@@ -112,9 +112,8 @@ DATABASES = {
         'PASSWORD': getenv('DJANGO_DB_PASSWORD', ''),
         'HOST': getenv('DJANGO_DB_HOST', ''),
         'PORT': getenv('DJANGO_DB_PORT', ''),
-        # Comment the section below if working with SQL Lite
         'OPTIONS': {
-            'charset': 'utf8mb4',
+            'charset': getenv('DJANGO_DB_CHARSET', None),
         },
     }
 }
