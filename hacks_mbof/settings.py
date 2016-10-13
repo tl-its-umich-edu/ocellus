@@ -118,9 +118,6 @@ DATABASES = {
 if DATABASES['default']['ENGINE'] == 'django.db.backends.mysql':
     charset = {'charset': 'utf8mb4'}
     DATABASES['default']['OPTIONS'] = charset
-    print DATABASES['default']['ENGINE']
-else:
-    print DATABASES['default']['ENGINE']
 
 
 # Password validation
