@@ -151,8 +151,17 @@ nav.navbar {
   z-index: 1
 }
 
+
+
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
+}
+
+@media (max-width: 767px) {
+  .modal-body {
+      max-height: calc(100vh - 210px);
+      overflow-y: auto;
+  }
 }
 
 /* Smartphones (portrait and landscape) */
