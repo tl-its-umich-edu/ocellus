@@ -151,11 +151,19 @@ nav.navbar {
   z-index: 1
 }
 
+
+
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
 }
 
-/* Smartphones (portrait and landscape) */
+@media (max-width: 767px) {
+  .modal-open {
+      -webkit-overflow-scrolling: auto;
+      overflow-y: scroll !important;
+  }
+}
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
   .logo-peacock {
     top:5%;
