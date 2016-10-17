@@ -112,8 +112,9 @@ DATABASES = {
         'PASSWORD': getenv('DJANGO_DB_PASSWORD', ''),
         'HOST': getenv('DJANGO_DB_HOST', ''),
         'PORT': getenv('DJANGO_DB_PORT', ''),
+        # Comment the section below if working with SQL Lite
         'OPTIONS': {
-            'charset': 'utf8mb4',
+            'charset': getenv('DJANGO_DB_CHARSET', 'utf8mb4'),
         },
     }
 }
@@ -184,8 +185,13 @@ LOGGING = {
             'formatter': 'simple',
         },
         'ocellus_handler': {
-            'class': 'logging.StreamHandler',
+            'level': getenv('DJANGO_LOGGING_LEVEL', 'DEBUG'),
+            'class': 'logging.handlers.TimedRotatingFileHandler',
             'formatter': 'ocellus_formatter',
+            'filename': os.path.join(PROJECT_ROOT, 'logs/' + getenv('HOSTNAME', 'localhost') + '.log'),
+            'when': 'midnight',   # Point at which log will rotate.`
+            'interval': 1,        # Rotation is based on interval and when value. Rotates once per midnight.
+            'backupCount': 60,    # Number of backup copies saved in rotation. Will backup for 60 days.
         },
     },
     'loggers': {
