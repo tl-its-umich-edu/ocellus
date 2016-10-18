@@ -1,5 +1,5 @@
 FROM ubuntu:16:04
-MAINTAINER Kyle Dove <dovek@umich.edu>
+MAINTAINER Teaching and Learning Devs <its-tl-dev@umich.edu>
 
 # execute this separate to allow caching
 RUN apt-get update
