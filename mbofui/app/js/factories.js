@@ -34,13 +34,35 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
     // get intentions for current user
     GetIntentions: function(url) {
       // at some point this will need to be paged
-      return $http.get(url).then(
-        function success(result) {
-          return result;
-        },
-        function error(result) {
-          $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.configurl};
-        });
+
+      var intentions = [];
+      var deferred = $q.defer();
+      var getNext = function(url) {
+        $http.get(url)
+          .then(function(result) {
+            // data shape is different on paged and non-paged responses
+            if (result.data.results) {
+              intentions = intentions.concat(result.data.results);
+            } else {
+              intentions = intentions.concat(result.data);
+            }
+            if (result.data.next) {
+              // paged response, get the next page with the provided url at result.data.next
+              getNext(result.data.next);
+            } else {
+              // either last page or single one
+              // turn list into an array suitable for leaflet consumption
+              // resolve promise now that it is complete
+              deferred.resolve(intentions);
+            }
+          }, function(result) {
+            // TODO: deal with errors, probably here
+            $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+            deferred.resolve(result);
+          });
+      };
+      getNext(url);
+      return deferred.promise;
     },
     // declare an intention
     IntendPost: function(url, data) {

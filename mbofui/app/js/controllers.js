@@ -228,7 +228,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     // use a promise factory to do request
     Bof.GetBofs(bofsUrl).then(function(eventsList) {
       Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
-        $scope.intentions=intentionsList.data.results;
+        $scope.intentions=intentionsList;
         if($scope.textOnly) {
           // use intentionIncluded function to add to each event whatever intention is germane
           var intentionsAdded = intentionIncluded(eventsList, $scope.intentions);
@@ -409,7 +409,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       });
       //reload intentions
       Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
-        $scope.intentions=intentionsList.data.results;
+        $scope.intentions=intentionsList;
         if($scope.textOnly){
           // peer events with intentions for text only view
           var intentionsAdded = intentionIncluded($scope.textEventsAll, $scope.intentions);
@@ -455,7 +455,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       });
       // update the intention list for this user
       Bof.GetIntentions($rootScope.urls.intentions + '?username=self').then(function(intentionsList) {
-        $scope.intentions=intentionsList.data.results;
+        $scope.intentions=intentionsList;
         if($scope.textOnly){
           // peer events with intentions for text only view
           var intentionsAdded = intentionIncluded($scope.textEventsAll, $scope.intentions);
