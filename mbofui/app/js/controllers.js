@@ -754,6 +754,9 @@ $scope.$watch('online', function(newStatus) {
   if (newStatus ===true && $rootScope.prevOnlineStatus !==undefined){
     $log.info('could reload the app on reconnected status');
   }
+  $('#bofModal').modal('hide');
+  $('#bofModalEdit').modal('hide');
+  $('#coordsLookUpModal').modal('hide');
   $rootScope.prevOnlineStatus = newStatus;
 });
 
