@@ -757,6 +757,9 @@ $scope.$watch('online', function(newStatus) {
   $('#bofModal').modal('hide');
   $('#bofModalEdit').modal('hide');
   $('#coordsLookUpModal').modal('hide');
+  leafletData.getMap().then(function(map) {
+    map.closePopup();
+  });  
   $rootScope.prevOnlineStatus = newStatus;
 });
 
