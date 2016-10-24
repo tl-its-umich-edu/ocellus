@@ -63,15 +63,6 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
       };
       getNext(url);
       return deferred.promise;
-
-      //
-      // return $http.get(url).then(
-      //   function success(result) {
-      //     return result;
-      //   },
-      //   function error(result) {
-      //     $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.configurl};
-      //   });
     },
     // declare an intention
     IntendPost: function(url, data) {
