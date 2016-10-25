@@ -349,7 +349,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
   };
 
   $scope.switchViews = function (url, title, hash) {
-    $scope.category = 'All Events';
+    $rootScope.category = 'All Events';
     $rootScope.currentView= title;
     $rootScope.currentViewUrl = url;
     $location.search({'currentView':$rootScope.currentView});
