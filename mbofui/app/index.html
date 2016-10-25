@@ -51,8 +51,10 @@
         <ul class="nav navbar-nav navbar-right">
 
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{category || 'All Events'}}
-              <span ng-show="category && category !=='All Events'"> Events</span>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="hidden-sm visible-lg-inline visible-sm-inline visible-md-inline">{{category || 'All Events'}}</span>
+              <span class="visible-sm-inline visible-sm-inline">Events</span>
+              <span ng-show="category && category !=='All Events'" class="hidden-sm hidden-md"> Events</span>
               <span class="caret"></span></a>
             <ul class="dropdown-menu" id="categories">
               <li ng-repeat="category in event_categories"><a href="#" ng-click="filter_category(category)">{{category}}</a></li>
