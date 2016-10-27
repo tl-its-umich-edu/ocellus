@@ -1,4 +1,4 @@
-FROM ubuntu:16:04
+FROM ubuntu:16.04
 MAINTAINER Teaching and Learning Devs <its-tl-dev@umich.edu>
 
 # execute this separate to allow caching
