@@ -761,4 +761,8 @@ $scope.logout = function(){
   $window.location.href='/user/logout/';
 };
 
+$scope.dismissAlert  = function(){
+  $rootScope.alert =undefined;
+};
+
 }]);
