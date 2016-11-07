@@ -14,7 +14,7 @@
 </head>
 <body ng-controller="mapController" ng-cloak>
 
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-show="loggedin">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -102,7 +102,17 @@
     </p>
     <small>{{alert.message}}</small>
   </div>
-  <div role="main">
+  <div ng-show="!loggedin" class="logo-login">
+    <div class="splash visible-md-block visible-lg-block visible-sm-block">
+      <a class="btn btn-lg btn-um" style="font-size:25px" onclick="window.location.href='/accounts/login/'">Login</a>
+    </div>
+    <div class="splash splash-small visible-xs-block">
+      <a class="btn btn-lg btn-um" style="font-size:25px" onclick="window.location.href='/accounts/login/'">Login</a>
+    </div>
+  </div>
+
+
+  <div role="main" ng-show="loggedin">
     <div id="text_only"></div>
     <div class="alert alert-info" style="margin:10px" ng-show="!textEvents.length" ng-cloak  ng-hide="!online">
       No {{currentView | lowercase}} {{selectedCategory}} events available.
