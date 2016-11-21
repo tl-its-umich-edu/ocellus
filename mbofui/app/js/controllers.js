@@ -320,6 +320,10 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
   $('#bofModalEdit').on('hide.bs.modal', function () {
     $scope.editEvent = null;
+    $scope.validationFailuresEdit = false;
+    $('.backwardsTime').hide();
+    $('.form-group').removeClass('has-error');
+    $('.has-error').hide();
     leafletData.getMap().then(function(map) {
       map.closePopup();
     });
@@ -759,7 +763,7 @@ $scope.$watch('online', function(newStatus) {
   $('#coordsLookUpModal').modal('hide');
   leafletData.getMap().then(function(map) {
     map.closePopup();
-  });  
+  });
   $rootScope.prevOnlineStatus = newStatus;
 });
 
