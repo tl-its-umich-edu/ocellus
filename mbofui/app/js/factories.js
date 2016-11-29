@@ -10,6 +10,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         function error(result) {
           if(result.status !==403){
             $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+            $('#alertPanel').show();
           }
           else {
             return result;
@@ -25,6 +26,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         function error(result) {
           if(result.status !==403){
             $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+            $('#alertPanel').show();
           }
           else {
             return result;
@@ -58,6 +60,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           }, function(result) {
             // TODO: deal with errors, probably here
             $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+            $('#alertPanel').show();
             deferred.resolve(result);
           });
       };
@@ -72,6 +75,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         },
         function error(result) {
           $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+          $('#alertPanel').show();
       });
     },
     // edt a declared intention
@@ -82,6 +86,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         },
         function error(result) {
           $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+          $('#alertPanel').show();
       });
     },
     // post an event
@@ -92,6 +97,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         },
         function error(result) {
           $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+          $('#alertPanel').show();
         });
     },
     // put and edited event
@@ -102,6 +108,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         },
         function error(result) {
           $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+          $('#alertPanel').show();
         });
     },
     // get an address
@@ -112,6 +119,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
       },
       function error(result) {
         $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+        $('#alertPanel').show();
       });
     },
     // get events (current, upcoming will depend on url)
@@ -140,6 +148,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           }, function(result) {
             // TODO: deal with errors, probably here
             $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.config.url};
+            $('#alertPanel').show();
             deferred.resolve(result);
           });
       };
@@ -154,6 +163,7 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
         },
         function error(result) {
           $rootScope.alert={'type':'alert-danger','message':result.status + ' ' + result.statusText + ' ' + result.configurl};
+          $('#alertPanel').show();
         });
     },
     resolveIcon: function(key){

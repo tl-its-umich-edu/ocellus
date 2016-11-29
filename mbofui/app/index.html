@@ -108,8 +108,8 @@
   </nav>
     <div class="overlay" ng-hide="online">
     </div>
-    <div  class="alert alert-danger alertPanel" ng-hide="online" ng-cloak>You are offline</div>
-    <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert">
+    <div  class="alert alert-danger alertPanel" ng-hide="online" ngCloak id="offlineAlertPanel" style="display:none">You are offline</div>
+    <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert" style="display:none" id="alertPanel">
       <button type="button" class="close" aria-label="Close" ng-click="dismissAlert()"><span aria-hidden="true">&times;</span></button>
       <p ng-hide="alert.type !=='alert-danger'">
         An error has occurred. Please contact your System Administrator for assistance.
@@ -117,7 +117,7 @@
       <small>{{alert.message}}</small>
     </div>
 
-    <div ng-show="!loggedin" class="logo-login">
+    <div ng-show="!loggedin" id="loginPanel" class="logo-login" style="display:none">
       <div class="splash visible-md-block visible-lg-block visible-sm-block">
         <a class="btn btn-lg btn-um" style="font-size:25px" onclick="window.location.href='/accounts/login/'">Login</a>
       </div>
