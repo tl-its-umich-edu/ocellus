@@ -2,6 +2,7 @@
 /* global angular, ocellus, $, L,  resolveIcon, moment, validate, _, popupLink, checkTimeSlice */
 
 ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', '$location', '$window', 'leafletData', 'Bof', function($compile, $scope, $rootScope, $filter, $timeout, $log, $location, $window, leafletData, Bof) {
+  $rootScope.alert=false;
   // ping Google geolocation, if over quota fall back to openstreet
   Bof.GetAddress('https://maps.googleapis.com/maps/api/geocode/json?latlng=42.2698111,-83.74706599999999').then(function(result) {
     if(result.status ==='OVER_QUERY_LIMIT'){
@@ -13,6 +14,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     if (loggedInResult.status===403){
       // set a variable to lockand hide elements of the UI
       $rootScope.loggedin=false;
+      $('#loginPanel').show();
     } else {
       // set a variable to unlock/show elements of the UI
       $rootScope.loggedin=true;
@@ -203,6 +205,9 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         $scope.textEvents = $filter('filter')($scope.textEventsAll, {
           category: key
         });
+        if($scope.textEvents.length ===0){
+          $('#eventCounterPanel').show();
+        }
       }
     }
     $rootScope.category=key;
@@ -234,6 +239,9 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
           var intentionsAdded = intentionIncluded(eventsList, $scope.intentions);
           $scope.textEventsAll = intentionsAdded;
           $scope.textEvents = intentionsAdded;
+          if($scope.textEvents.length ===0){
+            $('#eventCounterPanel').show();
+          }
         }
       });
       // note: only for the text - only
@@ -757,6 +765,8 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 $scope.$watch('online', function(newStatus) {
   if (newStatus ===true && $rootScope.prevOnlineStatus !==undefined){
     $log.info('could reload the app on reconnected status');
+  } else {
+    $('#offlineAlertPanel').show();
   }
   $('#bofModal').modal('hide');
   $('#bofModalEdit').modal('hide');
