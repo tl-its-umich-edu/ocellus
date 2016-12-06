@@ -190,6 +190,16 @@ $(function(){
     }
   });
 
+  $(document).on('change','#startTime',function(e) {
+    var newEndDate = moment($('input#startTime').val()).add(1, 'hours').format('YYYY-MM-DDTHH:mm');
+    $('input#endTime').val(newEndDate);
+  });
+
+  $(document).on('change','#startTimeEdit',function(e) {
+    var newEndDateEdit = moment($('input#startTimeEdit').val()).add(1, 'hours').format('YYYY-MM-DDTHH:mm');
+    $('input#endTimeEdit').val(newEndDateEdit);
+  });
+
   if( navigator.userAgent.match(/iPhone|iPad|iPod|Android/i) ) {
       $('.modal').on('show.bs.modal', function() {
           // Position modal absolute and bump it down to the scrollPosition
