@@ -225,6 +225,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.markers = [];
     // note: only text only
     if($scope.textOnly) {
+      $scope.textOnlySortBy ='startTime';
       $scope.textEvents = [];
       $scope.textEventsAll =[];
     }
@@ -236,12 +237,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         $scope.intentions=intentionsList;
         if($scope.textOnly) {
           // use intentionIncluded function to add to each event whatever intention is germane
-          var intentionsAdded = intentionIncluded(eventsList, $scope.intentions);
-          $scope.textEventsAll = intentionsAdded;
-          $scope.textEvents = intentionsAdded;
-          if($scope.textEvents.length ===0){
-            $('#eventCounterPanel').show();
-          }
+          // get the current position
+            var intentionsAdded = intentionIncluded(eventsList, $scope.intentions);
+            //TODO: should do this based on the user actually selecting seeing distance
+            $scope.textEventsAll = intentionsAdded;
+            $scope.textEvents = intentionsAdded;
+
+
+            if($scope.textEvents.length ===0){
+              $('#eventCounterPanel').show();
+            }
         }
       });
       // note: only for the text - only
@@ -265,6 +270,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         $scope.markersAll.push(newMarker);
         $scope.markers.push(newMarker);
       }
+    });
+  };
+
+
+  $scope.sortByDistance = function(){
+    // this may take a while so best to hide events, show a spinner, or maybe a message ("calculating so hard!")
+     Bof.GetCurrentLocation().then(function(currentPosition){
+      var addedDistance =  addDistance($scope.textEventsAll,currentPosition);
+      $scope.textEventsAll = addedDistance;
+      $scope.textEvents = addedDistance;
     });
   };
 

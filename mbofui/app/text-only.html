@@ -110,8 +110,18 @@
       <a class="btn btn-lg btn-um" style="font-size:25px" onclick="window.location.href='/accounts/login/'">Login</a>
     </div>
   </div>
-
-
+  <form class="navbar-form navbar-left" role="search">
+    <div class="form-group">
+      <button type="button" class="btn btn-default" ng-click="sortByDistance()">Show close</button>
+      <button type="button" class="btn btn-default">Show soonest</button>
+      <!-- <label for="textOnlySort">Sort by </label>
+      <select class="form-control" name="" id="textOnlySort" ng-model="textOnlySortBy">
+        <option value="nearest">Nearest to me</option>
+        <option value="startTime">Start Time</option>
+      </select> -->
+    </div>
+  </form>
+  <div class="clearfix"></div>
   <div role="main" ng-show="loggedin">
     <div id="text_only"></div>
     <!--  -->
@@ -188,7 +198,6 @@
             <div class="list-group-metadata">
               {{event.address}}
             </div>
-
             <p>
               <small>{{event.dateBlob}}</small>
             </p>

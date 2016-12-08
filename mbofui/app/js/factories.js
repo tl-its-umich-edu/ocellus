@@ -1,6 +1,6 @@
 /*jshint strict:false */
 /* global ocellus, leafletize, _*/
-ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $log, $q, $rootScope) {
+ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', '$window', function($http, $log, $q, $rootScope,$window) {
   return {
     LoggedIn: function(url) {
       return $http.get(url).then(
@@ -111,6 +111,23 @@ ocellus.factory('Bof', ['$http', '$log', '$q', '$rootScope', function($http, $lo
           $('#alertPanel').show();
         });
     },
+    // get an address
+    GetCurrentLocation: function() {
+      var deferred = $q.defer();
+      if (!$window.navigator.geolocation) {
+        deferred.reject('Geolocation not supported.');
+      } else {
+        $window.navigator.geolocation.getCurrentPosition(
+          function (position) {
+            deferred.resolve(position);
+          },
+          function (err) {
+            deferred.reject(err);
+          });
+      }
+      return deferred.promise;
+    },
+
     // get an address
     GetAddress: function(url) {
       return $http.get(url).then(

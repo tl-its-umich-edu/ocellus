@@ -171,6 +171,13 @@ var intentionIncluded = function(eventsList, intentionsList) {
   return eventsList;
 };
 
+var addDistance = function(eventList, currentPosition) {
+   console.log(currentPosition);
+   console.log('from util');
+   return eventList;
+};
+
+
 var reinitTimeFields = function(){
   // add current datetime to startTime and endTime inputs to be used by polyfill
   // as well as default value for start time
