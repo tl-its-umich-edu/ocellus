@@ -95,7 +95,7 @@
   <div class="overlay" ng-hide="online">
   </div>
   <div  class="alert alert-danger alertPanel" ng-hide="online" ng-cloak id="offlineAlertPanel" style="display:none">You are offline</div>
-  <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert"  style="display:none" id="alertPanel">
+  <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert" id="alertPanel">
     <button type="button" class="close" aria-label="Close" ng-click="dismissAlert()"><span aria-hidden="true">&times;</span></button>
     <p ng-hide="alert.type !=='alert-danger'">
       An error has occurred. Please contact your System Administrator for assistance.
