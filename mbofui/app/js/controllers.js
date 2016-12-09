@@ -3,6 +3,7 @@
 
 ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', '$location', '$window', 'leafletData', 'Bof', function($compile, $scope, $rootScope, $filter, $timeout, $log, $location, $window, leafletData, Bof) {
   $rootScope.alert=false;
+  $scope.textOnlyDistanceAdded = false;
   // ping Google geolocation, if over quota fall back to openstreet
   Bof.GetAddress('https://maps.googleapis.com/maps/api/geocode/json?latlng=42.2698111,-83.74706599999999').then(function(result) {
     if(result.status ==='OVER_QUERY_LIMIT'){
@@ -275,15 +276,18 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
 
   $scope.sortByDistance = function(){
-    $scope.textOnlyAlert=true;
-    // this may take a while so best to hide events, show a spinner, or maybe a message ("calculating so hard!")
-     Bof.GetCurrentLocation().then(function(currentPosition){
-      var addedDistance =  addDistance($scope.textEventsAll,currentPosition);
-      $scope.textOnlySortBy= 'distance';
-      $scope.textEventsAll = addedDistance;
-      $scope.textEvents = addedDistance;
-      $scope.textOnlyAlert=false;
-    });
+    if(!$scope.textOnlyDistanceAdded){
+      $scope.textOnlyAlert=true;
+      // this may take a while so best to hide events, show a spinner, or maybe a message ("calculating so hard!")
+       Bof.GetCurrentLocation().then(function(currentPosition){
+        var addedDistance =  addDistance($scope.textEventsAll,currentPosition);
+        $scope.textEventsAll = addedDistance;
+        $scope.textEvents = addedDistance;
+        $scope.textOnlyAlert=false;
+        $scope.textOnlyDistanceAdded = true;
+      });
+    }
+    $scope.textOnlySortBy= 'distance';
   };
 
   // watch for alerts produced by XHR errors and close any modal that may be open
