@@ -49,4 +49,16 @@ angular.module('ocellusFilters', []).filter('textOnlyCategory', function($filter
     return function(input) {
       return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     };
+}).filter('readableDistance', function() {
+    return function(input) {
+      var distance ='';
+      if (input){
+        if (input < 1) {
+          distance =  (input * 1760).toString().split('.')[0] + ' yards';
+        } else {
+          distance = input.toString().split('.')[0] + ' miles';
+        }
+      }
+      return distance;
+    };
 });

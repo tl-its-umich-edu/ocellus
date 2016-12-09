@@ -112,8 +112,10 @@
   </div>
   <form class="navbar-form navbar-left" role="search">
     <div class="form-group">
-      <button type="button" class="btn btn-default" ng-click="sortByDistance()">Show close</button>
-      <button type="button" class="btn btn-default">Show soonest</button>
+      <button type="button" class="btn"  ng-class="textOnlySortBy==='distance'? 'btn-primary' : 'btn-default'"  ng-click="sortByDistance()">Show close</button>
+      <button type="button" class="btn" ng-class="textOnlySortBy==='startTime'? 'btn-primary' : 'btn-default'" ng-click="textOnlySortBy='startTime'">Show soonest</button>
+      <button type="button" class="btn" ng-class="textOnlySortBy==='title'? 'btn-primary' : 'btn-default'" ng-click="textOnlySortBy='title'">Show by title</button>
+      <span  ng-show="textOnlyAlert" class="label label-primary">Calculating so hard!</span>
       <!-- <label for="textOnlySort">Sort by </label>
       <select class="form-control" name="" id="textOnlySort" ng-model="textOnlySortBy">
         <option value="nearest">Nearest to me</option>
@@ -129,7 +131,7 @@
       No {{currentView | lowercase}} {{selectedCategory}} events available.
     </div>
     <div class="container-fluid" style="margin:0;" >
-      <div ng-repeat="event in textEvents  | orderBy:'startTime'">
+      <div ng-repeat="event in textEvents  | orderBy: textOnlySortBy">
         <div class="row" style="border-top:1px solid #ccc;padding-top:10px">
           <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
             <div style="position:relative;margin-top:5px" class="awesome-marker-icon-{{(event.category | textOnlyCategory).background}} awesome-marker leaflet-zoom-animated leaflet-clickable">
@@ -196,7 +198,7 @@
           </div> -->
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="overflow:hidden">
             <div class="list-group-metadata">
-              {{event.address}}
+              {{event.address}} <span ng-show="event.distance"> (about {{event.distance | readableDistance }})</span>
             </div>
             <p>
               <small>{{event.dateBlob}}</small>

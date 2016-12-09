@@ -275,11 +275,14 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
 
 
   $scope.sortByDistance = function(){
+    $scope.textOnlyAlert=true;
     // this may take a while so best to hide events, show a spinner, or maybe a message ("calculating so hard!")
      Bof.GetCurrentLocation().then(function(currentPosition){
       var addedDistance =  addDistance($scope.textEventsAll,currentPosition);
+      $scope.textOnlySortBy= 'distance';
       $scope.textEventsAll = addedDistance;
       $scope.textEvents = addedDistance;
+      $scope.textOnlyAlert=false;
     });
   };
 
