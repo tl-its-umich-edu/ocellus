@@ -274,21 +274,28 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     });
   };
 
-
-  $scope.sortByDistance = function(){
+// sort text only events - the model will take care of startTime and title sortByDistance
+// here we take care of distance from user
+$scope.textOnlyNavigation = function(textOnlySortBy){
+  if(textOnlySortBy ==='distance'){
+    // has the data for distance not  been calculated yet?
     if(!$scope.textOnlyDistanceAdded){
       $scope.textOnlyAlert=true;
-      // this may take a while so best to hide events, show a spinner, or maybe a message ("calculating so hard!")
+      // use geolocation to find where the user is
        Bof.GetCurrentLocation().then(function(currentPosition){
+        // use a function to calculate event location distance to the user and decotate scope events
         var addedDistance =  addDistance($scope.textEventsAll,currentPosition);
         $scope.textEventsAll = addedDistance;
         $scope.textEvents = addedDistance;
         $scope.textOnlyAlert=false;
+        // set a scope variable to avoid this expensive calculation
+        // on the next sort
         $scope.textOnlyDistanceAdded = true;
       });
     }
     $scope.textOnlySortBy= 'distance';
-  };
+  }
+};
 
   // watch for alerts produced by XHR errors and close any modal that may be open
   $scope.$watch("alert", function(text) {

@@ -112,15 +112,13 @@
   </div>
   <form class="navbar-form navbar-left" role="search">
     <div class="form-group">
-      <button type="button" class="btn"  ng-class="textOnlySortBy==='distance'? 'btn-primary' : 'btn-default'"  ng-click="sortByDistance()">Show close</button>
-      <button type="button" class="btn" ng-class="textOnlySortBy==='startTime'? 'btn-primary' : 'btn-default'" ng-click="textOnlySortBy='startTime'">Show soonest</button>
-      <button type="button" class="btn" ng-class="textOnlySortBy==='title'? 'btn-primary' : 'btn-default'" ng-click="textOnlySortBy='title'">Show by title</button>
-      <span  ng-show="textOnlyAlert" class="label label-primary">Calculating so hard!</span>
-      <!-- <label for="textOnlySort">Sort by </label>
-      <select class="form-control" name="" id="textOnlySort" ng-model="textOnlySortBy">
-        <option value="nearest">Nearest to me</option>
+      <label for="textOnlySort">Sort by </label>
+      <select class="form-control" name="" id="textOnlySort" ng-model="textOnlySortBy" ng-change="textOnlyNavigation(textOnlySortBy)">
+        <option value="distance">Proximity</option>
         <option value="startTime">Start Time</option>
-      </select> -->
+        <option value="title">Event name</option>
+      </select>
+      <span  ng-show="textOnlyAlert" class="label label-primary">Calculating distance to events...</span>
     </div>
   </form>
   <div class="clearfix"></div>

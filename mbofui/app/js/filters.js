@@ -55,6 +55,8 @@ angular.module('ocellusFilters', []).filter('textOnlyCategory', function($filter
       if (input){
         if (input < 1) {
           distance =  (input * 1760).toString().split('.')[0] + ' yards';
+        } else if (input > 1 && input < 2) {
+          distance = input.toString().split('.')[0] + ' mile';
         } else {
           distance = input.toString().split('.')[0] + ' miles';
         }
