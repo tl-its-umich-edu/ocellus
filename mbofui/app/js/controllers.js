@@ -3,6 +3,7 @@
 
 ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter', '$timeout', '$log', '$location', '$window', 'leafletData', 'Bof', function($compile, $scope, $rootScope, $filter, $timeout, $log, $location, $window, leafletData, Bof) {
   $rootScope.alert=false;
+  $scope.textOnlyDistanceAdded = false;
   // ping Google geolocation, if over quota fall back to openstreet
   Bof.GetAddress('https://maps.googleapis.com/maps/api/geocode/json?latlng=42.2698111,-83.74706599999999').then(function(result) {
     if(result.status ==='OVER_QUERY_LIMIT'){
@@ -225,6 +226,7 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
     $scope.markers = [];
     // note: only text only
     if($scope.textOnly) {
+      $scope.textOnlySortBy ='startTime';
       $scope.textEvents = [];
       $scope.textEventsAll =[];
     }
@@ -236,12 +238,16 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
         $scope.intentions=intentionsList;
         if($scope.textOnly) {
           // use intentionIncluded function to add to each event whatever intention is germane
-          var intentionsAdded = intentionIncluded(eventsList, $scope.intentions);
-          $scope.textEventsAll = intentionsAdded;
-          $scope.textEvents = intentionsAdded;
-          if($scope.textEvents.length ===0){
-            $('#eventCounterPanel').show();
-          }
+          // get the current position
+            var intentionsAdded = intentionIncluded(eventsList, $scope.intentions);
+            //TODO: should do this based on the user actually selecting seeing distance
+            $scope.textEventsAll = intentionsAdded;
+            $scope.textEvents = intentionsAdded;
+
+
+            if($scope.textEvents.length ===0){
+              $('#eventCounterPanel').show();
+            }
         }
       });
       // note: only for the text - only
@@ -267,6 +273,29 @@ ocellus.controller('mapController', ['$compile', '$scope', '$rootScope','$filter
       }
     });
   };
+
+// sort text only events - the model will take care of startTime and title sortByDistance
+// here we take care of distance from user
+$scope.textOnlyNavigation = function(textOnlySortBy){
+  if(textOnlySortBy ==='distance'){
+    // has the data for distance not  been calculated yet?
+    if(!$scope.textOnlyDistanceAdded){
+      $scope.textOnlyAlert=true;
+      // use geolocation to find where the user is
+       Bof.GetCurrentLocation().then(function(currentPosition){
+        // use a function to calculate event location distance to the user and decotate scope events
+        var addedDistance =  addDistance($scope.textEventsAll,currentPosition);
+        $scope.textEventsAll = addedDistance;
+        $scope.textEvents = addedDistance;
+        $scope.textOnlyAlert=false;
+        // set a scope variable to avoid this expensive calculation
+        // on the next sort
+        $scope.textOnlyDistanceAdded = true;
+      });
+    }
+    $scope.textOnlySortBy= 'distance';
+  }
+};
 
   // watch for alerts produced by XHR errors and close any modal that may be open
   $scope.$watch("alert", function(text) {

@@ -95,7 +95,7 @@
   <div class="overlay" ng-hide="online">
   </div>
   <div  class="alert alert-danger alertPanel" ng-hide="online" ng-cloak id="offlineAlertPanel" style="display:none">You are offline</div>
-  <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert"  style="display:none" id="alertPanel">
+  <div class="alert {{alert.type}} alert-dismissible alertPanel" role="alert" ng-show="alert" id="alertPanel">
     <button type="button" class="close" aria-label="Close" ng-click="dismissAlert()"><span aria-hidden="true">&times;</span></button>
     <p ng-hide="alert.type !=='alert-danger'">
       An error has occurred. Please contact your System Administrator for assistance.
@@ -110,8 +110,18 @@
       <a class="btn btn-lg btn-um" style="font-size:25px" onclick="window.location.href='/accounts/login/'">Login</a>
     </div>
   </div>
-
-
+  <form class="navbar-form navbar-left" role="search">
+    <div class="form-group">
+      <label for="textOnlySort">Sort by </label>
+      <select class="form-control" name="" id="textOnlySort" ng-model="textOnlySortBy" ng-change="textOnlyNavigation(textOnlySortBy)">
+        <option value="distance">Proximity</option>
+        <option value="startTime">Start Time</option>
+        <option value="title">Event name</option>
+      </select>
+      <span  ng-show="textOnlyAlert" class="label label-primary">Calculating distance to events...</span>
+    </div>
+  </form>
+  <div class="clearfix"></div>
   <div role="main" ng-show="loggedin">
     <div id="text_only"></div>
     <!--  -->
@@ -119,7 +129,7 @@
       No {{currentView | lowercase}} {{selectedCategory}} events available.
     </div>
     <div class="container-fluid" style="margin:0;" >
-      <div ng-repeat="event in textEvents  | orderBy:'startTime'">
+      <div ng-repeat="event in textEvents  | orderBy: textOnlySortBy">
         <div class="row" style="border-top:1px solid #ccc;padding-top:10px">
           <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
             <div style="position:relative;margin-top:5px" class="awesome-marker-icon-{{(event.category | textOnlyCategory).background}} awesome-marker leaflet-zoom-animated leaflet-clickable">
@@ -186,9 +196,8 @@
           </div> -->
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="overflow:hidden">
             <div class="list-group-metadata">
-              {{event.address}}
+              {{event.address}} <span ng-show="event.distance"> (about {{event.distance | readableDistance }})</span>
             </div>
-
             <p>
               <small>{{event.dateBlob}}</small>
             </p>
