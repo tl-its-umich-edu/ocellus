@@ -196,7 +196,7 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            'handlers': ['ocellus_handler'],
+            'handlers': ['console'],
             'level': getenv('DJANGO_LOGGING_LEVEL', 'DEBUG'),
         },
         'django.db.backends': {
